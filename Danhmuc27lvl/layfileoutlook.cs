@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Danhmuc27lvl
 {
@@ -85,30 +86,21 @@ namespace Danhmuc27lvl
             Outlook.Folders childFolders = folder.Folders;
             if (childFolders.Count > 0)
             {
-                // loop through each childFolder (aka sub-folder) in current folder
                 foreach (Outlook.Folder childFolder in childFolders)
                 {
-                    // We only want Inbox folders - ignore Contacts and others
                     if (childFolder.FolderPath.Contains("Inbox"))
                     {
-                        // Write the folder path.
-                       // Console.WriteLine(childFolder.FolderPath);
-                        // Call EnumerateFolders using childFolder, 
-                        // to see if there are any sub-folders within this one
                         EnumerateFolders(childFolder);
                     }
                 }
             }
-            // pass folder to IterateMessages which processes individual email messages
-           // Console.WriteLine("Looking for items in " + folder.FolderPath);
-            IterateMessages(folder);
+             IterateMessages(folder);
         }
-        static void IterateMessages(Outlook.Folder folder)
+        public void IterateMessages(Outlook.Folder folder)
         {
             // attachment extensions to save
             string[] extensionsArray = {  ".xls" };
-
-            // Iterate through all items ("messages") in a folder
+            string mau = "^Danh muc treo ban hang";
             var fi = folder.Items;
             if (fi != null)
             {
@@ -116,48 +108,37 @@ namespace Danhmuc27lvl
                 {
                     foreach (Object item in fi)
                     {
-                        Outlook.MailItem mi = (Outlook.MailItem)item;
-                        var attachments = mi.Attachments;
-                        // Only process item if it has one or more attachments
-                        if (attachments.Count != 0)
+                        if (item is Outlook.MailItem)
                         {
-
-                            // Create a directory to store the attachment 
-                            if (!Directory.Exists(duongdangoc + folder.FolderPath))
+                            Outlook.MailItem mi = (Outlook.MailItem)item;
+                            if (mi != null && mi.UnRead == true)
                             {
-                                Directory.CreateDirectory(duongdangoc + folder.FolderPath);
-                            }
-
-                            // Loop through each attachment
-                            for (int i = 1; i <= mi.Attachments.Count; i++)
-                            {
-                                // Check wither any of the strings in the 
-                                // extensionsArray are contained within the filename
-                                var fn = mi.Attachments[i].FileName.ToLower();
-                                if (extensionsArray.Any(fn.Contains))
+                                var attachments = mi.Attachments;
+                                
+                                if (attachments.Count != 0)
                                 {
 
-                                    // Create a further sub-folder for the sender
-                                    if (!Directory.Exists(basePath + folder.FolderPath +
-                                        @"\" + mi.Sender.Address))
+                                    for (int i = 1; i <= mi.Attachments.Count; i++)
                                     {
-                                        Directory.CreateDirectory(basePath +
-                                            folder.FolderPath + @"\" + mi.Sender.Address);
-                                    }
-                                    totalfilesize = totalfilesize + mi.Attachments[i].Size;
-                                    if (!File.Exists(basePath + folder.FolderPath + @"\" +
-                                        mi.Sender.Address + @"\" + mi.Attachments[i].FileName))
-                                    {
-                                        Console.WriteLine("Saving " + mi.Attachments[i].FileName);
-                                        mi.Attachments[i].SaveAsFile(basePath + folder.FolderPath +
-                                            @"\" + mi.Sender.Address + @"\" +
-                        mi.Attachments[i].FileName);
-                                        // Uncomment next line to delete attachment after saving it
-                                        // mi.Attachments[i].Delete();
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Already saved " + mi.Attachments[i].FileName);
+                                        var fn = mi.Attachments[i].FileName.ToLower();
+                                        if (extensionsArray.Any(fn.Contains))
+                                        {
+                                            if (Regex.IsMatch(mi.Attachments[i].FileName, mau))
+                                            {
+
+                                                if (!File.Exists(duongdangoc + mi.Attachments[i].FileName))
+                                                {
+                                                    mi.Attachments[i].SaveAsFile(duongdangoc + mi.Attachments[i].FileName);
+
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Already saved " + mi.Attachments[i].FileName);
+
+                                                }
+                                            }
+                                        }
+
                                     }
                                 }
                             }
@@ -166,7 +147,7 @@ namespace Danhmuc27lvl
                 }
                 catch (Exception e)
                 {
-                    // Console.WriteLine("An error occurred: '{0}'", e);
+                    MessageBox.Show("loi \n"+e.Message);
                 }
             }
         }
