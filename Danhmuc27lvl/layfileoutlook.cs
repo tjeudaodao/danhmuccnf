@@ -12,7 +12,7 @@ namespace Danhmuc27lvl
 {
     class layfileoutlook
     {
-        static string duongdangoc = Application.StartupPath + @"\filedanhmuc\";
+        static string duongdangoc = Application.StartupPath;
         private static layfileoutlook _instance = null;
         public static layfileoutlook Instance()
         {
@@ -111,7 +111,7 @@ namespace Danhmuc27lvl
                         if (item is Outlook.MailItem)
                         {
                             Outlook.MailItem mi = (Outlook.MailItem)item;
-                            if (mi != null && mi.UnRead == true)
+                            if (mi != null)
                             {
                                 var attachments = mi.Attachments;
                                 
@@ -125,10 +125,13 @@ namespace Danhmuc27lvl
                                         {
                                             if (Regex.IsMatch(mi.Attachments[i].FileName, mau))
                                             {
-
-                                                if (!File.Exists(duongdangoc + mi.Attachments[i].FileName))
+                                                if (!Directory.Exists(duongdangoc + @"\filedanhmuc\"))
                                                 {
-                                                    mi.Attachments[i].SaveAsFile(duongdangoc + mi.Attachments[i].FileName);
+                                                    Directory.CreateDirectory(duongdangoc + @"\filedanhmuc\");
+                                                }
+                                                if (!File.Exists(duongdangoc + @"\filedanhmuc\" + mi.Attachments[i].FileName))
+                                                {
+                                                    mi.Attachments[i].SaveAsFile(duongdangoc + @"\filedanhmuc\" + mi.Attachments[i].FileName);
 
                                                 }
                                                 else
@@ -158,7 +161,7 @@ namespace Danhmuc27lvl
             Outlook.Accounts accounts = Application.Session.Accounts;
             foreach (Outlook.Account taikhoan in accounts)
             {
-                if (laydiachimail(taikhoan)=="nvhoang.hts@gmail.com")
+                if (laydiachimail(taikhoan)=="hn85lvl@canifa.com")
                 {
                     Outlook.Folder selectedFolder = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
                     selectedFolder = GetFolder(@"\\" + taikhoan.DisplayName);
