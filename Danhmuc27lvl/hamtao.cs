@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using Microsoft.Office.Interop;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace Danhmuc27lvl
 {
@@ -64,6 +65,7 @@ namespace Danhmuc27lvl
             }
             danhsachfiledachen.Clear();
         }
+        string maungay = @"d{2}/d{2}/d{4}";
         public void copyanhvathongtin(string filecanlay)
         {
             var excelApp = new excel.Application();
@@ -71,7 +73,13 @@ namespace Danhmuc27lvl
             var ws = (excel.Worksheet)wb.Worksheets[2];
             string duongdanluuanh = Application.StartupPath + @"\luuanh";
             int hangbatdau = 0;
+            string ngayduocban = null;
 
+            MatchCollection mat = Regex.Matches(ws.Cells[7, 1].value, maungay);
+            foreach (Match m in mat)
+            {
+                ngayduocban = m.Value.ToString();
+            }
             List<string> tenanh = new List<string>();
             foreach (var pic in ws.Pictures())
             {

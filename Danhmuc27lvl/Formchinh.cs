@@ -9,43 +9,32 @@ namespace Danhmuc27lvl
 {
     public partial class Formchinh : Form
     {
-        System.Windows.Forms.Timer bodem1;
-        System.Windows.Forms.Timer bodem2;
         Thread luongmail;
         Thread xulyanh;
-
+        Thread chaynen;
         int i = 0;
         public Formchinh()
         {
             InitializeComponent();
-            bodem1 = new System.Windows.Forms.Timer();
-            bodem1.Interval = 10000;
-            bodem1.Tick += Bodem1_Tick;
-            bodem1.Start();
-
-            bodem2 = new System.Windows.Forms.Timer();
-            bodem2.Interval = 15000;
-            bodem2.Tick += Bodem2_Tick;
-            bodem2.Start();
+            chaynen = new Thread(luongchaynen);
+            chaynen.IsBackground = true;
+            chaynen.Start();
         }
-
-        private void Bodem2_Tick(object sender, EventArgs e)
+        void luongchaynen()
         {
-            
-            xulyanh = new Thread(hamxulyanh);
-            xulyanh.IsBackground = true;
-            xulyanh.Start();
-            bodem1.Start();
+            while (true)
+            {
+                Thread.Sleep(15000);
+                luongmail = new Thread(hamcapnhat);
+                luongmail.IsBackground = true;
+                luongmail.Start();
+                xulyanh = new Thread(hamxulyanh);
+                xulyanh.IsBackground = true;
+                xulyanh.Start();
+                xulyanh.Join();
+            }
         }
-
-        private void Bodem1_Tick(object sender, EventArgs e)
-        {
-            
-            luongmail = new Thread(hamcapnhat);
-            luongmail.IsBackground = true;
-            luongmail.Start();
-            bodem1.Stop();
-        }
+       
         void hamcapnhat()
         {
             var xulyoutlook = layfileoutlook.Instance();
@@ -61,6 +50,7 @@ namespace Danhmuc27lvl
         }
         void hamxulyanh()
         {
+            luongmail.Join();
             var ham = hamtao.Khoitao();
             ham.xulyanh();
             
