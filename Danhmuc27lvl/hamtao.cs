@@ -38,6 +38,9 @@ namespace Danhmuc27lvl
         #endregion
         #region danhmuc
         static List<string> danhsachfiledachen = new List<string>();
+        string maungay = @"d{2}/d{2}/d{4}";
+        static List<laythongtin> luuthongtin = new List<laythongtin>();
+
         public void luudanhmuchangmoi()
         {
            
@@ -65,7 +68,20 @@ namespace Danhmuc27lvl
             }
             danhsachfiledachen.Clear();
         }
-        string maungay = @"d{2}/d{2}/d{4}";
+        public void xulymahang()
+        {
+            var con = ketnoisqlite.khoitao();
+            var conmysql = ketnoi.Instance();
+            foreach (laythongtin mahang in luuthongtin)
+            {
+                if (con.Kiemtra("matong","hangduocban",mahang.Maduocban) ==null)
+                {
+                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban);
+                    conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
+                }
+            }
+            luuthongtin.Clear();
+        }
         public void copyanhvathongtin(string filecanlay)
         {
             var excelApp = new excel.Application();
@@ -84,7 +100,7 @@ namespace Danhmuc27lvl
             foreach (var pic in ws.Pictures())
             {
                 hangbatdau = pic.TopLeftCell.Row;
-
+                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value));
                 tenanh.Add(ws.Cells[hangbatdau, 5].value);
             }
 
@@ -92,6 +108,8 @@ namespace Danhmuc27lvl
             excelApp.Quit();
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
+
+            Thread.Sleep(10);
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(filecanlay);
 

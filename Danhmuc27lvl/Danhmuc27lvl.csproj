@@ -107,6 +107,7 @@
     <Compile Include="ketnoi.cs" />
     <Compile Include="ketnoisqlite.cs" />
     <Compile Include="layfileoutlook.cs" />
+    <Compile Include="laythongtin.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Formchinh.resx">

@@ -11,7 +11,7 @@ namespace Danhmuc27lvl
 {
     class ketnoi
     {
-       
+        #region khoitao
         private ketnoi()
         {
             string connstring = string.Format("Server=27.72.29.28;port=3306; database=cnf; User Id=kho; password=1234");
@@ -43,5 +43,16 @@ namespace Danhmuc27lvl
                 connection.Close();
             }
         }
+        #endregion
+        #region thao tac tren csdl mysql
+        public void chenmotachudesanpham(string motasanpham,string chudesanpham,string matong)
+        {
+            string sql = string.Format("INSERT INTO mota(mota2,bst) VALUES({0},{1}) WHERE matong='{2}'", motasanpham, chudesanpham, matong);
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            Open();
+            cmd.ExecuteNonQuery();
+            Close();
+        }
+        #endregion
     }
 }

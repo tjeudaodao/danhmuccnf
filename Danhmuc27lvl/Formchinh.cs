@@ -11,6 +11,7 @@ namespace Danhmuc27lvl
     {
         Thread luongmail;
         Thread xulyanh;
+        Thread chenmahang;
         Thread chaynen;
         int i = 0;
         public Formchinh()
@@ -28,13 +29,24 @@ namespace Danhmuc27lvl
                 luongmail = new Thread(hamcapnhat);
                 luongmail.IsBackground = true;
                 luongmail.Start();
+
                 xulyanh = new Thread(hamxulyanh);
                 xulyanh.IsBackground = true;
                 xulyanh.Start();
-                xulyanh.Join();
+
+                chenmahang = new Thread(chenma);
+                chenmahang.IsBackground = true;
+                chenmahang.Start();
+
+                chenmahang.Join();
             }
         }
-       
+        void chenma()
+        {
+            xulyanh.Join();
+            var ham = hamtao.Khoitao();
+            ham.xulymahang();
+        }
         void hamcapnhat()
         {
             var xulyoutlook = layfileoutlook.Instance();
@@ -55,6 +67,7 @@ namespace Danhmuc27lvl
             ham.xulyanh();
             
         }
+
         private void Formchinh_Load(object sender, EventArgs e)
         {/*
             var con = ketnoi.Instance();

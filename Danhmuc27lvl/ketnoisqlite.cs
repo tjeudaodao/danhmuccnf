@@ -77,7 +77,29 @@ namespace Danhmuc27lvl
                 cmd.ExecuteNonQuery();
             Close();
         }
-       
+        public string Kiemtra(string cotcankiem,string tenbangkiem,string giatricantim)
+        {
+            string sql = string.Format("select {0} from {1} where name='{2}'", cotcankiem,tenbangkiem,giatricantim);
+            string giatri = null;
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+
+            while (dtr.Read())
+            {
+                giatri = dtr[cotcankiem].ToString();
+            }
+            Close();
+            return giatri;
+        }
+        public void Chenvaobanghangduocban(string maduocban,string ngayduocban)
+        {
+            string sqlchen = string.Format(@"INSERT INTO hangduocban VALUES('{0}','{1}')", maduocban, ngayduocban);
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
+            cmd.ExecuteNonQuery();
+            Close();
+        }
         #endregion
     }
 }
