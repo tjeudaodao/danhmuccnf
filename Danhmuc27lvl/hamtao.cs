@@ -37,10 +37,9 @@ namespace Danhmuc27lvl
         }
         #endregion
         #region danhmuc
-        static List<string> danhsachfiledachen = new List<string>();
         string maungay = @"d{2}/d{2}/d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
-
+        static List<string> danhsachfilechuaxuly = new List<string>();
         public void luudanhmuchangmoi()
         {
            
@@ -53,20 +52,19 @@ namespace Danhmuc27lvl
                 {
 
                     con.Chenvaobangfiledanhmuc(danhsachfile[i]);
-                    danhsachfiledachen.Add(danhsachfile[i]);
                 }
 
             }
         }
         public void xulyanh()
         {
-            string[] mangfile = danhsachfiledachen.ToArray();
-            for (int i = 0; i < mangfile.Length; i++)
+            var con = ketnoisqlite.khoitao();
+            danhsachfilechuaxuly = con.layfilechuaxuly();
+            foreach (string file in danhsachfilechuaxuly)
             {
-                copyanhvathongtin(mangfile[i]);
-                Console.Write("Dng xu ly file" + mangfile[i]);
+                copyanhvathongtin(file);
             }
-            danhsachfiledachen.Clear();
+            
         }
         public void xulymahang()
         {

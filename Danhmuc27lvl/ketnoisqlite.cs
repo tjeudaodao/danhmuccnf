@@ -71,11 +71,28 @@ namespace Danhmuc27lvl
         }
         public void Chenvaobangfiledanhmuc(string tenfile)
         {
-            string sqlchen = string.Format(@"INSERT INTO filedanhmuc VALUES('{0}','{1}')", tenfile, ngaychen);
+            string sqlchen = string.Format(@"INSERT INTO filedanhmuc VALUES('{0}','{1}','Not')", tenfile, ngaychen);
             Open();
                 SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
                 cmd.ExecuteNonQuery();
             Close();
+        }
+        public List<string> layfilechuaxuly()
+        {
+            List<string> ds = new List<string>();
+            string sql = "select name from filedanhmuc where tinhtrang='Not'";
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                ds.Add(dtr["name"].ToString());
+            }
+            return ds;
+        }
+        public void thaydoitrangthaidakiemtra(string tenfile)
+        {
+            string sql = string.Format("UPDATE filedanhmuc SET tinhtrang='{0}' WHERE name='{1}'", "OK", tenfile);
         }
         public string Kiemtra(string cotcankiem,string tenbangkiem,string giatricantim)
         {
