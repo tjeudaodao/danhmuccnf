@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Danhmuc27lvl
 {
@@ -14,6 +15,7 @@ namespace Danhmuc27lvl
         Thread xulyanh;
         Thread chenmahang;
         Thread chaynen;
+        string duongdanchuaanh = Application.StartupPath + @"\luuanh\";
         int i = 0;
         public Formchinh()
         {
@@ -96,7 +98,8 @@ namespace Danhmuc27lvl
             var ham = hamtao.Khoitao();
             List<laythongtin> laytt = new List<laythongtin>();
             laytt = conlite.loclaythongtin1ma(mahang);
-            if (laytt != null)
+            string kiemtra = conlite.Kiemtra("matong", "hangduocban", mahang);
+            if (kiemtra !=null)
             {
                 foreach (laythongtin tt in laytt)
                 {
@@ -104,7 +107,7 @@ namespace Danhmuc27lvl
                     lbngayban.Text = ham.chuyendoidinhdangngayveDDMMYYYYY(tt.Ngayduocban);
                     lbduocbanhaychua.Text = "Được bán";
                     string trunghang = conlite.laythongtintrunghang(mahang);
-                    if (trunghang ==null)
+                    if (trunghang == null)
                     {
                         lbdatrunghaychua.Text = "Chưa trưng hàng";
                     }
@@ -112,11 +115,26 @@ namespace Danhmuc27lvl
                     {
                         lbdatrunghaychua.Text = trunghang;
                     }
-
+                    loadanh(mahang);
                 }
+            }
+            else if (kiemtra==null)
+            {
+                pbThemvaoduocban.Enabled = true;
+                lbdatrunghaychua.Text = "Chưa trưng hàng";
+                lbduocbanhaychua.Text = "Chưa được bán";
             }
 
         }
+        void loadanh(string tenanh)
+        {
+            if (File.Exists(duongdanchuaanh+tenanh+".png"))
+            {
+                pbanhsanpham.ImageLocation = duongdanchuaanh + tenanh + ".png";
+                lbmahang.Text = tenanh;
+            }
+        }
+
         #region Thao tac xu kien
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -124,19 +142,39 @@ namespace Danhmuc27lvl
             {
                 if (!string.IsNullOrEmpty(txtbarcode.Text))
                 {
-
+                    var consql = ketnoi.Instance();
+                    laythongtinvaolabel(consql.laymasp(txtbarcode.Text));
+                    txtbarcode.Clear();
+                    txtbarcode.Focus();
                 }
             }
         }
 
         private void txtmatong_TextChanged(object sender, EventArgs e)
         {
+            try
+            {
+                var consqlite = ketnoisqlite.khoitao();
+                datag1.DataSource = consqlite.loctheotenmatong(txtmatong.Text);
+                string mau = @"\d{1}\w{2}\d{2}[SWAC]\d{3}";
+                if (Regex.IsMatch(txtmatong.Text,mau))
+                {
+                    laythongtinvaolabel(txtmatong.Text);
+                }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
         }
 
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
-
+            var month = sender as MonthCalendar;
+            string ngaytim = month.SelectionStart.ToString("yyyy-MM-dd");
+            var con = ketnoisqlite.khoitao();
+            datag1.DataSource = con.laythongtinkhichonngay(ngaytim);
         }
 
         private void pbThemvaoduocban_Click(object sender, EventArgs e)

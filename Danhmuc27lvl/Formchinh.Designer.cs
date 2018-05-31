@@ -56,6 +56,7 @@
             this.pbChuatrung = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.lbmahang = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
@@ -193,7 +194,7 @@
             // pbanhsanpham
             // 
             this.pbanhsanpham.Image = ((System.Drawing.Image)(resources.GetObject("pbanhsanpham.Image")));
-            this.pbanhsanpham.Location = new System.Drawing.Point(1006, 235);
+            this.pbanhsanpham.Location = new System.Drawing.Point(1006, 233);
             this.pbanhsanpham.Name = "pbanhsanpham";
             this.pbanhsanpham.Size = new System.Drawing.Size(332, 305);
             this.pbanhsanpham.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -358,6 +359,16 @@
             this.label8.Text = "Chưa trưng";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lbmahang
+            // 
+            this.lbmahang.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbmahang.Location = new System.Drawing.Point(1079, 194);
+            this.lbmahang.Name = "lbmahang";
+            this.lbmahang.Size = new System.Drawing.Size(219, 31);
+            this.lbmahang.TabIndex = 4;
+            this.lbmahang.Text = "Mã hàng";
+            this.lbmahang.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Formchinh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +376,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1350, 691);
+            this.Controls.Add(this.lbmahang);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pbChuatrung);
             this.Controls.Add(this.pbUpdatematrung);
@@ -427,6 +439,7 @@
         private System.Windows.Forms.PictureBox pbChuatrung;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lbmahang;
     }
 }
 

@@ -37,7 +37,7 @@ namespace Danhmuc27lvl
         }
         #endregion
         #region danhmuc
-        string maungay = @"d{2}/d{2}/d{4}";
+        string maungay = @"\d{2}/\d{2}/\d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
         static List<string> danhsachfilechuaxuly = new List<string>();
         // ham chuyen doi dinh dang ngay tu string
