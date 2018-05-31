@@ -52,8 +52,8 @@ namespace Danhmuc27lvl
         }
         #endregion
 
-        #region doc file excel
-        string ngaychen = DateTime.Now.ToString("dd-MM-yyyy");
+        #region doc file excel, update xu ly chay nen
+        string ngaychen = DateTime.Now.ToString("dd/MM/yyyy");
         public string Kiemtrafile(string tenfile)
         {
             string sql = string.Format("select name from filedanhmuc where name='{0}'", tenfile);
@@ -88,11 +88,16 @@ namespace Danhmuc27lvl
             {
                 ds.Add(dtr["name"].ToString());
             }
+            Close();
             return ds;
         }
         public void thaydoitrangthaidakiemtra(string tenfile)
         {
             string sql = string.Format("UPDATE filedanhmuc SET tinhtrang='{0}' WHERE name='{1}'", "OK", tenfile);
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            Open();
+            cmd.ExecuteNonQuery();
+            Close();
         }
         public string Kiemtra(string cotcankiem,string tenbangkiem,string giatricantim)
         {
@@ -109,13 +114,102 @@ namespace Danhmuc27lvl
             Close();
             return giatri;
         }
-        public void Chenvaobanghangduocban(string maduocban,string ngayduocban)
+        public void Chenvaobanghangduocban(string maduocban,string ngayduocban,string ghichu)
         {
-            string sqlchen = string.Format(@"INSERT INTO hangduocban VALUES('{0}','{1}')", maduocban, ngayduocban);
+            string sqlchen = string.Format(@"INSERT INTO hangduocban(matong,ngayban,ghichu) VALUES('{0}','{1}','{2}')", maduocban, ngayduocban,ghichu);
             Open();
             SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
             cmd.ExecuteNonQuery();
             Close();
+        }
+        public void Chenhoacupdatebangmota(string matong,string mota,string chude)
+        {
+            string sql = null;
+            if (Kiemtra("matong1","mota",matong)==null)
+            {
+                sql = string.Format("INSERT INTO mota(mota2,bst) VALUES('{0}','{1}') WHERE matong1='{3}'", mota, chude, matong);
+            }
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            Open();
+            cmd.ExecuteNonQuery();
+            Close();
+        }
+        #endregion
+
+        #region xu ly tren from
+        //lay tat ca bang hang ban theo ten ma tong
+        public DataTable loctheotenmatong(string matong)
+        {
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where matong like '{0}'", matong);
+            DataTable dt = new DataTable();
+            Open();
+            SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
+            dta.Fill(dt);
+            Close();
+            return dt;
+        }
+        // laythong tin gan vao list<>
+        public List<laythongtin> loclaythongtin1ma(string matong)
+        {
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where matong = '{0}'", matong);
+            List<laythongtin> laytt = new List<laythongtin>();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            Open();
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                laytt.Add(new laythongtin(dtr[4].ToString(), dtr[0].ToString(), dtr[1].ToString(), dtr[2].ToString(), dtr[3].ToString()));
+            }
+            Close();
+            return laytt;
+        }
+        // lay thong tin trung hang
+        public string laythongtintrunghang(string matong)
+        {
+            string sql = string.Format("select trunghang from hangduocban where matong='{0}'", matong);
+            string h = null;
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr[0].ToString();
+            }
+            Close();
+            return h;
+        }
+        // lay thong tin khi kich chon ngay
+        public DataTable laythongtinkhichonngay(string ngaychon)
+        {
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngayban = '{0}'", ngaychon);
+            DataTable dt = new DataTable();
+            Open();
+            SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
+            dta.Fill(dt);
+            Close();
+            return dt;
+        }
+        // xuat bang khi chon khoang ngay cho viec xuat excel va in
+        public DataTable laythongtinkhoangngay(string ngaybatday,string ngayketthuc)
+        {
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngayban > '{0}' and ngayban < '{1}'", ngaybatday, ngayketthuc);
+            DataTable dt = new DataTable();
+            Open();
+            SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
+            dta.Fill(dt);
+            Close();
+            return dt;
+        }
+        // xuatbang cho viec in chi lay 3 cot matong bst ngayban
+        public DataTable laythongtinIn(string ngaybatdau,string ngayketthuc)
+        {
+            string sql = string.Format("SELECT matong as 'Mã tổng',bst as 'Chủ đề',ngayban as 'Ngày bán' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngayban > '{0}' and ngayban < '{1}'", ngaybatdau, ngayketthuc);
+            DataTable dt = new DataTable();
+            Open();
+            SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
+            dta.Fill(dt);
+            Close();
+            return dt;
         }
         #endregion
     }

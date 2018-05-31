@@ -12,6 +12,7 @@ namespace Danhmuc27lvl
         private string maduocban;
         private string motamaban;
         private string chudemaban;
+        private string ghichu;
 
         public string Ngayduocban
         {
@@ -33,13 +34,19 @@ namespace Danhmuc27lvl
             get { return chudemaban; }
             set { chudemaban = value; }
         }
+        public string Ghichu
+        {
+            get { return ghichu; }
+            set { ghichu = value; }
+        }
 
-        public laythongtin(string ngayduocban,string maduocban,string motamaban,string chudemaban)
+        public laythongtin(string ngayduocban,string maduocban,string motamaban,string chudemaban,string ghichu)
         {
             this.ngayduocban = ngayduocban;
             this.maduocban = maduocban;
             this.motamaban = motamaban;
             this.chudemaban = chudemaban;
+            this.ghichu = ghichu;
         }
     }
 }

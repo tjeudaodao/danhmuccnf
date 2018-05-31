@@ -40,6 +40,18 @@ namespace Danhmuc27lvl
         string maungay = @"d{2}/d{2}/d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
         static List<string> danhsachfilechuaxuly = new List<string>();
+        // ham chuyen doi dinh dang ngay tu string
+        public string chuyendoidinhdangngayveYYYYMMDD(string ngaydangDDMMYYYY)
+        {
+            DateTime dt = DateTime.ParseExact(ngaydangDDMMYYYY, "dd/MM/yyyy", null);
+            return dt.ToString("yyyy/MM/dd");
+        }
+        public string chuyendoidinhdangngayveDDMMYYYYY(string ngaydangYYYYMMDD)
+        {
+            DateTime dt = DateTime.ParseExact(ngaydangYYYYMMDD, "yyyy/MM/dd", null);
+            return dt.ToString("dd/MM/yyyy");
+        }
+
         public void luudanhmuchangmoi()
         {
            
@@ -74,11 +86,17 @@ namespace Danhmuc27lvl
             {
                 if (con.Kiemtra("matong","hangduocban",mahang.Maduocban) ==null)
                 {
-                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban);
+                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban,mahang.Ghichu);
+                    con.Chenhoacupdatebangmota(mahang.Maduocban, mahang.Motamaban, mahang.Chudemaban);
                     conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
                 }
             }
             luuthongtin.Clear();
+            foreach (string file in danhsachfilechuaxuly)
+            {
+                con.thaydoitrangthaidakiemtra(file);
+            }
+            danhsachfilechuaxuly.Clear();
         }
         public void copyanhvathongtin(string filecanlay)
         {
@@ -87,18 +105,19 @@ namespace Danhmuc27lvl
             var ws = (excel.Worksheet)wb.Worksheets[2];
             string duongdanluuanh = Application.StartupPath + @"\luuanh";
             int hangbatdau = 0;
+            //lay ngay tu file excel roi chuyen doi sang dinh dang khac truoc khi insert vao database
             string ngayduocban = null;
-
             MatchCollection mat = Regex.Matches(ws.Cells[7, 1].value, maungay);
             foreach (Match m in mat)
             {
                 ngayduocban = m.Value.ToString();
             }
+            ngayduocban = chuyendoidinhdangngayveYYYYMMDD(ngayduocban);
             List<string> tenanh = new List<string>();
             foreach (var pic in ws.Pictures())
             {
                 hangbatdau = pic.TopLeftCell.Row;
-                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value));
+                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value, ws.Cells[hangbatdau, 11].value));
                 tenanh.Add(ws.Cells[hangbatdau, 5].value);
             }
 
@@ -107,7 +126,7 @@ namespace Danhmuc27lvl
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
 
-            Thread.Sleep(10);
+            Thread.Sleep(5);
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(filecanlay);
 

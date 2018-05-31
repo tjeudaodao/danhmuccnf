@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
@@ -19,7 +20,7 @@ namespace Danhmuc27lvl
             InitializeComponent();
             chaynen = new Thread(luongchaynen);
             chaynen.IsBackground = true;
-            chaynen.Start();
+            // chaynen.Start();
         }
         void luongchaynen()
         {
@@ -52,20 +53,20 @@ namespace Danhmuc27lvl
             var xulyoutlook = layfileoutlook.Instance();
             var ham = hamtao.Khoitao();
             xulyoutlook.xuly();
-          
+
             ham.luudanhmuchangmoi();
-            lbnhap.Invoke(new MethodInvoker(delegate ()
-            {
-                lbnhap.Text=i++.ToString();
-            }));
-            
+            //lbnhap.Invoke(new MethodInvoker(delegate ()
+            //{
+            //    lbnhap.Text = i++.ToString();
+            //}));
+
         }
         void hamxulyanh()
         {
             luongmail.Join();
             var ham = hamtao.Khoitao();
             ham.xulyanh();
-            
+
         }
 
         private void Formchinh_Load(object sender, EventArgs e)
@@ -82,30 +83,81 @@ namespace Danhmuc27lvl
                 con.Close();
             }
            */
-           
-            
+            //string s = "17/06/2007";
+            //DateTime d = DateTime.ParseExact(s, "dd/MM/yyyy", null);
+            ////label7.Text = d.ToString("yyyy/MM/dd");
+            //var ham = hamtao.Khoitao();
+            //string s = "2017/12/11";
+            //label7.Text = ham.chuyendoidinhdangngayveDDMMYYYYY(s);
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        void laythongtinvaolabel(string mahang)
         {
-            var con1 = ketnoisqlite.khoitao();
-            con1.Open();
-                string sql1 = "select * from filedanhmuc";
+            var conlite = ketnoisqlite.khoitao();
+            var ham = hamtao.Khoitao();
+            List<laythongtin> laytt = new List<laythongtin>();
+            laytt = conlite.loclaythongtin1ma(mahang);
+            if (laytt != null)
+            {
+                foreach (laythongtin tt in laytt)
+                {
+                    lbmotasanpham.Text = tt.Motamaban + " - " + tt.Chudemaban + " - " + tt.Ghichu;
+                    lbngayban.Text = ham.chuyendoidinhdangngayveDDMMYYYYY(tt.Ngayduocban);
+                    lbduocbanhaychua.Text = "Được bán";
+                    string trunghang = conlite.laythongtintrunghang(mahang);
+                    if (trunghang ==null)
+                    {
+                        lbdatrunghaychua.Text = "Chưa trưng hàng";
+                    }
+                    else
+                    {
+                        lbdatrunghaychua.Text = trunghang;
+                    }
 
-                SQLiteDataAdapter dta = new SQLiteDataAdapter(sql1, con1.connec);
-                DataTable dt = new DataTable();
-                dta.Fill(dt);
-            
-                dataGridView1.DataSource = dt;
-            con1.Close();
+                }
+            }
+
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        #region Thao tac xu kien
+        private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
-            var con = ketnoisqlite.khoitao();
-            string[] danhsachfile = Directory.GetFiles(Application.StartupPath + @"\filedanhmuc");
-            Console.Write(danhsachfile.Length);
-            label6.Text = danhsachfile.Length.ToString();
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!string.IsNullOrEmpty(txtbarcode.Text))
+                {
+
+                }
+            }
         }
+
+        private void txtmatong_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+        {
+
+        }
+
+        private void pbThemvaoduocban_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbUpdatematrung_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbChuatrung_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void btnXuatIn_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
     }
 }

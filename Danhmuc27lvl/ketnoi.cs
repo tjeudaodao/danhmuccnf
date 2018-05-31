@@ -53,6 +53,23 @@ namespace Danhmuc27lvl
             cmd.ExecuteNonQuery();
             Close();
         }
+        // lay masp tu barcode
+        public string laymasp(string barcode)
+        {
+            string sql = string.Format("SELECT masp FROM data WHERE barcode='{0}'", barcode);
+            string h = null;
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            Open();
+            MySqlDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr["masp"].ToString();
+            }
+            Close();
+            int vitri = h.IndexOf("-");
+            h = h.Substring(0, vitri);
+            return h;
+        }
         #endregion
     }
 }
