@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
@@ -40,18 +41,13 @@ namespace Danhmuc27lvl
         string maungay = @"\d{2}/\d{2}/\d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
         static List<string> danhsachfilechuaxuly = new List<string>();
-        // ham chuyen doi dinh dang ngay tu string
-        public string chuyendoidinhdangngayveYYYYMMDD(string ngaydangDDMMYYYY)
+        // ham chuyen doi dinh dang ngay tu string sang dang so co the + -
+        public string chuyendoingayvedangso(string ngaydangDDMMYYYY)
         {
             DateTime dt = DateTime.ParseExact(ngaydangDDMMYYYY, "dd/MM/yyyy", null);
-            return dt.ToString("yyyy/MM/dd");
+            return dt.ToString("yyyyMMdd");
         }
-        public string chuyendoidinhdangngayveDDMMYYYYY(string ngaydangYYYYMMDD)
-        {
-            DateTime dt = DateTime.ParseExact(ngaydangYYYYMMDD, "yyyy/MM/dd", null);
-            return dt.ToString("dd/MM/yyyy");
-        }
-
+        
         public void luudanhmuchangmoi()
         {
            
@@ -86,7 +82,7 @@ namespace Danhmuc27lvl
             {
                 if (con.Kiemtra("matong","hangduocban",mahang.Maduocban) ==null)
                 {
-                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban,mahang.Ghichu);
+                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban,mahang.Ghichu,mahang.Ngaydangso);
                     con.Chenhoacupdatebangmota(mahang.Maduocban, mahang.Motamaban, mahang.Chudemaban);
                     conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
                 }
@@ -107,17 +103,18 @@ namespace Danhmuc27lvl
             int hangbatdau = 0;
             //lay ngay tu file excel roi chuyen doi sang dinh dang khac truoc khi insert vao database
             string ngayduocban = null;
+            string ngaydangso = null;
             MatchCollection mat = Regex.Matches(ws.Cells[7, 1].value, maungay);
             foreach (Match m in mat)
             {
                 ngayduocban = m.Value.ToString();
             }
-            ngayduocban = chuyendoidinhdangngayveYYYYMMDD(ngayduocban);
+            ngaydangso = chuyendoingayvedangso(ngayduocban);
             List<string> tenanh = new List<string>();
             foreach (var pic in ws.Pictures())
             {
                 hangbatdau = pic.TopLeftCell.Row;
-                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value, ws.Cells[hangbatdau, 11].value));
+                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value, ws.Cells[hangbatdau, 11].value,ngaydangso));
                 tenanh.Add(ws.Cells[hangbatdau, 5].value);
             }
 
@@ -148,6 +145,35 @@ namespace Danhmuc27lvl
             }
             
             workbook.Dispose();
+        }
+        public void xuatfileexcel(DataTable dt,string ngaybatdau,string ngayketthuc)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "Excel (.xlsx)|*.xlsx";
+                saveDialog.FileName = "Thống kê hàng từ ngày - " + ngaybatdau + " đến ngày - "+ngayketthuc;
+                if (saveDialog.ShowDialog() != DialogResult.Cancel)
+                {
+                    string exportFilePath = saveDialog.FileName;
+                    var newFile = new FileInfo(exportFilePath);
+                    using (var package = new ExcelPackage(newFile))
+                    {
+
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("hts");
+
+                        worksheet.Cells["A1"].LoadFromDataTable(dt, true);
+                        worksheet.Column(1).AutoFit();
+                        worksheet.Column(2).AutoFit();
+                        worksheet.Column(3).AutoFit();
+                        worksheet.Column(4).AutoFit();
+                        worksheet.Column(5).AutoFit();
+
+                        worksheet.Column(6).AutoFit();
+                        package.Save();
+
+                    }
+                }
+            }
         }
         #endregion
     }

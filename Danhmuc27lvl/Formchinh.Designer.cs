@@ -32,6 +32,8 @@
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtbarcode = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbxoamatong = new System.Windows.Forms.PictureBox();
             this.lbngayban = new System.Windows.Forms.Label();
             this.lbmotasanpham = new System.Windows.Forms.Label();
             this.lbdatrunghaychua = new System.Windows.Forms.Label();
@@ -57,9 +59,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lbmahang = new System.Windows.Forms.Label();
-            this.pbxoamatong = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
             this.panel1.SuspendLayout();
@@ -67,8 +69,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUpdatematrung)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbChuatrung)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // monthCalendar1
@@ -107,6 +107,27 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(169, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 22);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pbxoamatong
+            // 
+            this.pbxoamatong.Image = ((System.Drawing.Image)(resources.GetObject("pbxoamatong.Image")));
+            this.pbxoamatong.Location = new System.Drawing.Point(169, 54);
+            this.pbxoamatong.Name = "pbxoamatong";
+            this.pbxoamatong.Size = new System.Drawing.Size(23, 22);
+            this.pbxoamatong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxoamatong.TabIndex = 5;
+            this.pbxoamatong.TabStop = false;
+            this.pbxoamatong.Click += new System.EventHandler(this.pbxoamatong_Click);
+            // 
             // lbngayban
             // 
             this.lbngayban.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -119,7 +140,9 @@
             // 
             // lbmotasanpham
             // 
-            this.lbmotasanpham.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbmotasanpham.BackColor = System.Drawing.Color.Gainsboro;
+            this.lbmotasanpham.Font = new System.Drawing.Font("Comic Sans MS", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbmotasanpham.ForeColor = System.Drawing.Color.DimGray;
             this.lbmotasanpham.Location = new System.Drawing.Point(7, 82);
             this.lbmotasanpham.Name = "lbmotasanpham";
             this.lbmotasanpham.Size = new System.Drawing.Size(692, 79);
@@ -190,12 +213,13 @@
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datag1.ColumnHeadersVisible = false;
             this.datag1.Location = new System.Drawing.Point(18, 235);
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
+            this.datag1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.datag1.Size = new System.Drawing.Size(982, 419);
             this.datag1.TabIndex = 6;
+            this.datag1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datag1_CellClick);
             // 
             // pbanhsanpham
             // 
@@ -367,34 +391,14 @@
             // 
             // lbmahang
             // 
+            this.lbmahang.BackColor = System.Drawing.Color.Gainsboro;
             this.lbmahang.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbmahang.Location = new System.Drawing.Point(1079, 194);
+            this.lbmahang.Location = new System.Drawing.Point(1006, 194);
             this.lbmahang.Name = "lbmahang";
-            this.lbmahang.Size = new System.Drawing.Size(219, 31);
+            this.lbmahang.Size = new System.Drawing.Size(332, 31);
             this.lbmahang.TabIndex = 4;
             this.lbmahang.Text = "Mã hàng";
             this.lbmahang.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pbxoamatong
-            // 
-            this.pbxoamatong.Image = ((System.Drawing.Image)(resources.GetObject("pbxoamatong.Image")));
-            this.pbxoamatong.Location = new System.Drawing.Point(169, 54);
-            this.pbxoamatong.Name = "pbxoamatong";
-            this.pbxoamatong.Size = new System.Drawing.Size(23, 22);
-            this.pbxoamatong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxoamatong.TabIndex = 5;
-            this.pbxoamatong.TabStop = false;
-            this.pbxoamatong.Click += new System.EventHandler(this.pbxoamatong_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(169, 18);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(23, 22);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
             // 
             // Formchinh
             // 
@@ -426,6 +430,8 @@
             this.Load += new System.EventHandler(this.Formchinh_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -434,8 +440,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUpdatematrung)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbChuatrung)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
