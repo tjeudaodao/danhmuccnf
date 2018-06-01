@@ -211,6 +211,26 @@ namespace Danhmuc27lvl
             Close();
             return dt;
         }
+        // update gia tri cot trung hang thanh " da trung hang"
+        public void updatedatrunghang(string matong)
+        {
+            if (Kiemtra("trunghang","hangduocban",matong)==null)
+            {
+                string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", "Đã Trưng Bán", matong);
+                SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+                Open();
+                cmd.ExecuteNonQuery();
+                Close();
+            }
+            else if (Kiemtra("trunghang", "hangduocban", matong) == "Đã Trưng Bán")
+            {
+                string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", null, matong);
+                SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+                Open();
+                cmd.ExecuteNonQuery();
+                Close();
+            }
+        }
         #endregion
     }
 }

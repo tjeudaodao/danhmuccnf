@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Tulpep.NotificationWindow;
 
 namespace Danhmuc27lvl
 {
@@ -91,6 +92,7 @@ namespace Danhmuc27lvl
             //var ham = hamtao.Khoitao();
             //string s = "2017/12/11";
             //label7.Text = ham.chuyendoidinhdangngayveDDMMYYYYY(s);
+            NotificationHts("thongbao");
         }
         void laythongtinvaolabel(string mahang)
         {
@@ -134,7 +136,35 @@ namespace Danhmuc27lvl
                 lbmahang.Text = tenanh;
             }
         }
-
+        void updatetrunghang()
+        {
+            var con = ketnoisqlite.khoitao();
+            if (datag1.SelectedRows.Count>1)
+            {
+                string matong = null;
+                foreach (DataGridViewRow row in datag1.SelectedRows)
+                {
+                    matong = row.Cells[0].Value.ToString();
+                    con.updatedatrunghang(matong);
+                }
+            }
+            
+        }
+        void NotificationHts(string noidung)
+        {
+            PopupNotifier pop = new PopupNotifier();
+            pop.TitleText = "Thông báo";
+            pop.ContentText = noidung;
+            pop.Image = Properties.Resources.chancho;
+            pop.Popup();
+        }
+        void NotificationHts(string noidung,string tieude)
+        {
+            PopupNotifier pop = new PopupNotifier();
+            pop.TitleText = tieude;
+            pop.ContentText = noidung;
+            pop.Popup();
+        }
         #region Thao tac xu kien
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -168,7 +198,11 @@ namespace Danhmuc27lvl
                 throw;
             }
         }
-
+        private void pbxoamatong_Click(object sender, EventArgs e)
+        {
+            txtmatong.Clear();
+            txtmatong.Focus();
+        }
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
             var month = sender as MonthCalendar;
@@ -197,5 +231,6 @@ namespace Danhmuc27lvl
         }
         #endregion
 
+        
     }
 }

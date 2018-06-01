@@ -57,6 +57,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lbmahang = new System.Windows.Forms.Label();
+            this.pbxoamatong = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
@@ -65,6 +67,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUpdatematrung)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbChuatrung)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // monthCalendar1
@@ -87,6 +91,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Controls.Add(this.pbxoamatong);
             this.groupBox1.Controls.Add(this.lbngayban);
             this.groupBox1.Controls.Add(this.lbmotasanpham);
             this.groupBox1.Controls.Add(this.lbdatrunghaychua);
@@ -104,7 +110,7 @@
             // lbngayban
             // 
             this.lbngayban.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbngayban.Location = new System.Drawing.Point(466, 12);
+            this.lbngayban.Location = new System.Drawing.Point(478, 12);
             this.lbngayban.Name = "lbngayban";
             this.lbngayban.Size = new System.Drawing.Size(193, 70);
             this.lbngayban.TabIndex = 4;
@@ -369,6 +375,27 @@
             this.lbmahang.Text = "Mã hàng";
             this.lbmahang.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pbxoamatong
+            // 
+            this.pbxoamatong.Image = ((System.Drawing.Image)(resources.GetObject("pbxoamatong.Image")));
+            this.pbxoamatong.Location = new System.Drawing.Point(169, 54);
+            this.pbxoamatong.Name = "pbxoamatong";
+            this.pbxoamatong.Size = new System.Drawing.Size(23, 22);
+            this.pbxoamatong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxoamatong.TabIndex = 5;
+            this.pbxoamatong.TabStop = false;
+            this.pbxoamatong.Click += new System.EventHandler(this.pbxoamatong_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(169, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 22);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
             // Formchinh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -407,6 +434,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbUpdatematrung)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbChuatrung)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -440,6 +469,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lbmahang;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbxoamatong;
     }
 }
 
