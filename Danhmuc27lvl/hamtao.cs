@@ -42,6 +42,8 @@ namespace Danhmuc27lvl
         string maungay = @"\d{2}/\d{2}/\d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
         static List<string> danhsachfilechuaxuly = new List<string>();
+        static string duongdanluufileexcel = null;
+
         // ham chuyen doi dinh dang ngay tu string sang dang so co the + -
         public string chuyendoingayvedangso(string ngaydangDDMMYYYY)
         {
@@ -93,9 +95,16 @@ namespace Danhmuc27lvl
             {
                 if (con.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
                 {
-                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso);
-                    con.Chenhoacupdatebangmota(mahang.Maduocban, mahang.Motamaban, mahang.Chudemaban);
-                    conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
+                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
+                    try
+                    {
+                        conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
+                    }
+                    catch (Exception)
+                    {
+
+                        continue;
+                    }
                 }
             }
             luuthongtin.Clear();
@@ -147,7 +156,7 @@ namespace Danhmuc27lvl
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
 
-            //Thread.Sleep(5);
+           
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(filecanlay);
 
@@ -179,6 +188,7 @@ namespace Danhmuc27lvl
                 if (saveDialog.ShowDialog() != DialogResult.Cancel)
                 {
                     string exportFilePath = saveDialog.FileName;
+                    duongdanluufileexcel = exportFilePath;
                     var newFile = new FileInfo(exportFilePath);
                     using (var package = new ExcelPackage(newFile))
                     {
@@ -198,6 +208,19 @@ namespace Danhmuc27lvl
                     }
                 }
             }
+        }
+        public void mofileexcelvualuu()
+        {
+            if (duongdanluufileexcel!=null)
+            {
+                var app = new excel.Application();
+
+                excel.Workbooks book = app.Workbooks;
+                excel.Workbook sh = book.Open(duongdanluufileexcel);
+                app.Visible = true;
+                //sh.PrintOutEx();
+            }
+            
         }
         public void taovainfileexcel(DataTable dt)
         {
@@ -228,6 +251,8 @@ namespace Danhmuc27lvl
 
             }
             ExcelPkg.SaveAs(new FileInfo("hts.xlsx"));
+            ExcelPkg.Dispose();
+
             var app = new excel.Application();
 
             excel.Workbooks book = app.Workbooks;
@@ -235,6 +260,8 @@ namespace Danhmuc27lvl
             //app.Visible = true;
             //sh.PrintOutEx();
             app.Quit();
+            Marshal.FinalReleaseComObject(app);
+            Marshal.FinalReleaseComObject(book);
         }
         #endregion
     }

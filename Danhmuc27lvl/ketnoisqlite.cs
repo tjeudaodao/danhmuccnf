@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Data;
 using System.IO;
-using excel = Microsoft.Office.Interop.Excel;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using Spire.Xls;
 using System.Drawing.Imaging;
 using Microsoft.Office.Interop;
 using System.Windows.Forms;
@@ -129,34 +125,22 @@ namespace Danhmuc27lvl
             Close();
             return giatri;
         }
-        public void Chenvaobanghangduocban(string maduocban,string ngayduocban,string ghichu,string ngaydangso)
+        public void Chenvaobanghangduocban(string maduocban,string ngayduocban,string ghichu,string ngaydangso,string mota,string chude)
         {
-            string sqlchen = string.Format(@"INSERT INTO hangduocban(matong,ngayban,ghichu,ngaydangso) VALUES('{0}','{1}','{2}','{3}')", maduocban, ngayduocban,ghichu,ngaydangso);
+            string sqlchen = @"INSERT INTO hangduocban(matong,ngayban,ghichu,ngaydangso,mota,chude) VALUES('"+maduocban+"','"+ngayduocban+"','"+ghichu+"','"+ngaydangso+",'"+mota+"','"+chude+"')";
             Open();
             SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
             cmd.ExecuteNonQuery();
             Close();
         }
-        public void Chenhoacupdatebangmota(string matong,string mota,string chude)
-        {
-            string sql = null;
-            if (Kiemtra("matong1","mota",matong)==null)
-            {
-                sql = @"INSERT INTO mota(matong1,mota2,bst) VALUES('"+matong+"','"+mota+"','"+chude+"')";
-                SQLiteCommand cmd = new SQLiteCommand(sql, connec);
-                Open();
-                cmd.ExecuteNonQuery();
-                Close();
-            }
-            
-        }
+        
         #endregion
 
         #region xu ly tren from
         //lay tat ca bang hang ban theo ten ma tong
         public DataTable loctheotenmatong(string matong)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where matong like '{0}' Group by matong", matong);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where matong like '{0}%' Group by matong", matong);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -167,7 +151,7 @@ namespace Danhmuc27lvl
         // laythong tin gan vao list<>
         public List<laythongtin> loclaythongtin1ma(string matong)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where matong = '{0}'", matong);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán' FROM hangduocban where matong = '{0}'", matong);
             List<laythongtin> laytt = new List<laythongtin>();
             SQLiteCommand cmd = new SQLiteCommand(sql, connec);
             Open();
@@ -206,11 +190,12 @@ namespace Danhmuc27lvl
             {
                 hh = dtr[0].ToString();
             }
+            Close();
             return hh;
         }
         public DataTable laythongtinngayganhat(string ngaygannhat)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngaydangso = '{0}' Group by matong", ngaygannhat);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngaydangso = '{0}' Group by matong", ngaygannhat);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -221,7 +206,7 @@ namespace Danhmuc27lvl
         // lay thong tin khi kich chon ngay
         public DataTable laythongtinkhichonngay(string ngaychon)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngayban = '{0}' Group by matong", ngaychon);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngayban = '{0}' Group by matong", ngaychon);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -241,7 +226,7 @@ namespace Danhmuc27lvl
         // xuat bang khi chon khoang ngay cho viec xuat excel va in
         public DataTable laythongtinkhoangngay(string ngaybatday,string ngayketthuc)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota2 as 'Mô tả',bst as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngaydangso > '{0}' and ngaydangso < '{1}' Group by matong", ngaybatday, ngayketthuc);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngaydangso >= '{0}' and ngaydangso <= '{1}' Group by matong", ngaybatday, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -252,7 +237,7 @@ namespace Danhmuc27lvl
         // xuatbang cho viec in chi lay 3 cot matong bst ngayban
         public DataTable laythongtinIn(string ngaybatdau,string ngayketthuc)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',bst as 'Chủ đề',ngayban as 'Ngày bán' FROM hangduocban INNER JOIN mota ON hangduocban.matong=mota.matong1 where ngaydangso > '{0}' and ngaydangso < '{1}'", ngaybatdau, ngayketthuc);
+            string sql = string.Format("SELECT matong as 'Mã tổng',chude as 'Chủ đề',ngayban as 'Ngày bán' FROM hangduocban where ngaydangso > '{0}' and ngaydangso < '{1}'", ngaybatdau, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -261,7 +246,7 @@ namespace Danhmuc27lvl
             return dt;
         }
         // update gia tri cot trung hang thanh " da trung hang"
-        public void updatedatrunghang(string matong)
+        public void updatedatrunghangthanhdatrung(string matong)
         {
             if (Kiemtra("trunghang","hangduocban","matong",matong)==null || Kiemtra("trunghang", "hangduocban", "matong", matong) =="Chưa trưng bán" )
             {
@@ -271,7 +256,12 @@ namespace Danhmuc27lvl
                 cmd.ExecuteNonQuery();
                 Close();
             }
-            else if (Kiemtra("trunghang", "hangduocban","matong",matong) == "Đã Trưng Bán")
+            
+        }
+        // update thanh chua trung hang
+        public void updatetrunghangthanhchuatrung(string matong)
+        {
+            if (Kiemtra("trunghang", "hangduocban", "matong", matong) == "Đã Trưng Bán")
             {
                 string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", "Chưa trưng bán", matong);
                 SQLiteCommand cmd = new SQLiteCommand(sql, connec);

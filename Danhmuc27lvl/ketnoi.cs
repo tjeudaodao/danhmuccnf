@@ -45,13 +45,34 @@ namespace Danhmuc27lvl
         }
         #endregion
         #region thao tac tren csdl mysql
+        //kiem tra xem ma hang day co trong bang mota chua
+        public string Kiemtra(string mahang)
+        {
+            string sql = @"SELECT matong1 FROM mota WHERE matong1='" + mahang + "'";
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            string hh = null;
+            Open();
+            MySqlDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                hh = dtr["matong1"].ToString();
+            }
+            Close();
+            return hh;
+        }
+
+        // chen mota sp
         public void chenmotachudesanpham(string motasanpham,string chudesanpham,string matong)
         {
-            string sql = string.Format("INSERT INTO mota(mota2,bst) VALUES('{0}','{1}') ", motasanpham, chudesanpham);
-            MySqlCommand cmd = new MySqlCommand(sql, connection);
-            Open();
-            cmd.ExecuteNonQuery();
-            Close();
+            if (Kiemtra(matong)==null)
+            {
+                string sql = @"INSERT INTO mota(mota2,bst) VALUES('"+motasanpham+"','"+chudesanpham+"')";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                Open();
+                cmd.ExecuteNonQuery();
+                Close();
+            }
+            
         }
         // lay masp tu barcode
         public string laymasp(string barcode)
