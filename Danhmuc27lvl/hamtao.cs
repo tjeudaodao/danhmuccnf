@@ -17,6 +17,7 @@ using Microsoft.Office.Interop;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace Danhmuc27lvl
 {
@@ -30,7 +31,7 @@ namespace Danhmuc27lvl
         private static hamtao _khoitao = null;
         public static hamtao Khoitao()
         {
-            if (_khoitao==null)
+            if (_khoitao == null)
             {
                 _khoitao = new hamtao();
             }
@@ -44,13 +45,22 @@ namespace Danhmuc27lvl
         // ham chuyen doi dinh dang ngay tu string sang dang so co the + -
         public string chuyendoingayvedangso(string ngaydangDDMMYYYY)
         {
-            DateTime dt = DateTime.ParseExact(ngaydangDDMMYYYY, "dd/MM/yyyy", null);
-            return dt.ToString("yyyyMMdd");
+            try
+            {
+                DateTime dt = DateTime.ParseExact(ngaydangDDMMYYYY, "dd/MM/yyyy", null);
+                return dt.ToString("yyyyMMdd");
+            }
+            catch (Exception)
+            {
+
+                return "Loi";
+            }
+            
         }
-        
+
         public void luudanhmuchangmoi()
         {
-           
+
             var con = ketnoisqlite.khoitao();
             string[] danhsachfile = Directory.GetFiles(Application.StartupPath + @"\filedanhmuc\");
 
@@ -70,9 +80,10 @@ namespace Danhmuc27lvl
             danhsachfilechuaxuly = con.layfilechuaxuly();
             foreach (string file in danhsachfilechuaxuly)
             {
+                //Console.WriteLine(file);
                 copyanhvathongtin(file);
             }
-            
+
         }
         public void xulymahang()
         {
@@ -80,9 +91,9 @@ namespace Danhmuc27lvl
             var conmysql = ketnoi.Instance();
             foreach (laythongtin mahang in luuthongtin)
             {
-                if (con.Kiemtra("matong","hangduocban",mahang.Maduocban) ==null)
+                if (con.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
                 {
-                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban,mahang.Ghichu,mahang.Ngaydangso);
+                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso);
                     con.Chenhoacupdatebangmota(mahang.Maduocban, mahang.Motamaban, mahang.Chudemaban);
                     conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
                 }
@@ -105,17 +116,30 @@ namespace Danhmuc27lvl
             string ngayduocban = null;
             string ngaydangso = null;
             MatchCollection mat = Regex.Matches(ws.Cells[7, 1].value, maungay);
+            //Console.WriteLine(ws.Cells[7,1].value);
             foreach (Match m in mat)
             {
                 ngayduocban = m.Value.ToString();
             }
+            Console.WriteLine(ngayduocban);
             ngaydangso = chuyendoingayvedangso(ngayduocban);
+            
             List<string> tenanh = new List<string>();
+            string mahang, mota, bst, ghichu;
             foreach (var pic in ws.Pictures())
             {
                 hangbatdau = pic.TopLeftCell.Row;
-                luuthongtin.Add(new laythongtin(ngayduocban, ws.Cells[hangbatdau, 5].value, ws.Cells[hangbatdau, 6].value, ws.Cells[hangbatdau, 10].value, ws.Cells[hangbatdau, 11].value,ngaydangso));
-                tenanh.Add(ws.Cells[hangbatdau, 5].value);
+                if (hangbatdau > 1)
+                {
+                    mahang=ws.Cells[hangbatdau, 5].value2.ToString();
+                    mota = ws.Cells[hangbatdau, 6].value2.ToString();
+                    bst=ws.Cells[hangbatdau, 10].value2.ToString();
+                    ghichu=Convert.ToString(ws.Cells[hangbatdau, 11].value2);
+
+                    luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota,bst , ghichu, ngaydangso));
+                    tenanh.Add(ws.Cells[hangbatdau, 5].value);
+                }
+
             }
 
             string[] manganh = tenanh.ToArray();
@@ -123,7 +147,7 @@ namespace Danhmuc27lvl
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
 
-            Thread.Sleep(5);
+            //Thread.Sleep(5);
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(filecanlay);
 
@@ -140,18 +164,18 @@ namespace Danhmuc27lvl
                 {
                     picture.Picture.Save(duongdanluuanh + @"\" + manganh[i] + ".png", ImageFormat.Png);
                 }
-               
+
 
             }
-            
+
             workbook.Dispose();
         }
-        public void xuatfileexcel(DataTable dt,string ngaybatdau,string ngayketthuc)
+        public void xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc)
         {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
                 saveDialog.Filter = "Excel (.xlsx)|*.xlsx";
-                saveDialog.FileName = "Thống kê hàng từ ngày - " + ngaybatdau + " đến ngày - "+ngayketthuc;
+                saveDialog.FileName = "Thống kê hàng từ ngày - " + ngaybatdau + " đến ngày - " + ngayketthuc;
                 if (saveDialog.ShowDialog() != DialogResult.Cancel)
                 {
                     string exportFilePath = saveDialog.FileName;
@@ -170,10 +194,47 @@ namespace Danhmuc27lvl
 
                         worksheet.Column(6).AutoFit();
                         package.Save();
-
+                        package.Dispose();
                     }
                 }
             }
+        }
+        public void taovainfileexcel(DataTable dt)
+        {
+            ExcelPackage ExcelPkg = new ExcelPackage();
+            ExcelWorksheet worksheet = ExcelPkg.Workbook.Worksheets.Add("hts");
+            worksheet.Cells["A1"].LoadFromDataTable(dt, true);
+
+            worksheet.Column(1).Width = 11;
+            worksheet.Column(2).Width = 10;
+            worksheet.Column(3).Width = 10;
+
+
+            //worksheet.Cells[worksheet.Dimension.End.Row + 1, 1].Value = "Tổng sản phẩm:";
+            //worksheet.Cells[worksheet.Dimension.End.Row, 2].Value = tongsp;
+
+            var allCells = worksheet.Cells[1, 1, worksheet.Dimension.End.Row, worksheet.Dimension.End.Column];
+            var cellFont = allCells.Style.Font;
+            cellFont.SetFromFont(new Font("Calibri", 10));
+
+            worksheet.PrinterSettings.LeftMargin = 0.2M / 2.54M;
+            worksheet.PrinterSettings.RightMargin = 0.2M / 2.54M;
+            worksheet.PrinterSettings.TopMargin = 0.2M / 2.54M;
+            worksheet.Protection.IsProtected = false;
+            worksheet.Protection.AllowSelectLockedCells = false;
+            if (File.Exists("hts.xlsx"))
+            {
+                File.Delete("hts.xlsx");
+
+            }
+            ExcelPkg.SaveAs(new FileInfo("hts.xlsx"));
+            var app = new excel.Application();
+
+            excel.Workbooks book = app.Workbooks;
+            excel.Workbook sh = book.Open(Path.GetFullPath("hts.xlsx"));
+            //app.Visible = true;
+            //sh.PrintOutEx();
+            app.Quit();
         }
         #endregion
     }

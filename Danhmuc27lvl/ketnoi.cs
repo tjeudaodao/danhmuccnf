@@ -47,7 +47,7 @@ namespace Danhmuc27lvl
         #region thao tac tren csdl mysql
         public void chenmotachudesanpham(string motasanpham,string chudesanpham,string matong)
         {
-            string sql = string.Format("INSERT INTO mota(mota2,bst) VALUES({0},{1}) WHERE matong='{2}'", motasanpham, chudesanpham, matong);
+            string sql = string.Format("INSERT INTO mota(mota2,bst) VALUES('{0}','{1}') ", motasanpham, chudesanpham);
             MySqlCommand cmd = new MySqlCommand(sql, connection);
             Open();
             cmd.ExecuteNonQuery();

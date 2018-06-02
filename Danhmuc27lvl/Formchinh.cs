@@ -25,13 +25,13 @@ namespace Danhmuc27lvl
             InitializeComponent();
             chaynen = new Thread(luongchaynen);
             chaynen.IsBackground = true;
-            // chaynen.Start();
+            chaynen.Start();
         }
         void luongchaynen()
         {
             while (true)
             {
-                Thread.Sleep(15000);
+                Thread.Sleep(10000);
                 luongmail = new Thread(hamcapnhat);
                 luongmail.IsBackground = true;
                 luongmail.Start();
@@ -52,6 +52,10 @@ namespace Danhmuc27lvl
             xulyanh.Join(); //ham chenma(thread chenmahang) se doi cho ham xulyanh chay xong moi chay
             var ham = hamtao.Khoitao();
             ham.xulymahang();
+            lbtrangthai.Invoke(new MethodInvoker(delegate ()
+            {
+                lbtrangthai.Text = "Đã cập nhật xong";// cho load tung file save trong mail
+            }));
         }
         void hamcapnhat()
         {
@@ -62,9 +66,9 @@ namespace Danhmuc27lvl
             ham.luudanhmuchangmoi();
             lbtrangthai.Invoke(new MethodInvoker(delegate ()
             {
-                lbtrangthai.Text = "";// cho load tung file save trong mail
+                lbtrangthai.Text = "Đang cập nhật";// cho load tung file save trong mail
             }));
-
+            NotificationHts("Đang cập nhật");
         }
         void hamxulyanh()
         {
@@ -78,6 +82,7 @@ namespace Danhmuc27lvl
         {
             var con = ketnoisqlite.khoitao();
             ngaychonbandau = con.layngayganhat();
+            label9.Text = ngaychonbandau;
             datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
         }
         void laythongtinvaolabel(string mahang)
@@ -252,7 +257,7 @@ namespace Danhmuc27lvl
             DataTable dt = new DataTable();
             dt = con.laythongtinkhoangngay(ngaybatdau, ngayketthuc);
             ham.xuatfileexcel(dt, ngaybatdau, ngayketthuc);
-
+            ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc));
             NotificationHts("Vừa xuất file excel\nĐể ý đường dẫn");
         }
 

@@ -142,12 +142,13 @@ namespace Danhmuc27lvl
             string sql = null;
             if (Kiemtra("matong1","mota",matong)==null)
             {
-                sql = string.Format("INSERT INTO mota(mota2,bst) VALUES('{0}','{1}') WHERE matong1='{3}'", mota, chude, matong);
+                sql = @"INSERT INTO mota(matong1,mota2,bst) VALUES('"+matong+"','"+mota+"','"+chude+"')";
+                SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+                Open();
+                cmd.ExecuteNonQuery();
+                Close();
             }
-            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
-            Open();
-            cmd.ExecuteNonQuery();
-            Close();
+            
         }
         #endregion
 
