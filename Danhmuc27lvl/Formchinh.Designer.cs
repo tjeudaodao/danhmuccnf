@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Formchinh));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Formchinh));
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtbarcode = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbxoamatong = new System.Windows.Forms.PictureBox();
             this.lbngayban = new System.Windows.Forms.Label();
             this.lbmotasanpham = new System.Windows.Forms.Label();
             this.lbdatrunghaychua = new System.Windows.Forms.Label();
@@ -43,6 +45,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.datag1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pbtrangthaicapnhat = new System.Windows.Forms.PictureBox();
+            this.lbthongbaocapnhat = new System.Windows.Forms.Label();
             this.lbtrangthai = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,28 +54,24 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnXuatIn = new System.Windows.Forms.Button();
             this.lbmahang = new System.Windows.Forms.Label();
-            this.lbthongbaocapnhat = new System.Windows.Forms.Label();
             this.pbphatanh = new System.Windows.Forms.PictureBox();
             this.btnchuatrunghang = new System.Windows.Forms.Button();
             this.btndatrunghang = new System.Windows.Forms.Button();
-            this.btnXuatIn = new System.Windows.Forms.Button();
             this.pbThemvaoduocban = new System.Windows.Forms.PictureBox();
-            this.pbtrangthaicapnhat = new System.Windows.Forms.PictureBox();
             this.pbanhsanpham = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pbxoamatong = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbphatanh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbThemvaoduocban)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,6 +110,27 @@
             this.groupBox1.Size = new System.Drawing.Size(1088, 165);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(169, 18);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 22);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pbxoamatong
+            // 
+            this.pbxoamatong.Image = ((System.Drawing.Image)(resources.GetObject("pbxoamatong.Image")));
+            this.pbxoamatong.Location = new System.Drawing.Point(169, 54);
+            this.pbxoamatong.Name = "pbxoamatong";
+            this.pbxoamatong.Size = new System.Drawing.Size(23, 22);
+            this.pbxoamatong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxoamatong.TabIndex = 5;
+            this.pbxoamatong.TabStop = false;
+            this.pbxoamatong.Click += new System.EventHandler(this.pbxoamatong_Click);
             // 
             // lbngayban
             // 
@@ -233,6 +254,28 @@
             this.panel1.Size = new System.Drawing.Size(1350, 28);
             this.panel1.TabIndex = 11;
             // 
+            // pbtrangthaicapnhat
+            // 
+            this.pbtrangthaicapnhat.Image = ((System.Drawing.Image)(resources.GetObject("pbtrangthaicapnhat.Image")));
+            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(1304, 2);
+            this.pbtrangthaicapnhat.Name = "pbtrangthaicapnhat";
+            this.pbtrangthaicapnhat.Size = new System.Drawing.Size(33, 22);
+            this.pbtrangthaicapnhat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbtrangthaicapnhat.TabIndex = 1;
+            this.pbtrangthaicapnhat.TabStop = false;
+            // 
+            // lbthongbaocapnhat
+            // 
+            this.lbthongbaocapnhat.AutoSize = true;
+            this.lbthongbaocapnhat.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbthongbaocapnhat.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lbthongbaocapnhat.Location = new System.Drawing.Point(1162, 5);
+            this.lbthongbaocapnhat.Name = "lbthongbaocapnhat";
+            this.lbthongbaocapnhat.Size = new System.Drawing.Size(120, 17);
+            this.lbthongbaocapnhat.TabIndex = 0;
+            this.lbthongbaocapnhat.Text = "Trạng thái cập nhật";
+            this.lbthongbaocapnhat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // lbtrangthai
             // 
             this.lbtrangthai.AutoSize = true;
@@ -304,6 +347,21 @@
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             // 
+            // btnXuatIn
+            // 
+            this.btnXuatIn.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnXuatIn.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXuatIn.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnXuatIn.Image = ((System.Drawing.Image)(resources.GetObject("btnXuatIn.Image")));
+            this.btnXuatIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnXuatIn.Location = new System.Drawing.Point(6, 68);
+            this.btnXuatIn.Name = "btnXuatIn";
+            this.btnXuatIn.Size = new System.Drawing.Size(320, 47);
+            this.btnXuatIn.TabIndex = 14;
+            this.btnXuatIn.Text = "Xuất file Excel và In";
+            this.btnXuatIn.UseVisualStyleBackColor = false;
+            this.btnXuatIn.Click += new System.EventHandler(this.btnXuatIn_Click);
+            // 
             // lbmahang
             // 
             this.lbmahang.BackColor = System.Drawing.Color.Gainsboro;
@@ -315,18 +373,6 @@
             this.lbmahang.TabIndex = 4;
             this.lbmahang.Text = "Mã hàng";
             this.lbmahang.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbthongbaocapnhat
-            // 
-            this.lbthongbaocapnhat.AutoSize = true;
-            this.lbthongbaocapnhat.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbthongbaocapnhat.ForeColor = System.Drawing.Color.Crimson;
-            this.lbthongbaocapnhat.Location = new System.Drawing.Point(1162, 5);
-            this.lbthongbaocapnhat.Name = "lbthongbaocapnhat";
-            this.lbthongbaocapnhat.Size = new System.Drawing.Size(120, 17);
-            this.lbthongbaocapnhat.TabIndex = 0;
-            this.lbthongbaocapnhat.Text = "Trạng thái cập nhật";
-            this.lbthongbaocapnhat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pbphatanh
             // 
@@ -369,21 +415,6 @@
             this.btndatrunghang.UseVisualStyleBackColor = false;
             this.btndatrunghang.Click += new System.EventHandler(this.btndatrunghang_Click);
             // 
-            // btnXuatIn
-            // 
-            this.btnXuatIn.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnXuatIn.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXuatIn.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnXuatIn.Image = ((System.Drawing.Image)(resources.GetObject("btnXuatIn.Image")));
-            this.btnXuatIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnXuatIn.Location = new System.Drawing.Point(6, 68);
-            this.btnXuatIn.Name = "btnXuatIn";
-            this.btnXuatIn.Size = new System.Drawing.Size(320, 47);
-            this.btnXuatIn.TabIndex = 14;
-            this.btnXuatIn.Text = "Xuất file Excel và In";
-            this.btnXuatIn.UseVisualStyleBackColor = false;
-            this.btnXuatIn.Click += new System.EventHandler(this.btnXuatIn_Click);
-            // 
             // pbThemvaoduocban
             // 
             this.pbThemvaoduocban.Image = ((System.Drawing.Image)(resources.GetObject("pbThemvaoduocban.Image")));
@@ -395,16 +426,6 @@
             this.pbThemvaoduocban.TabStop = false;
             this.pbThemvaoduocban.Click += new System.EventHandler(this.pbThemvaoduocban_Click);
             // 
-            // pbtrangthaicapnhat
-            // 
-            this.pbtrangthaicapnhat.Image = ((System.Drawing.Image)(resources.GetObject("pbtrangthaicapnhat.Image")));
-            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(1304, 2);
-            this.pbtrangthaicapnhat.Name = "pbtrangthaicapnhat";
-            this.pbtrangthaicapnhat.Size = new System.Drawing.Size(33, 22);
-            this.pbtrangthaicapnhat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbtrangthaicapnhat.TabIndex = 1;
-            this.pbtrangthaicapnhat.TabStop = false;
-            // 
             // pbanhsanpham
             // 
             this.pbanhsanpham.Image = ((System.Drawing.Image)(resources.GetObject("pbanhsanpham.Image")));
@@ -414,27 +435,6 @@
             this.pbanhsanpham.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbanhsanpham.TabIndex = 7;
             this.pbanhsanpham.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(169, 18);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(23, 22);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pbxoamatong
-            // 
-            this.pbxoamatong.Image = ((System.Drawing.Image)(resources.GetObject("pbxoamatong.Image")));
-            this.pbxoamatong.Location = new System.Drawing.Point(169, 54);
-            this.pbxoamatong.Name = "pbxoamatong";
-            this.pbxoamatong.Size = new System.Drawing.Size(23, 22);
-            this.pbxoamatong.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxoamatong.TabIndex = 5;
-            this.pbxoamatong.TabStop = false;
-            this.pbxoamatong.Click += new System.EventHandler(this.pbxoamatong_Click);
             // 
             // groupBox3
             // 
@@ -475,16 +475,16 @@
             this.Load += new System.EventHandler(this.Formchinh_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbphatanh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbThemvaoduocban)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 

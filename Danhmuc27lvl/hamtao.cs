@@ -82,8 +82,51 @@ namespace Danhmuc27lvl
             danhsachfilechuaxuly = con.layfilechuaxuly();
             foreach (string file in danhsachfilechuaxuly)
             {
-                //Console.WriteLine(file);
-                copyanhvathongtin(file);
+                try
+                {
+                    if (Path.GetExtension(file) == ".xlsx")
+                    {
+                        Console.WriteLine(file);
+                        ExcelPackage filechon = new ExcelPackage(new FileInfo(file));
+                        ExcelWorksheet ws = filechon.Workbook.Worksheets[1];
+                        var sodong = ws.Dimension.End.Row;
+
+                        string ngayduocban = null;
+                        string ngaydangso = null;
+                        MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].Text) ?? "", maungay);
+                        //Console.WriteLine(ws.Cells[7,1].value);
+                        foreach (Match m in mat)
+                        {
+                            ngayduocban = m.Value.ToString();
+                        }
+                        string mahang, mota, bst, ghichu;
+                        ngaydangso = chuyendoingayvedangso(ngayduocban);
+                        for (int i = 10; i < sodong; i++)
+                        {
+                            if (ws.Cells[i, 5].Value == null)
+                            {
+                                continue;
+                            }
+                            mahang = ws.Cells[i, 5].Value.ToString();
+                            mota = ws.Cells[i, 6].Value.ToString();
+                            bst = ws.Cells[i, 10].Value.ToString();
+                            ghichu = Convert.ToString(ws.Cells[i, 11].Value);
+                            luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
+                        }
+                        filechon.Dispose();
+                    }
+                    else if (Path.GetExtension(file) == ".xls")
+                    {
+
+                        copyanhvathongtin(file);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+                
             }
 
         }
@@ -124,7 +167,9 @@ namespace Danhmuc27lvl
             //lay ngay tu file excel roi chuyen doi sang dinh dang khac truoc khi insert vao database
             string ngayduocban = null;
             string ngaydangso = null;
-            MatchCollection mat = Regex.Matches(ws.Cells[7, 1].value, maungay);
+            //Console.WriteLine(ws.Cells[7, 1].value2);
+            //Console.WriteLine(Convert.ToString(ws.Cells[7, 1].value2));
+            MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].value2) ?? "", maungay);
             //Console.WriteLine(ws.Cells[7,1].value);
             foreach (Match m in mat)
             {
@@ -183,8 +228,10 @@ namespace Danhmuc27lvl
         {
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
+                Random rd = new Random();
+                int songaunhien = rd.Next(1, 100);
                 saveDialog.Filter = "Excel (.xlsx)|*.xlsx";
-                saveDialog.FileName = "Thống kê hàng từ ngày - " + ngaybatdau + " đến ngày - " + ngayketthuc;
+                saveDialog.FileName = "Thống kê hàng từ ngày - " + ngaybatdau + " đến ngày - " + ngayketthuc+" -vs"+songaunhien.ToString();
                 if (saveDialog.ShowDialog() != DialogResult.Cancel)
                 {
                     string exportFilePath = saveDialog.FileName;
@@ -228,8 +275,8 @@ namespace Danhmuc27lvl
             ExcelWorksheet worksheet = ExcelPkg.Workbook.Worksheets.Add("hts");
             worksheet.Cells["A1"].LoadFromDataTable(dt, true);
 
-            worksheet.Column(1).Width = 11;
-            worksheet.Column(2).Width = 10;
+            worksheet.Column(1).Width = 10;
+            worksheet.Column(2).Width = 13;
             worksheet.Column(3).Width = 10;
 
 
@@ -258,7 +305,7 @@ namespace Danhmuc27lvl
             excel.Workbooks book = app.Workbooks;
             excel.Workbook sh = book.Open(Path.GetFullPath("hts.xlsx"));
             //app.Visible = true;
-            //sh.PrintOutEx();
+            sh.PrintOutEx();
             app.Quit();
             Marshal.FinalReleaseComObject(app);
             Marshal.FinalReleaseComObject(book);

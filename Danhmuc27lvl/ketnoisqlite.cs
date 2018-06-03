@@ -127,9 +127,18 @@ namespace Danhmuc27lvl
         }
         public void Chenvaobanghangduocban(string maduocban,string ngayduocban,string ghichu,string ngaydangso,string mota,string chude)
         {
-            string sqlchen = @"INSERT INTO hangduocban(matong,ngayban,ghichu,ngaydangso,mota,chude) VALUES('"+maduocban+"','"+ngayduocban+"','"+ghichu+"','"+ngaydangso+",'"+mota+"','"+chude+"')";
+            //string sqlchen = @"INSERT INTO hangduocban(matong,ngayban,ghichu,ngaydangso,mota,chude) VALUES('"+maduocban+"','"+ngayduocban+"','"+ghichu+"','"+ngaydangso+",'"+mota+"','"+chude+"')";
+            string sqlchen = "insert into hangduocban(matong,ngayban,ghichu,ngaydangso,mota,chude) VALUES(@1,@2,@3,@4,@5,@6)";
             Open();
-            SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
+            //SQLiteCommand cmd = new SQLiteCommand(sqlchen, connec);
+            var cmd = connec.CreateCommand();
+            cmd.CommandText = sqlchen;
+            cmd.Parameters.AddWithValue("@1",maduocban);
+            cmd.Parameters.AddWithValue("@2", ngayduocban);
+            cmd.Parameters.AddWithValue("@3", ghichu);
+            cmd.Parameters.AddWithValue("@4", ngaydangso);
+            cmd.Parameters.AddWithValue("@5", mota);
+            cmd.Parameters.AddWithValue("@6", chude);
             cmd.ExecuteNonQuery();
             Close();
         }
@@ -237,7 +246,7 @@ namespace Danhmuc27lvl
         // xuatbang cho viec in chi lay 3 cot matong bst ngayban
         public DataTable laythongtinIn(string ngaybatdau,string ngayketthuc)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',chude as 'Chủ đề',ngayban as 'Ngày bán' FROM hangduocban where ngaydangso > '{0}' and ngaydangso < '{1}'", ngaybatdau, ngayketthuc);
+            string sql = string.Format("SELECT matong as 'Mã tổng',chude as 'Chủ đề',ngayban as 'Ngày bán' FROM hangduocban where ngaydangso >= '{0}' and ngaydangso <= '{1}'", ngaybatdau, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
             SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connec);
@@ -248,7 +257,7 @@ namespace Danhmuc27lvl
         // update gia tri cot trung hang thanh " da trung hang"
         public void updatedatrunghangthanhdatrung(string matong)
         {
-            if (Kiemtra("trunghang","hangduocban","matong",matong)==null || Kiemtra("trunghang", "hangduocban", "matong", matong) =="Chưa trưng bán" )
+            if (Kiemtra("trunghang","hangduocban","matong",matong)==null || Kiemtra("trunghang", "hangduocban", "matong", matong) =="Chưa trưng bán" || Kiemtra("trunghang", "hangduocban", "matong", matong)=="")
             {
                 string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", "Đã Trưng Bán", matong);
                 SQLiteCommand cmd = new SQLiteCommand(sql, connec);

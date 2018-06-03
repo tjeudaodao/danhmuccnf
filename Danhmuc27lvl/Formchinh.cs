@@ -32,7 +32,7 @@ namespace Danhmuc27lvl
             InitializeComponent();
             chaynen = new Thread(luongchaynen);
             chaynen.IsBackground = true;
-            // chaynen.Start();
+            chaynen.Start();
 
             tudongloadanh = new Thread(hamtudongloadanh);
             tudongloadanh.IsBackground = true;
@@ -56,6 +56,7 @@ namespace Danhmuc27lvl
                 chenmahang.Start();
 
                 chenmahang.Join();
+                Thread.Sleep(300000);
             }
         }
         void chenma()
@@ -66,6 +67,7 @@ namespace Danhmuc27lvl
             lbthongbaocapnhat.Invoke(new MethodInvoker(delegate ()
             {
                 lbthongbaocapnhat.Text = "Đã cập nhật xong";// cho load tung file save trong mail
+                lbthongbaocapnhat.ForeColor = System.Drawing.Color.Navy;
             }));
             pbtrangthaicapnhat.Invoke(new MethodInvoker(delegate ()
             {
@@ -82,6 +84,7 @@ namespace Danhmuc27lvl
             lbthongbaocapnhat.Invoke(new MethodInvoker(delegate ()
             {
                 lbthongbaocapnhat.Text = "Đang cập nhật";// cho load tung file save trong mail
+                lbthongbaocapnhat.ForeColor = System.Drawing.Color.Crimson;
             }));
             pbtrangthaicapnhat.Invoke(new MethodInvoker(delegate()
             {
@@ -99,6 +102,7 @@ namespace Danhmuc27lvl
         {
             while (true)
             {
+                Thread.Sleep(2000);
                 string[] tonghopanh = Directory.GetFiles(Application.StartupPath + @"\luuanh\");
                 for (int i = 0; i < tonghopanh.Length; i++)
                 {
@@ -111,7 +115,7 @@ namespace Danhmuc27lvl
                         lbmahang.Text = Path.GetFileNameWithoutExtension(tonghopanh[i]);
                     }));
 
-                    Thread.Sleep(1300);
+                    Thread.Sleep(2000);
 
                     dieukhienthread.WaitOne(Timeout.Infinite);
                 }
@@ -352,7 +356,7 @@ namespace Danhmuc27lvl
                 lbmotasanpham.Text = row.Cells[1].Value.ToString() + " - " + row.Cells[2].Value.ToString() + " - " + row.Cells[3].Value.ToString();
                 lbngayban.Text = row.Cells[4].Value.ToString();
                 lbdatrunghaychua.Text = row.Cells[5].Value.ToString();
-                if (lbdatrunghaychua.Text == null)
+                if (lbdatrunghaychua.Text == null || lbdatrunghaychua.Text=="")
                 {
                     lbdatrunghaychua.Text = "Chưa trưng bán";
                 }
