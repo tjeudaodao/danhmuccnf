@@ -141,7 +141,7 @@ namespace Danhmuc27lvl
                     con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
                     try
                     {
-                        conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
+                        //conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
                     }
                     catch (Exception)
                     {
@@ -183,17 +183,23 @@ namespace Danhmuc27lvl
             foreach (var pic in ws.Pictures())
             {
                 hangbatdau = pic.TopLeftCell.Row;
-                if (hangbatdau > 1)
+                
+                tenanh.Add(ws.Cells[hangbatdau, 5].value);
+            
+
+            }
+            for (int i = 10; i < 300; i++)
+            {
+                if (ws.Cells[i, 5].value==null)
                 {
-                    mahang=ws.Cells[hangbatdau, 5].value2.ToString();
-                    mota = ws.Cells[hangbatdau, 6].value2.ToString();
-                    bst=ws.Cells[hangbatdau, 10].value2.ToString();
-                    ghichu=Convert.ToString(ws.Cells[hangbatdau, 11].value2);
-
-                    luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota,bst , ghichu, ngaydangso));
-                    tenanh.Add(ws.Cells[hangbatdau, 5].value);
+                    continue;
                 }
+                mahang = ws.Cells[i, 5].value2.ToString();
+                mota = ws.Cells[i, 6].value2.ToString();
+                bst = ws.Cells[i, 10].value2.ToString();
+                ghichu = Convert.ToString(ws.Cells[i, 11].value2);
 
+                luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
             }
 
             string[] manganh = tenanh.ToArray();
@@ -224,8 +230,9 @@ namespace Danhmuc27lvl
 
             workbook.Dispose();
         }
-        public void xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc)
+        public bool Xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc)
         {
+            bool bl = true;
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
                 Random rd = new Random();
@@ -253,8 +260,14 @@ namespace Danhmuc27lvl
                         package.Save();
                         package.Dispose();
                     }
+                    bl = true;
+                }
+                else
+                {
+                    bl = false;
                 }
             }
+            return bl;
         }
         public void mofileexcelvualuu()
         {

@@ -45,10 +45,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.datag1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pbmail = new System.Windows.Forms.PictureBox();
             this.pbtrangthaicapnhat = new System.Windows.Forms.PictureBox();
             this.lbthongbaocapnhat = new System.Windows.Forms.Label();
             this.lbtrangthai = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lbbaomail = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
@@ -62,17 +63,21 @@
             this.pbThemvaoduocban = new System.Windows.Forms.PictureBox();
             this.pbanhsanpham = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lbtongma = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbphatanh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbThemvaoduocban)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // monthCalendar1
@@ -244,20 +249,31 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.pbmail);
             this.panel1.Controls.Add(this.pbtrangthaicapnhat);
             this.panel1.Controls.Add(this.lbthongbaocapnhat);
             this.panel1.Controls.Add(this.lbtrangthai);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lbbaomail);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 663);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1350, 28);
             this.panel1.TabIndex = 11;
             // 
+            // pbmail
+            // 
+            this.pbmail.Image = ((System.Drawing.Image)(resources.GetObject("pbmail.Image")));
+            this.pbmail.Location = new System.Drawing.Point(67, 3);
+            this.pbmail.Name = "pbmail";
+            this.pbmail.Size = new System.Drawing.Size(33, 22);
+            this.pbmail.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbmail.TabIndex = 1;
+            this.pbmail.TabStop = false;
+            // 
             // pbtrangthaicapnhat
             // 
             this.pbtrangthaicapnhat.Image = ((System.Drawing.Image)(resources.GetObject("pbtrangthaicapnhat.Image")));
-            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(1304, 2);
+            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(1313, 2);
             this.pbtrangthaicapnhat.Name = "pbtrangthaicapnhat";
             this.pbtrangthaicapnhat.Size = new System.Drawing.Size(33, 22);
             this.pbtrangthaicapnhat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -269,7 +285,7 @@
             this.lbthongbaocapnhat.AutoSize = true;
             this.lbthongbaocapnhat.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbthongbaocapnhat.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lbthongbaocapnhat.Location = new System.Drawing.Point(1162, 5);
+            this.lbthongbaocapnhat.Location = new System.Drawing.Point(1108, 5);
             this.lbthongbaocapnhat.Name = "lbthongbaocapnhat";
             this.lbthongbaocapnhat.Size = new System.Drawing.Size(120, 17);
             this.lbthongbaocapnhat.TabIndex = 0;
@@ -278,30 +294,29 @@
             // 
             // lbtrangthai
             // 
-            this.lbtrangthai.AutoSize = true;
-            this.lbtrangthai.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbtrangthai.Location = new System.Drawing.Point(80, 6);
+            this.lbtrangthai.Font = new System.Drawing.Font("Comic Sans MS", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbtrangthai.Location = new System.Drawing.Point(104, 7);
             this.lbtrangthai.Name = "lbtrangthai";
-            this.lbtrangthai.Size = new System.Drawing.Size(46, 15);
+            this.lbtrangthai.Size = new System.Drawing.Size(1000, 14);
             this.lbtrangthai.TabIndex = 0;
             this.lbtrangthai.Text = "---hts---";
             // 
-            // label3
+            // lbbaomail
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 6);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Thông báo:";
+            this.lbbaomail.AutoSize = true;
+            this.lbbaomail.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbbaomail.Location = new System.Drawing.Point(4, 6);
+            this.lbbaomail.Name = "lbbaomail";
+            this.lbbaomail.Size = new System.Drawing.Size(62, 15);
+            this.lbbaomail.TabIndex = 0;
+            this.lbbaomail.Text = "Thông báo:";
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(79, 194);
+            this.label1.Location = new System.Drawing.Point(77, 194);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(257, 23);
+            this.label1.Size = new System.Drawing.Size(245, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "Thêm mã mới vào danh sách được bán";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -392,7 +407,7 @@
             this.btnchuatrunghang.ForeColor = System.Drawing.Color.Purple;
             this.btnchuatrunghang.Image = ((System.Drawing.Image)(resources.GetObject("btnchuatrunghang.Image")));
             this.btnchuatrunghang.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnchuatrunghang.Location = new System.Drawing.Point(343, 12);
+            this.btnchuatrunghang.Location = new System.Drawing.Point(304, 14);
             this.btnchuatrunghang.Name = "btnchuatrunghang";
             this.btnchuatrunghang.Size = new System.Drawing.Size(167, 41);
             this.btnchuatrunghang.TabIndex = 6;
@@ -407,7 +422,7 @@
             this.btndatrunghang.ForeColor = System.Drawing.Color.Navy;
             this.btndatrunghang.Image = ((System.Drawing.Image)(resources.GetObject("btndatrunghang.Image")));
             this.btndatrunghang.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btndatrunghang.Location = new System.Drawing.Point(98, 14);
+            this.btndatrunghang.Location = new System.Drawing.Point(59, 16);
             this.btndatrunghang.Name = "btndatrunghang";
             this.btndatrunghang.Size = new System.Drawing.Size(166, 41);
             this.btndatrunghang.TabIndex = 6;
@@ -441,12 +456,35 @@
             this.groupBox3.Controls.Add(this.btndatrunghang);
             this.groupBox3.Controls.Add(this.btnchuatrunghang);
             this.groupBox3.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(453, 176);
+            this.groupBox3.Location = new System.Drawing.Point(490, 176);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(547, 61);
+            this.groupBox3.Size = new System.Drawing.Size(510, 61);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update mã chọn vào danh sách đã trưng";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.lbtongma);
+            this.groupBox4.Font = new System.Drawing.Font("Comic Sans MS", 8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox4.Location = new System.Drawing.Point(331, 177);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(149, 61);
+            this.groupBox4.TabIndex = 18;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Tổng mã / ngày";
+            // 
+            // lbtongma
+            // 
+            this.lbtongma.BackColor = System.Drawing.SystemColors.Control;
+            this.lbtongma.Font = new System.Drawing.Font("Comic Sans MS", 21F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbtongma.ForeColor = System.Drawing.Color.DarkCyan;
+            this.lbtongma.Location = new System.Drawing.Point(20, 16);
+            this.lbtongma.Name = "lbtongma";
+            this.lbtongma.Size = new System.Drawing.Size(113, 38);
+            this.lbtongma.TabIndex = 0;
+            this.lbtongma.Text = "0";
+            this.lbtongma.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Formchinh
             // 
@@ -455,6 +493,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1350, 691);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.pbphatanh);
             this.Controls.Add(this.lbmahang);
@@ -480,12 +519,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbmail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbphatanh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbThemvaoduocban)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -503,7 +544,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtmatong;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbbaomail;
         private System.Windows.Forms.Label lbtrangthai;
         private System.Windows.Forms.Label lbngayban;
         private System.Windows.Forms.PictureBox pbThemvaoduocban;
@@ -522,6 +563,9 @@
         private System.Windows.Forms.Label lbthongbaocapnhat;
         private System.Windows.Forms.PictureBox pbtrangthaicapnhat;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.PictureBox pbmail;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label lbtongma;
     }
 }
 

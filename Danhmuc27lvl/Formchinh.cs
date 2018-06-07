@@ -15,16 +15,21 @@ namespace Danhmuc27lvl
     public partial class Formchinh : Form
     {
         Thread luongmail;
+        Thread newmail;
         Thread xulyanh;
         Thread chenmahang;
         Thread chaynen;
         Thread tudongloadanh;
+        Thread luongnenmail;
 
         string duongdanchuaanh = Application.StartupPath + @"\luuanh\";
         static string ngaychonbandau = null;
         int sodongchon = 0;
-
+        static string thoigiancapnhat = null;
         static bool phathaykhongphat = true;
+        List<string> thongtinmailmoi;
+
+
         private ManualResetEvent dieukhienthread = new ManualResetEvent(true);
 
         public Formchinh()
@@ -38,11 +43,16 @@ namespace Danhmuc27lvl
             tudongloadanh.IsBackground = true;
             tudongloadanh.Start();
         }
+        
         void luongchaynen()
         {
             while (true)
             {
                 Thread.Sleep(10000);
+                newmail = new Thread(hamloadmailmoi);
+                newmail.IsBackground = true;
+                newmail.Start();
+
                 luongmail = new Thread(hamcapnhat);
                 luongmail.IsBackground = true;
                 luongmail.Start();
@@ -56,26 +66,96 @@ namespace Danhmuc27lvl
                 chenmahang.Start();
 
                 chenmahang.Join();
-                Thread.Sleep(300000);
+
+                luongnenmail = new Thread(luongchaynenbaomail);
+                luongnenmail.IsBackground = true;
+                luongnenmail.Start();
+
+                Thread.Sleep(600000);
             }
+        }
+
+        void luongchaynenbaomail()
+        {
+            newmail.Join();
+            Thread.Sleep(1000);
+            lbtrangthai.Invoke(new MethodInvoker(delegate ()
+            {
+                if (thongtinmailmoi != null)
+                {
+                    while (true)
+                    {
+                        foreach (string tt in thongtinmailmoi)
+                        {
+                            lbtrangthai.Text = tt;
+                            Thread.Sleep(1000);
+                        }
+                    }
+
+                }
+            }));
         }
         void chenma()
         {
             xulyanh.Join(); //ham chenma(thread chenmahang) se doi cho ham xulyanh chay xong moi chay
             var ham = hamtao.Khoitao();
             ham.xulymahang();
+            thoigiancapnhat = DateTime.Now.ToString("HH:mm:ss");
             lbthongbaocapnhat.Invoke(new MethodInvoker(delegate ()
             {
-                lbthongbaocapnhat.Text = "Đã cập nhật xong";// cho load tung file save trong mail
+                lbthongbaocapnhat.Text = "Đã cập nhật xong -"+" Lúc: "+ thoigiancapnhat;
                 lbthongbaocapnhat.ForeColor = System.Drawing.Color.Navy;
             }));
             pbtrangthaicapnhat.Invoke(new MethodInvoker(delegate ()
             {
                 pbtrangthaicapnhat.Image = Properties.Resources.ok;
             }));
+            var con = ketnoisqlite.khoitao();
+            ngaychonbandau = con.layngayganhat();
+            datag1.Invoke(new MethodInvoker(delegate ()
+            {
+                datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
+            }));
+           lbtongma.Invoke(new MethodInvoker(delegate(){
+               lbtongma.Text = con.tongmatrongngay(ngaychonbandau);
+           }));
+            
+        }
+        void hamloadmailmoi()
+        {
+            var xulymail = layfileoutlook.Instance();
+            thongtinmailmoi = new List<string>();
+            thongtinmailmoi = xulymail.loadmailmoi();
+           
+            pbmail.Invoke(new MethodInvoker(delegate ()
+            {
+                if (thongtinmailmoi != null)
+                {
+                    pbmail.Image = Properties.Resources.newmail;
+                }
+                else
+                {
+                    pbmail.Image = Properties.Resources.mail;
+                }
+            }));
+            lbbaomail.Invoke(new MethodInvoker(delegate ()
+            {
+                if (thongtinmailmoi != null)
+                {
+                    lbbaomail.Text = "Có Mail mới";
+                }
+                else
+                {
+                    lbbaomail.Text = "Thông báo:";
+                }
+            }));
+
+            
         }
         void hamcapnhat()
         {
+            newmail.Join();
+
             var xulyoutlook = layfileoutlook.Instance();
             var ham = hamtao.Khoitao();
             xulyoutlook.xuly();
@@ -133,6 +213,7 @@ namespace Danhmuc27lvl
             var con = ketnoisqlite.khoitao();
             ngaychonbandau = con.layngayganhat();
             datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
+            updatesoluongtrenbang();
         }
         void laythongtinvaolabel(string mahang)
         {
@@ -172,8 +253,14 @@ namespace Danhmuc27lvl
         {
             if (File.Exists(duongdanchuaanh + tenanh + ".png"))
             {
+                dungphatanh();
                 pbanhsanpham.ImageLocation = duongdanchuaanh + tenanh + ".png";
                 lbmahang.Text = tenanh;
+                
+            }
+            else
+            {
+                pbanhsanpham.Image = Properties.Resources.bombs;
             }
         }
         
@@ -229,7 +316,10 @@ namespace Danhmuc27lvl
             pop.Popup();
         }
         
-
+        void updatesoluongtrenbang()
+        {
+            lbtongma.Text = datag1.Rows.Count.ToString();
+        }
         #region Thao tac xu kien
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -240,8 +330,11 @@ namespace Danhmuc27lvl
                     if (!string.IsNullOrEmpty(txtbarcode.Text))
                     {
                         var consql = ketnoi.Instance();
-                        laythongtinvaolabel(consql.laymasp(txtbarcode.Text));
-                        lbmahang.Text = consql.laymasp(txtbarcode.Text);
+                        string masp = consql.laymasp(txtbarcode.Text);
+                        laythongtinvaolabel(masp);
+
+                        lbmahang.Text = masp;
+                        loadanh(masp);
                         txtbarcode.Clear();
                         txtbarcode.Focus();
                     }
@@ -257,7 +350,7 @@ namespace Danhmuc27lvl
 
         private void txtmatong_TextChanged(object sender, EventArgs e)
         {
-           // try
+            try
             {
                 var consqlite = ketnoisqlite.khoitao();
                 datag1.DataSource = consqlite.loctheotenmatong(txtmatong.Text);
@@ -266,12 +359,13 @@ namespace Danhmuc27lvl
                 {
                     laythongtinvaolabel(txtmatong.Text);
                 }
+                updatesoluongtrenbang();
             }
-            //catch (Exception ex)
-            //{
+            catch (Exception ex)
+            {
 
-            //    lbtrangthai.Text = ex.ToString();
-            //}
+                lbtrangthai.Text = ex.ToString();
+            }
         }
         private void pbxoamatong_Click(object sender, EventArgs e)
         {
@@ -283,9 +377,13 @@ namespace Danhmuc27lvl
             try
             {
                 var month = sender as MonthCalendar;
+                DateTime ngaychon = month.SelectionStart;
                 ngaychonbandau = month.SelectionStart.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 var con = ketnoisqlite.khoitao();
                 datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                updatesoluongtrenbang();
+                dateTimePicker1.Value = ngaychon;
+                dateTimePicker2.Value = ngaychon;
             }
             catch (Exception ex)
             {
@@ -382,15 +480,20 @@ namespace Danhmuc27lvl
                 var con = ketnoisqlite.khoitao();
                 DataTable dt = new DataTable();
                 dt = con.laythongtinkhoangngay(ngaybatdau, ngayketthuc);
-                ham.xuatfileexcel(dt, ngaybatdau, ngayketthuc);
-                ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc));
-                PopupNotifier popexcel = new PopupNotifier();
-                popexcel.TitleText = "Thông báo";
-                popexcel.ContentText = "Vừa xuất file excel \nClick vào đây để mở file";
-                popexcel.IsRightToLeft = false;
-                popexcel.Image = Properties.Resources.excel;
-                popexcel.Click += Popexcel_Click;
-                popexcel.Popup();
+                if (ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc))
+                {
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc));
+                    PopupNotifier popexcel = new PopupNotifier();
+                    popexcel.TitleText = "Thông báo";
+                    popexcel.ContentText = "Vừa xuất file excel \nClick vào đây để mở file";
+                    popexcel.IsRightToLeft = false;
+                    popexcel.Image = Properties.Resources.excel;
+                    popexcel.Click += Popexcel_Click;
+                    popexcel.Popup();
+
+                }
+                
+                
             }
             catch (Exception ex)
             {
@@ -412,6 +515,8 @@ namespace Danhmuc27lvl
             {
                 pbphatanh.Image = Properties.Resources.play;
                 phathaykhongphat = !phathaykhongphat;
+                pbanhsanpham.Image = Properties.Resources.totoro1;
+                lbmahang.Text = "Totoro";
                 dieukhienthread.Reset();
             }
             else
@@ -421,7 +526,15 @@ namespace Danhmuc27lvl
                 dieukhienthread.Set();
             }
         }
-
+        void dungphatanh()
+        {
+            if (phathaykhongphat)
+            {
+                pbphatanh.Image = Properties.Resources.play;
+                phathaykhongphat = !phathaykhongphat;
+                dieukhienthread.Reset();
+            }
+        }
 
         #endregion
 

@@ -157,6 +157,7 @@ namespace Danhmuc27lvl
 
         public void xuly()
         {
+            // loc item luu attachment
             Outlook.Application Application = new Outlook.Application();
             Outlook.Accounts accounts = Application.Session.Accounts;
             foreach (Outlook.Account taikhoan in accounts)
@@ -168,6 +169,37 @@ namespace Danhmuc27lvl
                     EnumerateFolders(selectedFolder);
                 }
             }
+        }
+        public List<string> loadmailmoi()
+        {
+            List<string> luunoidungmaimoi = new List<string>();
+            // send and recevie mail
+            Outlook._Application app = new Outlook.Application();
+            Outlook._NameSpace nsp = app.GetNamespace("MAPI");
+            Outlook.MAPIFolder inbox85 = nsp.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderInbox);
+            nsp.SendAndReceive(true);
+            try
+            {
+                foreach (Object item in inbox85.Items)
+                {
+                    if (item is Outlook.MailItem)
+                    {
+                        Outlook.MailItem mi = (Outlook.MailItem)item;
+                        if (mi != null && mi.UnRead == true)
+                        {
+                             luunoidungmaimoi.Add("Nội dung: "+mi.Subject+" - Ngày: "+mi.SentOn.ToShortDateString()+" - Giờ: "+mi.SentOn.ToShortTimeString());
+                               
+                        }
+                    }
+                }
+                return luunoidungmaimoi;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

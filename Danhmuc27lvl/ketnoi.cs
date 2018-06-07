@@ -62,18 +62,18 @@ namespace Danhmuc27lvl
         }
 
         // chen mota sp
-        public void chenmotachudesanpham(string motasanpham,string chudesanpham,string matong)
-        {
-            if (Kiemtra(matong)==null)
-            {
-                string sql = @"INSERT INTO mota(mota2,bst) VALUES('"+motasanpham+"','"+chudesanpham+"')";
-                MySqlCommand cmd = new MySqlCommand(sql, connection);
-                Open();
-                cmd.ExecuteNonQuery();
-                Close();
-            }
+        //public void chenmotachudesanpham(string motasanpham,string chudesanpham,string matong)
+        //{
+        //    if (Kiemtra(matong)==null)
+        //    {
+        //        string sql = @"INSERT INTO mota(mota2,bst) VALUES('"+motasanpham+"','"+chudesanpham+"')";
+        //        MySqlCommand cmd = new MySqlCommand(sql, connection);
+        //        Open();
+        //        cmd.ExecuteNonQuery();
+        //        Close();
+        //    }
             
-        }
+        //}
         // lay masp tu barcode
         public string laymasp(string barcode)
         {

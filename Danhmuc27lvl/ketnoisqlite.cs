@@ -187,6 +187,21 @@ namespace Danhmuc27lvl
             Close();
             return h;
         }
+        //laytong so ma trong ngay chon
+        public string tongmatrongngay(string ngaychon)
+        {
+            string sql = string.Format(@"select count(matong) from hangduocban where ngayban='{0}'", ngaychon);
+            string h = null;
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connec);
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr[0].ToString();
+            }
+            Close();
+            return h;
+        }
         // lay ngay gan nhat trong bang hang duoc ban
         public string layngayganhat()
         {
