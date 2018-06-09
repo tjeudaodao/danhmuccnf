@@ -125,6 +125,9 @@ namespace Danhmuc27lvl
             Close();
             return giatri;
         }
+        //
+        /*  lam viec voi bang Hangduocban */
+        //
         public void Chenvaobanghangduocban(string maduocban,string ngayduocban,string ghichu,string ngaydangso,string mota,string chude)
         {
             //string sqlchen = @"INSERT INTO hangduocban(matong,ngayban,ghichu,ngaydangso,mota,chude) VALUES('"+maduocban+"','"+ngayduocban+"','"+ghichu+"','"+ngaydangso+",'"+mota+"','"+chude+"')";

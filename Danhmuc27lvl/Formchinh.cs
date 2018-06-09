@@ -60,7 +60,7 @@ namespace Danhmuc27lvl
         {
             while (true)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 newmail = new Thread(hamloadmailmoi);
                 newmail.IsBackground = true;
                 newmail.Start();
@@ -80,9 +80,8 @@ namespace Danhmuc27lvl
 
                 chenmahang.Join();
 
-                
 
-                Thread.Sleep(160000);
+                Thread.Sleep(300000);
             }
         }
         void hamgoifiledanhmucmoi()
@@ -373,14 +372,7 @@ namespace Danhmuc27lvl
             pop.HeaderHeight = 1;
             pop.Popup();
         }
-        void NotificationHts(string noidung, string tieude)
-        {
-            PopupNotifier pop = new PopupNotifier();
-            pop.TitleText = tieude;
-            pop.ContentText = noidung;
-            pop.Popup();
-        }
-        
+      
         void updatesoluongtrenbang()
         {
             lbtongma.Text = datag1.Rows.Count.ToString();
