@@ -214,6 +214,8 @@
   <ItemGroup>
     <Content Include="pawprint_jFz_icon.ico" />
     <Content Include="paw_print__IOq_icon.ico" />
+    <None Include="Resources\chuaban.wav" />
+    <None Include="Resources\duocban.wav" />
     <None Include="Resources\boom.gif" />
     <None Include="Resources\dp.gif" />
     <None Include="Resources\totoro1.jpg" />

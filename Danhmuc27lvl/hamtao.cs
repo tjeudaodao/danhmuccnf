@@ -136,19 +136,17 @@ namespace Danhmuc27lvl
             var conmysql = ketnoi.Instance();
             foreach (laythongtin mahang in luuthongtin)
             {
-                if (con.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
-                {
-                    con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
+                   // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
                     try
                     {
-                        //conmysql.chenmotachudesanpham(mahang.Motamaban, mahang.Chudemaban, mahang.Maduocban);
+                        conmysql.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso, mahang.Motamaban, mahang.Chudemaban);
                     }
                     catch (Exception)
                     {
 
                         continue;
                     }
-                }
+               
             }
             luuthongtin.Clear();
             foreach (string file in danhsachfilechuaxuly)
@@ -203,6 +201,7 @@ namespace Danhmuc27lvl
             }
 
             string[] manganh = tenanh.ToArray();
+            wb.Close();
             excelApp.Quit();
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
@@ -230,7 +229,7 @@ namespace Danhmuc27lvl
 
             workbook.Dispose();
         }
-        public bool Xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc)
+        public bool Xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc,string tongma)
         {
             bool bl = true;
             using (SaveFileDialog saveDialog = new SaveFileDialog())
@@ -248,8 +247,8 @@ namespace Danhmuc27lvl
                     {
 
                         ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("hts");
-
-                        worksheet.Cells["A1"].LoadFromDataTable(dt, true);
+                        worksheet.Cells["A1"].Value = "Tổng số mã: " + tongma;
+                        worksheet.Cells["A2"].LoadFromDataTable(dt, true);
                         worksheet.Column(1).AutoFit();
                         worksheet.Column(2).AutoFit();
                         worksheet.Column(3).AutoFit();
@@ -282,11 +281,14 @@ namespace Danhmuc27lvl
             }
             
         }
-        public void taovainfileexcel(DataTable dt)
+        public void taovainfileexcel(DataTable dt,string tongma)
         {
             ExcelPackage ExcelPkg = new ExcelPackage();
             ExcelWorksheet worksheet = ExcelPkg.Workbook.Worksheets.Add("hts");
-            worksheet.Cells["A1"].LoadFromDataTable(dt, true);
+
+            worksheet.Cells["A1"].Value = "Tổng mã:";
+            worksheet.Cells["C1"].Value = tongma;
+            worksheet.Cells["A2"].LoadFromDataTable(dt, true);
 
             worksheet.Column(1).Width = 10;
             worksheet.Column(2).Width = 13;

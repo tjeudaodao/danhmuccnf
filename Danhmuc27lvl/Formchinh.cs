@@ -24,6 +24,9 @@ namespace Danhmuc27lvl
         Thread luongnenmail;
         Thread filemoi;
 
+        System.Media.SoundPlayer phatduocban = new System.Media.SoundPlayer(Properties.Resources.duocban);
+        System.Media.SoundPlayer phatchuaduocban = new System.Media.SoundPlayer(Properties.Resources.chuaban);
+
         string duongdanfilemoi = Application.StartupPath + @"\filedanhmuc\";
         string duongdanchuaanh = Application.StartupPath + @"\luuanh\";
         static string ngaychonbandau = null;
@@ -38,22 +41,23 @@ namespace Danhmuc27lvl
         public Formchinh()
         {
             InitializeComponent();
-            chaynen = new Thread(luongchaynen);
-            chaynen.IsBackground = true;
-            chaynen.Start();
 
-            tudongloadanh = new Thread(hamtudongloadanh);
-            tudongloadanh.IsBackground = true;
-            tudongloadanh.Start();
+            //chaynen = new Thread(luongchaynen);
+            //chaynen.IsBackground = true;
+            //chaynen.Start();
+
+            //tudongloadanh = new Thread(hamtudongloadanh);
+            //tudongloadanh.IsBackground = true;
+            //tudongloadanh.Start();
 
 
-            luongnenmail = new Thread(luongchaynenbaomail);
-            luongnenmail.IsBackground = true;
-            luongnenmail.Start();
+            //luongnenmail = new Thread(luongchaynenbaomail);
+            //luongnenmail.IsBackground = true;
+            //luongnenmail.Start();
 
-            filemoi = new Thread(hamgoifiledanhmucmoi);
-            filemoi.IsBackground = true;
-            filemoi.Start();
+            //filemoi = new Thread(hamgoifiledanhmucmoi);
+            //filemoi.IsBackground = true;
+            //filemoi.Start();
         }
         
         void luongchaynen()
@@ -208,7 +212,7 @@ namespace Danhmuc27lvl
             {
                 pbtrangthaicapnhat.Image = Properties.Resources.ok;
             }));
-            var con = ketnoisqlite.khoitao();
+            var con = ketnoi.Instance();
             ngaychonbandau = con.layngayganhat();
             datag1.Invoke(new MethodInvoker(delegate ()
             {
@@ -263,7 +267,7 @@ namespace Danhmuc27lvl
         }
         void laythongtinvaolabel(string mahang)
         {
-            var conlite = ketnoisqlite.khoitao();
+            var conlite = ketnoi.Instance();
             var ham = hamtao.Khoitao();
             List<laythongtin> laytt = new List<laythongtin>();
             laytt = conlite.loclaythongtin1ma(mahang);
@@ -282,6 +286,7 @@ namespace Danhmuc27lvl
                     else
                     {
                         lbdatrunghaychua.Text = "Chưa được bán";
+                        phatchuaduocban.Play();
                     }
                     string trunghang = conlite.laythongtintrunghang(mahang);
                     if (trunghang == null)
@@ -300,6 +305,7 @@ namespace Danhmuc27lvl
                 pbThemvaoduocban.Enabled = true;
                 lbdatrunghaychua.Text = "Chưa trưng bán";
                 lbduocbanhaychua.Text = "Chưa được bán";
+                phatchuaduocban.Play();
             }
 
         }
@@ -320,7 +326,7 @@ namespace Danhmuc27lvl
         
         void updatetrunghangthanhdatrung()
         {
-            var con = ketnoisqlite.khoitao();
+            var con = ketnoi.Instance();
             if (datag1.SelectedRows.Count > 0)
             {
                 string matong = null;
@@ -337,7 +343,7 @@ namespace Danhmuc27lvl
         }
         void updatetrunghangthanhchuatrung()
         {
-            var con = ketnoisqlite.khoitao();
+            var con = ketnoi.Instance();
             if (datag1.SelectedRows.Count > 0)
             {
                 string matong = null;
@@ -409,7 +415,7 @@ namespace Danhmuc27lvl
         {
             try
             {
-                var consqlite = ketnoisqlite.khoitao();
+                var consqlite = ketnoi.Instance();
                 datag1.DataSource = consqlite.loctheotenmatong(txtmatong.Text);
                 string mau = @"\d{1}\w{2}\d{2}[SWAC]\d{3}";
                 if (Regex.IsMatch(txtmatong.Text, mau))
@@ -437,7 +443,7 @@ namespace Danhmuc27lvl
                 var month = sender as MonthCalendar;
                 DateTime ngaychon = month.SelectionStart;
                 ngaychonbandau = month.SelectionStart.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                var con = ketnoisqlite.khoitao();
+                var con = ketnoi.Instance();
                 datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
                 updatesoluongtrenbang();
                 dateTimePicker1.Value = ngaychon;
@@ -455,7 +461,7 @@ namespace Danhmuc27lvl
         {
             try
             {
-                var con = ketnoisqlite.khoitao();
+                var con = ketnoi.Instance();
                 if (con.Kiemtra("matong", "hangduocban", lbmahang.Text) == null && lbmahang.Text != "Mã hàng")
                 {
                     DialogResult hoi = MessageBox.Show("Thêm mã " + lbmahang.Text + " vào danh sách được bán", "Thông báo", MessageBoxButtons.YesNo);
@@ -535,12 +541,15 @@ namespace Danhmuc27lvl
                 var ham = hamtao.Khoitao();
                 ngaybatdau = ham.chuyendoingayvedangso(ngaybatdau);
                 ngayketthuc = ham.chuyendoingayvedangso(ngayketthuc);
-                var con = ketnoisqlite.khoitao();
+                var con = ketnoi.Instance();
                 DataTable dt = new DataTable();
                 dt = con.laythongtinkhoangngay(ngaybatdau, ngayketthuc);
-                if (ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc))
+                string tongsoma = con.tongmatrongkhoangngaychon(ngaybatdau, ngayketthuc);
+
+                if (ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc,tongsoma))
                 {
-                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc));
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc),tongsoma);
+
                     PopupNotifier popexcel = new PopupNotifier();
                     popexcel.TitleText = "Thông báo";
                     popexcel.ContentText = "Vừa xuất file excel \nClick vào đây để mở file";
@@ -622,8 +631,8 @@ namespace Danhmuc27lvl
         }
 
 
+
         #endregion
-
-
+        
     }
 }
