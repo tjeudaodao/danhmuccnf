@@ -20,6 +20,14 @@ namespace Danhmuc27lvl
                 _instance = new layfileoutlook();
             return _instance;
         }
+        private List<string> _luufilemoi = new List<string>();
+
+        public List<string> luufilemoi()
+        {
+            return _luufilemoi;
+        }
+
+        string mau = "@canifa.com$";
         public string laydiachimail(Outlook.Account account)
         {
             try
@@ -132,11 +140,11 @@ namespace Danhmuc27lvl
                                                 if (!File.Exists(duongdangoc + @"\filedanhmuc\" + mi.Attachments[i].FileName))
                                                 {
                                                     mi.Attachments[i].SaveAsFile(duongdangoc + @"\filedanhmuc\" + mi.Attachments[i].FileName);
-
+                                                    _luufilemoi.Add(mi.Attachments[i].FileName);
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("Already saved " + mi.Attachments[i].FileName);
+                                                    Console.WriteLine("File nay da ton tai " + mi.Attachments[i].FileName);
 
                                                 }
                                             }
@@ -162,7 +170,7 @@ namespace Danhmuc27lvl
             Outlook.Accounts accounts = Application.Session.Accounts;
             foreach (Outlook.Account taikhoan in accounts)
             {
-                if (laydiachimail(taikhoan)=="hn85lvl@canifa.com")
+                if (Regex.IsMatch(laydiachimail(taikhoan),mau) || laydiachimail(taikhoan) == "nvhoang.hts@gmail.com")
                 {
                     Outlook.Folder selectedFolder = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
                     selectedFolder = GetFolder(@"\\" + taikhoan.DisplayName);
@@ -187,8 +195,8 @@ namespace Danhmuc27lvl
                         Outlook.MailItem mi = (Outlook.MailItem)item;
                         if (mi != null && mi.UnRead == true)
                         {
-                             luunoidungmaimoi.Add("Nội dung: "+mi.Subject+" - Ngày: "+mi.SentOn.ToShortDateString()+" - Giờ: "+mi.SentOn.ToShortTimeString());
-                               
+                             luunoidungmaimoi.Add("Người gửi: "+mi.SenderEmailAddress+" - Nội dung: "+mi.Subject+" - Ngày: "+mi.SentOn.ToShortDateString()+" - Giờ: "+mi.SentOn.ToShortTimeString());
+                             
                         }
                     }
                 }

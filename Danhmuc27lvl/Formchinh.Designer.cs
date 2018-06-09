@@ -46,10 +46,10 @@
             this.datag1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pbmail = new System.Windows.Forms.PictureBox();
-            this.pbtrangthaicapnhat = new System.Windows.Forms.PictureBox();
-            this.lbthongbaocapnhat = new System.Windows.Forms.Label();
             this.lbtrangthai = new System.Windows.Forms.Label();
             this.lbbaomail = new System.Windows.Forms.Label();
+            this.pbtrangthaicapnhat = new System.Windows.Forms.PictureBox();
+            this.lbthongbaocapnhat = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
@@ -65,6 +65,9 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lbtongma = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lbfiledanhmucmoi = new System.Windows.Forms.Label();
+            this.pbfiledanhmucmoi = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
@@ -78,6 +81,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbfiledanhmucmoi)).BeginInit();
             this.SuspendLayout();
             // 
             // monthCalendar1
@@ -139,10 +144,12 @@
             // 
             // lbngayban
             // 
-            this.lbngayban.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbngayban.BackColor = System.Drawing.Color.Gainsboro;
+            this.lbngayban.Font = new System.Drawing.Font("Comic Sans MS", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbngayban.ForeColor = System.Drawing.Color.Tomato;
             this.lbngayban.Location = new System.Drawing.Point(478, 12);
             this.lbngayban.Name = "lbngayban";
-            this.lbngayban.Size = new System.Drawing.Size(193, 70);
+            this.lbngayban.Size = new System.Drawing.Size(221, 70);
             this.lbngayban.TabIndex = 4;
             this.lbngayban.Text = "Ngày bán";
             this.lbngayban.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -242,7 +249,7 @@
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
             this.datag1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.datag1.Size = new System.Drawing.Size(982, 411);
+            this.datag1.Size = new System.Drawing.Size(982, 392);
             this.datag1.TabIndex = 6;
             this.datag1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datag1_CellClick);
             // 
@@ -250,8 +257,6 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.Controls.Add(this.pbmail);
-            this.panel1.Controls.Add(this.pbtrangthaicapnhat);
-            this.panel1.Controls.Add(this.lbthongbaocapnhat);
             this.panel1.Controls.Add(this.lbtrangthai);
             this.panel1.Controls.Add(this.lbbaomail);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -262,7 +267,6 @@
             // 
             // pbmail
             // 
-            this.pbmail.Image = ((System.Drawing.Image)(resources.GetObject("pbmail.Image")));
             this.pbmail.Location = new System.Drawing.Point(67, 3);
             this.pbmail.Name = "pbmail";
             this.pbmail.Size = new System.Drawing.Size(33, 22);
@@ -270,34 +274,12 @@
             this.pbmail.TabIndex = 1;
             this.pbmail.TabStop = false;
             // 
-            // pbtrangthaicapnhat
-            // 
-            this.pbtrangthaicapnhat.Image = ((System.Drawing.Image)(resources.GetObject("pbtrangthaicapnhat.Image")));
-            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(1313, 2);
-            this.pbtrangthaicapnhat.Name = "pbtrangthaicapnhat";
-            this.pbtrangthaicapnhat.Size = new System.Drawing.Size(33, 22);
-            this.pbtrangthaicapnhat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbtrangthaicapnhat.TabIndex = 1;
-            this.pbtrangthaicapnhat.TabStop = false;
-            // 
-            // lbthongbaocapnhat
-            // 
-            this.lbthongbaocapnhat.AutoSize = true;
-            this.lbthongbaocapnhat.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbthongbaocapnhat.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lbthongbaocapnhat.Location = new System.Drawing.Point(1108, 5);
-            this.lbthongbaocapnhat.Name = "lbthongbaocapnhat";
-            this.lbthongbaocapnhat.Size = new System.Drawing.Size(120, 17);
-            this.lbthongbaocapnhat.TabIndex = 0;
-            this.lbthongbaocapnhat.Text = "Trạng thái cập nhật";
-            this.lbthongbaocapnhat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // lbtrangthai
             // 
-            this.lbtrangthai.Font = new System.Drawing.Font("Comic Sans MS", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbtrangthai.Location = new System.Drawing.Point(104, 7);
+            this.lbtrangthai.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbtrangthai.Location = new System.Drawing.Point(104, 5);
             this.lbtrangthai.Name = "lbtrangthai";
-            this.lbtrangthai.Size = new System.Drawing.Size(1000, 14);
+            this.lbtrangthai.Size = new System.Drawing.Size(1234, 20);
             this.lbtrangthai.TabIndex = 0;
             this.lbtrangthai.Text = "---hts---";
             // 
@@ -310,6 +292,28 @@
             this.lbbaomail.Size = new System.Drawing.Size(62, 15);
             this.lbbaomail.TabIndex = 0;
             this.lbbaomail.Text = "Thông báo:";
+            // 
+            // pbtrangthaicapnhat
+            // 
+            this.pbtrangthaicapnhat.Image = ((System.Drawing.Image)(resources.GetObject("pbtrangthaicapnhat.Image")));
+            this.pbtrangthaicapnhat.Location = new System.Drawing.Point(964, -1);
+            this.pbtrangthaicapnhat.Name = "pbtrangthaicapnhat";
+            this.pbtrangthaicapnhat.Size = new System.Drawing.Size(33, 28);
+            this.pbtrangthaicapnhat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbtrangthaicapnhat.TabIndex = 1;
+            this.pbtrangthaicapnhat.TabStop = false;
+            // 
+            // lbthongbaocapnhat
+            // 
+            this.lbthongbaocapnhat.AutoSize = true;
+            this.lbthongbaocapnhat.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbthongbaocapnhat.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lbthongbaocapnhat.Location = new System.Drawing.Point(4, 4);
+            this.lbthongbaocapnhat.Name = "lbthongbaocapnhat";
+            this.lbthongbaocapnhat.Size = new System.Drawing.Size(120, 17);
+            this.lbthongbaocapnhat.TabIndex = 0;
+            this.lbthongbaocapnhat.Text = "Trạng thái cập nhật";
+            this.lbthongbaocapnhat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label1
             // 
@@ -472,7 +476,7 @@
             this.groupBox4.Size = new System.Drawing.Size(149, 61);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Tổng mã / ngày";
+            this.groupBox4.Text = "Tổng mã";
             // 
             // lbtongma
             // 
@@ -486,6 +490,38 @@
             this.lbtongma.Text = "0";
             this.lbtongma.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel2.Controls.Add(this.lbfiledanhmucmoi);
+            this.panel2.Controls.Add(this.lbthongbaocapnhat);
+            this.panel2.Controls.Add(this.pbfiledanhmucmoi);
+            this.panel2.Controls.Add(this.pbtrangthaicapnhat);
+            this.panel2.Location = new System.Drawing.Point(0, 638);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1000, 25);
+            this.panel2.TabIndex = 19;
+            // 
+            // lbfiledanhmucmoi
+            // 
+            this.lbfiledanhmucmoi.Font = new System.Drawing.Font("Comic Sans MS", 11F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbfiledanhmucmoi.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lbfiledanhmucmoi.Location = new System.Drawing.Point(245, 0);
+            this.lbfiledanhmucmoi.Name = "lbfiledanhmucmoi";
+            this.lbfiledanhmucmoi.Size = new System.Drawing.Size(716, 22);
+            this.lbfiledanhmucmoi.TabIndex = 0;
+            this.lbfiledanhmucmoi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbfiledanhmucmoi.Click += new System.EventHandler(this.lbfiledanhmucmoi_Click);
+            // 
+            // pbfiledanhmucmoi
+            // 
+            this.pbfiledanhmucmoi.Location = new System.Drawing.Point(209, -1);
+            this.pbfiledanhmucmoi.Name = "pbfiledanhmucmoi";
+            this.pbfiledanhmucmoi.Size = new System.Drawing.Size(33, 28);
+            this.pbfiledanhmucmoi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbfiledanhmucmoi.TabIndex = 1;
+            this.pbfiledanhmucmoi.TabStop = false;
+            // 
             // Formchinh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -493,6 +529,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1350, 691);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.pbphatanh);
@@ -527,6 +564,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbanhsanpham)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbfiledanhmucmoi)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -566,6 +606,9 @@
         private System.Windows.Forms.PictureBox pbmail;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label lbtongma;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lbfiledanhmucmoi;
+        private System.Windows.Forms.PictureBox pbfiledanhmucmoi;
     }
 }
 

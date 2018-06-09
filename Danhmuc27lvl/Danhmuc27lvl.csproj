@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>paw_print__IOq_icon.ico</ApplicationIcon>
+    <ApplicationIcon>pawprint_jFz_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -212,7 +212,10 @@
     <None Include="Resources\paw_print__IOq_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="pawprint_jFz_icon.ico" />
     <Content Include="paw_print__IOq_icon.ico" />
+    <None Include="Resources\boom.gif" />
+    <None Include="Resources\dp.gif" />
     <None Include="Resources\totoro1.jpg" />
     <None Include="Resources\bombs.png" />
     <None Include="Resources\email-new-symbol-of-black-back-closed-envelope-for-interface.png" />
