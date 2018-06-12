@@ -109,7 +109,7 @@ namespace Danhmuc27lvl
                             }
                             mahang = ws.Cells[i, 5].Value.ToString();
                             mota = ws.Cells[i, 6].Value.ToString();
-                            bst = ws.Cells[i, 10].Value.ToString();
+                            bst = Convert.ToString(ws.Cells[i, 10].Value);
                             ghichu = Convert.ToString(ws.Cells[i, 11].Value);
                             luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
                         }
@@ -126,7 +126,7 @@ namespace Danhmuc27lvl
 
                     continue;
                 }
-                
+
             }
 
         }
@@ -136,8 +136,10 @@ namespace Danhmuc27lvl
             var conmysql = ketnoi.Instance();
             foreach (laythongtin mahang in luuthongtin)
             {
-                   // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
-                    try
+                if (conmysql.Kiemtra("matong","hangduocban",mahang.Maduocban)==null)
+                {
+                    // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
+                     try
                     {
                         conmysql.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso, mahang.Motamaban, mahang.Chudemaban);
                     }
@@ -146,7 +148,9 @@ namespace Danhmuc27lvl
 
                         continue;
                     }
-               
+                }
+
+
             }
             luuthongtin.Clear();
             foreach (string file in danhsachfilechuaxuly)
@@ -173,7 +177,7 @@ namespace Danhmuc27lvl
             {
                 ngayduocban = m.Value.ToString();
             }
-            Console.WriteLine(ngayduocban);
+            //Console.WriteLine(ngayduocban);
             ngaydangso = chuyendoingayvedangso(ngayduocban);
             
             List<string> tenanh = new List<string>();
@@ -183,7 +187,7 @@ namespace Danhmuc27lvl
                 hangbatdau = pic.TopLeftCell.Row;
                 
                 tenanh.Add(ws.Cells[hangbatdau, 5].value);
-            
+                Console.WriteLine(hangbatdau.ToString());
 
             }
             for (int i = 10; i < 300; i++)
@@ -194,14 +198,14 @@ namespace Danhmuc27lvl
                 }
                 mahang = ws.Cells[i, 5].value2.ToString();
                 mota = ws.Cells[i, 6].value2.ToString();
-                bst = ws.Cells[i, 10].value2.ToString();
+                bst = Convert.ToString(ws.Cells[i, 10].value2);
                 ghichu = Convert.ToString(ws.Cells[i, 11].value2);
 
                 luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
             }
 
             string[] manganh = tenanh.ToArray();
-            wb.Close();
+            //wb.Close();
             excelApp.Quit();
             Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
@@ -223,10 +227,10 @@ namespace Danhmuc27lvl
                 {
                     picture.Picture.Save(duongdanluuanh + @"\" + manganh[i] + ".png", ImageFormat.Png);
                 }
-
+               // Console.WriteLine(manganh[i]);
 
             }
-
+           // Console.WriteLine(sheet.Pictures.Count);
             workbook.Dispose();
         }
         public bool Xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc,string tongma)
@@ -248,7 +252,7 @@ namespace Danhmuc27lvl
 
                         ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("hts");
                         worksheet.Cells["A1"].Value = "Tổng số mã: " + tongma;
-                        worksheet.Cells["A2"].LoadFromDataTable(dt, true);
+                        worksheet.Cells["A3"].LoadFromDataTable(dt, true);
                         worksheet.Column(1).AutoFit();
                         worksheet.Column(2).AutoFit();
                         worksheet.Column(3).AutoFit();
@@ -288,7 +292,7 @@ namespace Danhmuc27lvl
 
             worksheet.Cells["A1"].Value = "Tổng mã:";
             worksheet.Cells["C1"].Value = tongma;
-            worksheet.Cells["A2"].LoadFromDataTable(dt, true);
+            worksheet.Cells["A3"].LoadFromDataTable(dt, true);
 
             worksheet.Column(1).Width = 10;
             worksheet.Column(2).Width = 13;

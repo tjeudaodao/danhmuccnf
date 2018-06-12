@@ -42,22 +42,22 @@ namespace Danhmuc27lvl
         {
             InitializeComponent();
 
-            //chaynen = new Thread(luongchaynen);
-            //chaynen.IsBackground = true;
-            //chaynen.Start();
+            chaynen = new Thread(luongchaynen);
+            chaynen.IsBackground = true;
+            chaynen.Start();
 
-            //tudongloadanh = new Thread(hamtudongloadanh);
-            //tudongloadanh.IsBackground = true;
-            //tudongloadanh.Start();
+            tudongloadanh = new Thread(hamtudongloadanh);
+            tudongloadanh.IsBackground = true;
+            tudongloadanh.Start();
 
 
-            //luongnenmail = new Thread(luongchaynenbaomail);
-            //luongnenmail.IsBackground = true;
-            //luongnenmail.Start();
+            luongnenmail = new Thread(luongchaynenbaomail);
+            luongnenmail.IsBackground = true;
+            luongnenmail.Start();
 
-            //filemoi = new Thread(hamgoifiledanhmucmoi);
-            //filemoi.IsBackground = true;
-            //filemoi.Start();
+            filemoi = new Thread(hamgoifiledanhmucmoi);
+            filemoi.IsBackground = true;
+            filemoi.Start();
         }
         
         void luongchaynen()
@@ -134,58 +134,81 @@ namespace Danhmuc27lvl
         
         void hamloadmailmoi() // ham nay chay dau tien 1
         {
-            var xulymail = layfileoutlook.Instance();
-            thongtinmailmoi = xulymail.loadmailmoi();
-            
-            pbmail.Invoke(new MethodInvoker(delegate ()
+            try
             {
-                if (thongtinmailmoi != null)
+                var xulymail = layfileoutlook.Instance();
+                thongtinmailmoi = xulymail.loadmailmoi();
+                this.Invoke(new Action(delegate ()
                 {
-                    pbmail.Image = Properties.Resources.newmail;
-                }
-                else
-                {
-                    pbmail.Image = Properties.Resources.mail;
-                }
-            }));
-            lbbaomail.Invoke(new MethodInvoker(delegate ()
-            {
-                if (thongtinmailmoi != null)
-                {
-                    lbbaomail.Text = "Có Mail mới";
-                }
-                else
-                {
-                    lbbaomail.Text = "Thông báo:";
-                }
-            }));
+                    SendKeys.Send("{tab}");
+                    SendKeys.Send("{enter}");
+                }));
+                
 
-            lbthongbaocapnhat.Invoke(new MethodInvoker(delegate ()
+                pbmail.Invoke(new MethodInvoker(delegate ()
+                {
+                    if (thongtinmailmoi != null)
+                    {
+                        pbmail.Image = Properties.Resources.newmail;
+                    }
+                    else
+                    {
+                        pbmail.Image = Properties.Resources.mail;
+                    }
+                }));
+                lbbaomail.Invoke(new MethodInvoker(delegate ()
+                {
+                    if (thongtinmailmoi != null)
+                    {
+                        lbbaomail.Text = "Có Mail mới";
+                    }
+                    else
+                    {
+                        lbbaomail.Text = "Thông báo:";
+                    }
+                }));
+
+                lbthongbaocapnhat.Invoke(new MethodInvoker(delegate ()
+                {
+                    lbthongbaocapnhat.Text = "Đang cập nhật";// cho load tung file save trong mail
+                    lbthongbaocapnhat.ForeColor = System.Drawing.Color.Crimson;
+                }));
+                pbtrangthaicapnhat.Invoke(new MethodInvoker(delegate ()
+                {
+                    pbtrangthaicapnhat.Image = Properties.Resources.loading;
+                }));
+                this.Invoke(new Action(delegate ()
+                {
+                    NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu :)");
+                }));
+            }
+            catch (Exception)
             {
-                lbthongbaocapnhat.Text = "Đang cập nhật";// cho load tung file save trong mail
-                lbthongbaocapnhat.ForeColor = System.Drawing.Color.Crimson;
-            }));
-            pbtrangthaicapnhat.Invoke(new MethodInvoker(delegate ()
-            {
-                pbtrangthaicapnhat.Image = Properties.Resources.loading;
-            }));
-            this.Invoke(new Action(delegate ()
-           {
-               NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu");
-           }));
+
+                throw;
+            }
+            
             
             
         }
-        void hamcapnhat() // chay thu 2
+        void hamcapnhat() // chay thu 2m*zv,
         {
             newmail.Join(); // ham cap nhat se doi ham newmail xu ly xong moi chay
+            try
+            {
+                var xulyoutlook = layfileoutlook.Instance();
+                var ham = hamtao.Khoitao();
+                xulyoutlook.xuly();
+                filedmmoi = xulyoutlook.luufilemoi();
 
-            var xulyoutlook = layfileoutlook.Instance();
-            var ham = hamtao.Khoitao();
-            xulyoutlook.xuly();
-            filedmmoi = xulyoutlook.luufilemoi();
+                ham.luudanhmuchangmoi();
+            }
+            catch (Exception)
+            {
 
-            ham.luudanhmuchangmoi();
+                throw;
+            }
+            
             
             
         }
@@ -259,7 +282,7 @@ namespace Danhmuc27lvl
         /// <param name="e"></param>
         private void Formchinh_Load(object sender, EventArgs e)
         {
-            var con = ketnoisqlite.khoitao();
+            var con = ketnoi.Instance();
             ngaychonbandau = con.layngayganhat();
             datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
             updatesoluongtrenbang();
@@ -267,6 +290,16 @@ namespace Danhmuc27lvl
         }
         void laythongtinvaolabel(string mahang)
         {
+            if (mahang == null)
+            {
+                lbmahang.Text= "Mã hàng";
+                lbmotasanpham.Text = "Mô tả sản phẩm";
+                lbngayban.Text = "Ngày bán";
+                lbduocbanhaychua.Text = "Chưa được bán";
+                lbdatrunghaychua.Text = "";
+                phatchuaduocban.Play();
+                return;
+            }
             var conlite = ketnoi.Instance();
             var ham = hamtao.Khoitao();
             List<laythongtin> laytt = new List<laythongtin>();
@@ -282,6 +315,7 @@ namespace Danhmuc27lvl
                     if (dt1 <= DateTime.Now)
                     {
                         lbduocbanhaychua.Text = "Được bán";
+                        phatduocban.Play();
                     }
                     else
                     {
@@ -321,6 +355,7 @@ namespace Danhmuc27lvl
             else
             {
                 pbanhsanpham.Image = Properties.Resources.bombs;
+                lbmahang.Text = "Mã hàng";
             }
         }
         
@@ -361,18 +396,18 @@ namespace Danhmuc27lvl
         void NotificationHts(string noidung)
         {
             PopupNotifier pop = new PopupNotifier();
-            pop.TitleText = "Thông báo";
+            pop.TitleText = "Thông báo - hts";
             pop.ContentText = "\" "+noidung + " \"";
             pop.Image = Properties.Resources.totoro1;
             pop.IsRightToLeft = false;
-            pop.TitleColor = System.Drawing.Color.Navy;
-            pop.TitleFont = new System.Drawing.Font("Comic Sans MS", 11, System.Drawing.FontStyle.Underline);
+            pop.TitleColor = System.Drawing.Color.Lime;
+            pop.TitleFont = new System.Drawing.Font("Comic Sans MS", 10, System.Drawing.FontStyle.Underline);
             pop.BodyColor = System.Drawing.Color.DimGray;
             pop.Size = new System.Drawing.Size(380, 130);
             pop.ImageSize = new System.Drawing.Size(100, 100);
             pop.ImagePadding = new Padding(15);
             pop.ContentColor = System.Drawing.Color.White;
-            pop.ContentFont = new System.Drawing.Font("Comic Sans MS", 13, System.Drawing.FontStyle.Bold);
+            pop.ContentFont = new System.Drawing.Font("Comic Sans MS", 12, System.Drawing.FontStyle.Bold);
             pop.Delay = 3500;
             pop.BorderColor = System.Drawing.Color.DimGray;
             pop.HeaderHeight = 1;
@@ -396,7 +431,7 @@ namespace Danhmuc27lvl
                         string masp = consql.laymasp(txtbarcode.Text);
                         laythongtinvaolabel(masp);
 
-                        lbmahang.Text = masp;
+                        //lbmahang.Text = masp;
                         loadanh(masp);
                         txtbarcode.Clear();
                         txtbarcode.Focus();
@@ -405,7 +440,14 @@ namespace Danhmuc27lvl
             }
             catch (Exception ex)
             {
-
+                txtbarcode.Clear();
+                txtbarcode.Focus();
+                lbmahang.Text = "Mã hàng";
+                lbmotasanpham.Text = "Mô tả sản phẩm";
+                lbngayban.Text = "Ngày bán";
+                lbduocbanhaychua.Text = "Chưa được bán";
+                lbdatrunghaychua.Text = "";
+                phatchuaduocban.Play();
                 lbtrangthai.Text=ex.ToString();
             }
            
@@ -444,6 +486,7 @@ namespace Danhmuc27lvl
                 DateTime ngaychon = month.SelectionStart;
                 ngaychonbandau = month.SelectionStart.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 var con = ketnoi.Instance();
+                con.Close();
                 datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
                 updatesoluongtrenbang();
                 dateTimePicker1.Value = ngaychon;
@@ -522,7 +565,18 @@ namespace Danhmuc27lvl
                 {
                     lbdatrunghaychua.Text = "Chưa trưng bán";
                 }
-                lbduocbanhaychua.Text = "Đã được bán";
+                
+                DateTime dt1 = DateTime.ParseExact(lbngayban.Text, "dd/MM/yyyy", null);
+                if (dt1 <= DateTime.Now)
+                {
+                    lbduocbanhaychua.Text = "Được bán";
+                    phatduocban.Play();
+                }
+                else
+                {
+                    lbduocbanhaychua.Text = "Đã được bán";
+                    phatchuaduocban.Play();
+                }
                 loadanh(lbmahang.Text);
             }
             catch (Exception ex)
@@ -555,14 +609,14 @@ namespace Danhmuc27lvl
                     popexcel.ContentText = "Vừa xuất file excel \nClick vào đây để mở file";
                     popexcel.IsRightToLeft = false;
                     popexcel.Image = Properties.Resources.excel;
-                    popexcel.TitleColor = System.Drawing.Color.Navy;
-                    popexcel.TitleFont = new System.Drawing.Font("Comic Sans MS", 12, System.Drawing.FontStyle.Underline);
+                    popexcel.TitleColor = System.Drawing.Color.Lime;
+                    popexcel.TitleFont = new System.Drawing.Font("Comic Sans MS", 11, System.Drawing.FontStyle.Underline);
                     popexcel.BodyColor = System.Drawing.Color.DimGray;
                     popexcel.Size = new System.Drawing.Size(380, 130);
                     popexcel.ImageSize = new System.Drawing.Size(100, 100);
                     popexcel.ImagePadding = new Padding(15);
                     popexcel.ContentColor = System.Drawing.Color.White;
-                    popexcel.ContentFont = new System.Drawing.Font("Comic Sans MS", 15, System.Drawing.FontStyle.Bold);
+                    popexcel.ContentFont = new System.Drawing.Font("Comic Sans MS", 12, System.Drawing.FontStyle.Bold);
                     popexcel.Delay = 3500;
                     popexcel.BorderColor = System.Drawing.Color.DimGray;
                     popexcel.HeaderHeight = 1;
