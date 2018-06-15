@@ -10,11 +10,24 @@ using Tulpep.NotificationWindow;
 using System.Globalization;
 using AnhLuu = Danhmuc27lvl.Properties.Resources;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using System.Runtime.InteropServices;
+
 
 namespace Danhmuc27lvl
 {
     public partial class Formchinh : Form
     {
+        [DllImport("user32.dll")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+
+        [DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("User32.dll")]
+        public static extern bool ShowWindow(IntPtr handle, int nCmdShow);
+
+
         Thread luongmail;
         Thread newmail;
         Thread xulyanh;
@@ -140,10 +153,18 @@ namespace Danhmuc27lvl
                 thongtinmailmoi = xulymail.loadmailmoi();
                 this.Invoke(new Action(delegate ()
                 {
-                    SendKeys.Send("{tab}");
-                    SendKeys.Send("{enter}");
+                    IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                    if (hWnd != IntPtr.Zero)
+                    {
+                        ShowWindow(hWnd, 9);
+                        //The bring the application to focus
+                        SetForegroundWindow(hWnd);
+                        SendKeys.Send("{TAB}");
+                        SendKeys.Send("{ENTER}");
+                    }
+                    
                 }));
-                
+
 
                 pbmail.Invoke(new MethodInvoker(delegate ()
                 {
