@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Formchinh));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtbarcode = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.datag1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pbAMTHANH = new System.Windows.Forms.PictureBox();
             this.pbmail = new System.Windows.Forms.PictureBox();
             this.lbtrangthai = new System.Windows.Forms.Label();
             this.lbbaomail = new System.Windows.Forms.Label();
@@ -73,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAMTHANH)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -228,23 +230,23 @@
             this.datag1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.datag1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.datag1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.datag1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.datag1.DefaultCellStyle = dataGridViewCellStyle2;
             this.datag1.Location = new System.Drawing.Point(18, 243);
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
@@ -256,6 +258,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.pbAMTHANH);
             this.panel1.Controls.Add(this.pbmail);
             this.panel1.Controls.Add(this.lbtrangthai);
             this.panel1.Controls.Add(this.lbbaomail);
@@ -264,6 +267,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1350, 28);
             this.panel1.TabIndex = 11;
+            // 
+            // pbAMTHANH
+            // 
+            this.pbAMTHANH.Image = global::Danhmuc27lvl.Properties.Resources.speaker;
+            this.pbAMTHANH.Location = new System.Drawing.Point(1294, 0);
+            this.pbAMTHANH.Name = "pbAMTHANH";
+            this.pbAMTHANH.Size = new System.Drawing.Size(38, 28);
+            this.pbAMTHANH.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbAMTHANH.TabIndex = 2;
+            this.pbAMTHANH.TabStop = false;
+            this.pbAMTHANH.Click += new System.EventHandler(this.pbAMTHANH_Click);
             // 
             // pbmail
             // 
@@ -279,7 +293,7 @@
             this.lbtrangthai.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbtrangthai.Location = new System.Drawing.Point(104, 5);
             this.lbtrangthai.Name = "lbtrangthai";
-            this.lbtrangthai.Size = new System.Drawing.Size(1234, 20);
+            this.lbtrangthai.Size = new System.Drawing.Size(1176, 20);
             this.lbtrangthai.TabIndex = 0;
             this.lbtrangthai.Text = "---hts---";
             // 
@@ -556,6 +570,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAMTHANH)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbmail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbtrangthaicapnhat)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -609,6 +624,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lbfiledanhmucmoi;
         private System.Windows.Forms.PictureBox pbfiledanhmucmoi;
+        private System.Windows.Forms.PictureBox pbAMTHANH;
     }
 }
 

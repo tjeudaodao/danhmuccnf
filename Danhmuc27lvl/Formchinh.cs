@@ -39,7 +39,21 @@ namespace Danhmuc27lvl
 
         System.Media.SoundPlayer phatduocban = new System.Media.SoundPlayer(Properties.Resources.duocban);
         System.Media.SoundPlayer phatchuaduocban = new System.Media.SoundPlayer(Properties.Resources.chuaban);
-
+        private static bool phatAM = true;
+        public void phatAMTHANH_BAN()
+        {
+            if (phatAM)
+            {
+                phatduocban.Play();
+            }
+        }
+        public void phatAMTHANH_KOBAN()
+        {
+            if (phatAM)
+            {
+                phatchuaduocban.Play();
+            }
+        }
         string duongdanfilemoi = Application.StartupPath + @"\filedanhmuc\";
         string duongdanchuaanh = Application.StartupPath + @"\luuanh\";
         static string ngaychonbandau = null;
@@ -151,19 +165,7 @@ namespace Danhmuc27lvl
             {
                 var xulymail = layfileoutlook.Instance();
                 thongtinmailmoi = xulymail.loadmailmoi();
-                this.Invoke(new Action(delegate ()
-                {
-                    IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
-                    if (hWnd != IntPtr.Zero)
-                    {
-                        ShowWindow(hWnd, 9);
-                        //The bring the application to focus
-                        SetForegroundWindow(hWnd);
-                        SendKeys.Send("{TAB}");
-                        SendKeys.Send("{ENTER}");
-                    }
-                    
-                }));
+                
 
 
                 pbmail.Invoke(new MethodInvoker(delegate ()
@@ -202,6 +204,19 @@ namespace Danhmuc27lvl
                 {
                     NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu :)");
                 }));
+                this.Invoke(new Action(delegate ()
+                {
+                    IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                    if (hWnd != IntPtr.Zero)
+                    {
+                        ShowWindow(hWnd, 9);
+                        //The bring the application to focus
+                        SetForegroundWindow(hWnd);
+                        SendKeys.Send("{TAB}");
+                        SendKeys.Send("{ENTER}");
+                    }
+
+                }));
             }
             catch (Exception)
             {
@@ -229,16 +244,40 @@ namespace Danhmuc27lvl
 
                 throw;
             }
-            
-            
-            
+            this.Invoke(new Action(delegate ()
+            {
+                IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                if (hWnd != IntPtr.Zero)
+                {
+                    ShowWindow(hWnd, 9);
+                    //The bring the application to focus
+                    SetForegroundWindow(hWnd);
+                    SendKeys.Send("{TAB}");
+                    SendKeys.Send("{ENTER}");
+                }
+
+            }));
+
+
         }
         void hamxulyanh() // chay thu 3
         {
             luongmail.Join(); // ham xulyanh se doi cho thread luonggmail chay xong moi bat day chay
             var ham = hamtao.Khoitao();
             ham.xulyanh();
+            this.Invoke(new Action(delegate ()
+            {
+                IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                if (hWnd != IntPtr.Zero)
+                {
+                    ShowWindow(hWnd, 9);
+                    //The bring the application to focus
+                    SetForegroundWindow(hWnd);
+                    SendKeys.Send("{TAB}");
+                    SendKeys.Send("{ENTER}");
+                }
 
+            }));
         }
 
         void chenma() // chay thu 4
@@ -269,7 +308,19 @@ namespace Danhmuc27lvl
             {
                 NotificationHts("Đã cập nhật xong - " + " Lúc: " + thoigiancapnhat);
             }));
+            this.Invoke(new Action(delegate ()
+            {
+                IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                if (hWnd != IntPtr.Zero)
+                {
+                    ShowWindow(hWnd, 9);
+                    //The bring the application to focus
+                    SetForegroundWindow(hWnd);
+                    SendKeys.Send("{TAB}");
+                    SendKeys.Send("{ENTER}");
+                }
 
+            }));
         }
         void hamtudongloadanh()
         {
@@ -336,12 +387,12 @@ namespace Danhmuc27lvl
                     if (dt1 <= DateTime.Now)
                     {
                         lbduocbanhaychua.Text = "Được bán";
-                        phatduocban.Play();
+                        phatAMTHANH_BAN();
                     }
                     else
                     {
                         lbdatrunghaychua.Text = "Chưa được bán";
-                        phatchuaduocban.Play();
+                        phatAMTHANH_KOBAN();
                     }
                     string trunghang = conlite.laythongtintrunghang(mahang);
                     if (trunghang == null)
@@ -360,7 +411,7 @@ namespace Danhmuc27lvl
                 pbThemvaoduocban.Enabled = true;
                 lbdatrunghaychua.Text = "Chưa trưng bán";
                 lbduocbanhaychua.Text = "Chưa được bán";
-                phatchuaduocban.Play();
+                phatAMTHANH_KOBAN();
             }
 
         }
@@ -591,12 +642,12 @@ namespace Danhmuc27lvl
                 if (dt1 <= DateTime.Now)
                 {
                     lbduocbanhaychua.Text = "Được bán";
-                    phatduocban.Play();
+                    phatAMTHANH_BAN();
                 }
                 else
                 {
-                    lbduocbanhaychua.Text = "Đã được bán";
-                    phatchuaduocban.Play();
+                    lbduocbanhaychua.Text = "Chưa được bán";
+                    phatAMTHANH_KOBAN();
                 }
                 loadanh(lbmahang.Text);
             }
@@ -708,6 +759,18 @@ namespace Danhmuc27lvl
 
 
         #endregion
-        
+
+        private void pbAMTHANH_Click(object sender, EventArgs e)
+        {
+            phatAM = !phatAM;
+            if (phatAM)
+            {
+                pbAMTHANH.Image = Properties.Resources.speaker;
+            }
+            else
+            {
+                pbAMTHANH.Image = Properties.Resources.mute;
+            }
+        }
     }
 }
