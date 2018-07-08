@@ -144,8 +144,8 @@ namespace Danhmuc27lvl
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("File nay da ton tai " + mi.Attachments[i].FileName);
-
+                                                    // Console.WriteLine("File nay da ton tai " + mi.Attachments[i].FileName);
+                                                    continue;
                                                 }
                                             }
                                         }

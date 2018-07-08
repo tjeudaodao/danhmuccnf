@@ -83,7 +83,7 @@ namespace Danhmuc27lvl
             string mau = @"^KH tung hang";
             foreach (string file in danhsachfilechuaxuly)
             {
-                //try
+                try
                 {
                     if (Path.GetExtension(file) == ".xlsx")
                     {
@@ -125,11 +125,11 @@ namespace Danhmuc27lvl
                         else copyanhvathongtin(file);
                     }
                 }
-                //catch (Exception)
-                //{
+                catch (Exception)
+                {
 
-                //    continue;
-                //}
+                    continue;
+                }
 
             }
 
@@ -138,25 +138,34 @@ namespace Danhmuc27lvl
         {
             var con = ketnoisqlite.khoitao();
             var conmysql = ketnoi.Instance();
-            foreach (laythongtin mahang in luuthongtin)
+            try
             {
-                if (conmysql.Kiemtra("matong","hangduocban",mahang.Maduocban)==null)
+                foreach (laythongtin mahang in luuthongtin)
                 {
-                    // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
-                     try
+                    if (conmysql.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
                     {
-                        conmysql.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso, mahang.Motamaban, mahang.Chudemaban);
-                    }
-                    catch (Exception)
-                    {
+                        // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
+                        try
+                        {
+                            conmysql.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso, mahang.Motamaban, mahang.Chudemaban);
+                        }
+                        catch (Exception)
+                        {
 
-                        continue;
+                            continue;
+                        }
                     }
+
+
                 }
-
-
+                luuthongtin.Clear();
             }
-            luuthongtin.Clear();
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
             foreach (string file in danhsachfilechuaxuly)
             {
                 con.thaydoitrangthaidakiemtra(file);
