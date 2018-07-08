@@ -519,8 +519,9 @@ namespace Danhmuc27lvl
                 lbngayban.Text = "Ngày bán";
                 lbduocbanhaychua.Text = "Chưa được bán";
                 lbdatrunghaychua.Text = "";
-                phatchuaduocban.Play();
+                //phatchuaduocban.Play();
                 lbtrangthai.Text=ex.ToString();
+                NotificationHts("Có vấn đề Barcode rồi \nXem lại.");
             }
            
         }
