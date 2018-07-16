@@ -15,7 +15,7 @@ namespace Danhmuc27lvl
     class ketnoisqlite
     {
         #region khoitao
-        public SQLiteConnection connec = null;
+        public static SQLiteConnection connec = null;
         public ketnoisqlite()
         {
             string chuoiketnoi = "Data Source=dbhangmoi.db;version=3;new=false";

@@ -36,6 +36,7 @@ namespace Danhmuc27lvl
         Thread tudongloadanh;
         Thread luongnenmail;
         Thread filemoi;
+        Thread loadLandau;
 
         System.Media.SoundPlayer phatduocban = new System.Media.SoundPlayer(Properties.Resources.duocban);
         System.Media.SoundPlayer phatchuaduocban = new System.Media.SoundPlayer(Properties.Resources.chuaban);
@@ -69,6 +70,10 @@ namespace Danhmuc27lvl
         {
             InitializeComponent();
 
+            loadLandau = new Thread(loadkhikhoidong);
+            loadLandau.IsBackground = true;
+            loadLandau.Start();
+
             chaynen = new Thread(luongchaynen);
             chaynen.IsBackground = true;
             chaynen.Start();
@@ -86,7 +91,20 @@ namespace Danhmuc27lvl
             filemoi.IsBackground = true;
             filemoi.Start();
         }
-        
+        void loadkhikhoidong()
+        {
+            Thread.Sleep(1000);
+            var con = ketnoi.Instance();
+            ngaychonbandau = con.layngayganhat();
+            datag1.Invoke(new MethodInvoker(delegate ()
+            {
+                datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
+            }));
+            lbtongma.Invoke(new MethodInvoker(delegate ()
+            {
+                lbtongma.Text = datag1.Rows.Count.ToString();
+            }));
+        }
         void luongchaynen()
         {
             while (true)
@@ -265,19 +283,7 @@ namespace Danhmuc27lvl
             luongmail.Join(); // ham xulyanh se doi cho thread luonggmail chay xong moi bat day chay
             var ham = hamtao.Khoitao();
             ham.xulyanh();
-            this.Invoke(new Action(delegate ()
-            {
-                IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
-                if (hWnd != IntPtr.Zero)
-                {
-                    ShowWindow(hWnd, 9);
-                    //The bring the application to focus
-                    SetForegroundWindow(hWnd);
-                    SendKeys.Send("{TAB}");
-                    SendKeys.Send("{ENTER}");
-                }
-
-            }));
+            
         }
 
         void chenma() // chay thu 4
@@ -354,10 +360,6 @@ namespace Danhmuc27lvl
         /// <param name="e"></param>
         private void Formchinh_Load(object sender, EventArgs e)
         {
-            var con = ketnoi.Instance();
-            ngaychonbandau = con.layngayganhat();
-            datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
-            updatesoluongtrenbang();
             
         }
         void laythongtinvaolabel(string mahang)
