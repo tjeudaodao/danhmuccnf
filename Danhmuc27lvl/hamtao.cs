@@ -87,7 +87,7 @@ namespace Danhmuc27lvl
                 {
                     if (Path.GetExtension(file) == ".xlsx")
                     {
-                        Console.WriteLine(file);
+                       // Console.WriteLine(file);
                         ExcelPackage filechon = new ExcelPackage(new FileInfo(file));
                         ExcelWorksheet ws = filechon.Workbook.Worksheets[1];
                         var sodong = ws.Dimension.End.Row;
@@ -203,7 +203,9 @@ namespace Danhmuc27lvl
                // Console.WriteLine(hangbatdau.ToString());
 
             }
-            for (int i = 10; i < 300; i++)
+            int lastRow = ws.Cells[ws.Rows.Count, 5].End(excel.XlDirection.xlUp).Row;
+            //Console.WriteLine(lastRow.ToString());
+            for (int i = 10; i < (lastRow + 5); i++)
             {
                 if (ws.Cells[i, 5].value==null)
                 {
