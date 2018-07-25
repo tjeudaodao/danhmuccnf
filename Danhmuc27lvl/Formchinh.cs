@@ -252,29 +252,33 @@ namespace Danhmuc27lvl
             {
                 var xulyoutlook = layfileoutlook.Instance();
                 var ham = hamtao.Khoitao();
+                var con = ketnoi.Instance();
                 xulyoutlook.xuly();
                 filedmmoi = xulyoutlook.luufilemoi();
 
                 ham.luudanhmuchangmoi();
+                this.Invoke(new Action(delegate ()
+                {
+                    IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
+                    if (hWnd != IntPtr.Zero)
+                    {
+                        ShowWindow(hWnd, 9);
+                        //The bring the application to focus
+                        SetForegroundWindow(hWnd);
+                        SendKeys.Send("{TAB}");
+                        SendKeys.Send("{ENTER}");
+                    }
+
+                }));
+                
+                con.chenvaoFiledanhmuc(filedmmoi[0]);
             }
             catch (Exception)
             {
 
                 throw;
             }
-            this.Invoke(new Action(delegate ()
-            {
-                IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
-                if (hWnd != IntPtr.Zero)
-                {
-                    ShowWindow(hWnd, 9);
-                    //The bring the application to focus
-                    SetForegroundWindow(hWnd);
-                    SendKeys.Send("{TAB}");
-                    SendKeys.Send("{ENTER}");
-                }
-
-            }));
+            
 
 
         }

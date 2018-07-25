@@ -108,7 +108,7 @@ namespace Danhmuc27lvl
         {
             // attachment extensions to save
             string[] extensionsArray = {  ".xls" };
-            string mau = "(^Danh muc treo ban hang)|(^KH tung hang)";
+            string mau = "(^Danh muc treo ban hang)|(^KH tung hang)|(^DM treo ban)";
             var fi = folder.Items;
             if (fi != null)
             {
@@ -170,7 +170,7 @@ namespace Danhmuc27lvl
             Outlook.Accounts accounts = Application.Session.Accounts;
             foreach (Outlook.Account taikhoan in accounts)
             {
-                if (Regex.IsMatch(laydiachimail(taikhoan),mau) || laydiachimail(taikhoan) == "nvhoang.hts@gmail.com")
+                if (Regex.IsMatch(laydiachimail(taikhoan),mau))
                 {
                     Outlook.Folder selectedFolder = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
                     selectedFolder = GetFolder(@"\\" + taikhoan.DisplayName);

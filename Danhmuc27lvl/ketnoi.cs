@@ -277,6 +277,14 @@ namespace Danhmuc27lvl
                 Close();
             }
         }
+        public void chenvaoFiledanhmuc(string tenFile)
+        {
+            string sql = "update filedanhmucmoi set tenfile = '" + tenFile + "' , gio = '" + DateTime.Now.ToString() + "'";
+            Open();
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            cmd.ExecuteNonQuery();
+            Close();
+        }
         #endregion
     }
 }
