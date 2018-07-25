@@ -450,6 +450,10 @@ namespace Danhmuc27lvl
                     sodongchon = datag1.SelectedRows.Count;
                     NotificationHts("Vừa cập nhật : " + sodongchon.ToString() + " mã hàng");
                 }
+                if (ngaychonbandau == null)
+                {
+                    ngaychonbandau = con.layngayganhat();
+                }
                 datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
             }
 
@@ -466,6 +470,10 @@ namespace Danhmuc27lvl
                     con.updatetrunghangthanhchuatrung(matong);
                     sodongchon = datag1.SelectedRows.Count;
                     NotificationHts("Vừa cập nhật : " + sodongchon.ToString() + " mã hàng");
+                }
+                if (ngaychonbandau == null)
+                {
+                    ngaychonbandau = con.layngayganhat();
                 }
                 datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
             }
