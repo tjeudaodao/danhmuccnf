@@ -279,7 +279,7 @@ namespace Danhmuc27lvl
         }
         public void chenvaoFiledanhmuc(string tenFile)
         {
-            string sql = "update filedanhmucmoi set tenfile = '" + tenFile + "' , gio = '" + DateTime.Now.ToString() + "'";
+            string sql = "update filedanhmucmoi set tenfile = '" + tenFile + "' , gio = '" + DateTime.Now.ToString("dd-MM-yyyy HH-mm") + "'";
             Open();
             MySqlCommand cmd = new MySqlCommand(sql, connection);
             cmd.ExecuteNonQuery();

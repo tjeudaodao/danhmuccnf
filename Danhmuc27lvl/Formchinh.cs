@@ -271,7 +271,7 @@ namespace Danhmuc27lvl
 
                 }));
                 
-                con.chenvaoFiledanhmuc(filedmmoi[0]);
+                //con.chenvaoFiledanhmuc(filedmmoi[0]);
             }
             catch (Exception)
             {

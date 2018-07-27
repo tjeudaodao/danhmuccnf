@@ -83,6 +83,7 @@ namespace Danhmuc27lvl
             string mau = @"^KH tung hang";
             foreach (string file in danhsachfilechuaxuly)
             {
+                //Console.WriteLine(file);
                 try
                 {
                     if (Path.GetExtension(file) == ".xlsx")
@@ -142,6 +143,7 @@ namespace Danhmuc27lvl
             {
                 foreach (laythongtin mahang in luuthongtin)
                 {
+                   // Console.WriteLine(mahang.Maduocban);
                     if (conmysql.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
                     {
                         // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
@@ -175,7 +177,9 @@ namespace Danhmuc27lvl
         public void copyanhvathongtin(string filecanlay)
         {
             var excelApp = new excel.Application();
-            var wb = excelApp.Workbooks.Open(filecanlay);
+            //var wb = excelApp.Workbooks.Open(filecanlay);
+            var wbs = excelApp.Workbooks;
+            var wb = wbs.Open(filecanlay);
             var ws = (excel.Worksheet)wb.Worksheets[2];
             string duongdanluuanh = Application.StartupPath + @"\luuanh";
             int hangbatdau = 0;
@@ -215,17 +219,18 @@ namespace Danhmuc27lvl
                 mota = ws.Cells[i, 6].value2.ToString();
                 bst = Convert.ToString(ws.Cells[i, 10].value2);
                 ghichu = Convert.ToString(ws.Cells[i, 11].value2);
-
+                //Console.WriteLine(mahang);
                 luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
             }
 
             string[] manganh = tenanh.ToArray();
-            //wb.Close();
+            wb.Close();
+            wbs.Close();
             excelApp.Quit();
-            Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
+            Marshal.FinalReleaseComObject(wbs);
+            Marshal.FinalReleaseComObject(excelApp);
 
-           
             Workbook workbook = new Workbook();
             workbook.LoadFromFile(filecanlay);
 
@@ -251,7 +256,8 @@ namespace Danhmuc27lvl
         public void copyanhKHtunghang(string filecanlay)
         {
             var excelApp = new excel.Application();
-            var wb = excelApp.Workbooks.Open(filecanlay);
+            var wbs = excelApp.Workbooks;
+            var wb = wbs.Open(filecanlay);
             var ws = (excel.Worksheet)wb.Worksheets[1];
             string duongdanluuanh = Application.StartupPath + @"\luuanh";
             int hangbatdau = 0;
@@ -267,9 +273,12 @@ namespace Danhmuc27lvl
             string[] manganh = tenanh.ToArray();
 
             wb.Close();
+            wbs.Close();
             excelApp.Quit();
-            Marshal.FinalReleaseComObject(excelApp);
             Marshal.FinalReleaseComObject(wb);
+            Marshal.FinalReleaseComObject(wbs);
+            Marshal.FinalReleaseComObject(excelApp);
+            
 
 
             Workbook workbook = new Workbook();
