@@ -41,6 +41,8 @@ namespace Danhmuc27lvl
         System.Media.SoundPlayer phatduocban = new System.Media.SoundPlayer(Properties.Resources.duocban);
         System.Media.SoundPlayer phatchuaduocban = new System.Media.SoundPlayer(Properties.Resources.chuaban);
         private static bool phatAM = true;
+        static bool cofiledmmoi = false;
+
         public void phatAMTHANH_BAN()
         {
             if (phatAM)
@@ -218,10 +220,10 @@ namespace Danhmuc27lvl
                 {
                     pbtrangthaicapnhat.Image = Properties.Resources.loading;
                 }));
-                this.Invoke(new Action(delegate ()
-                {
-                    NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu :)");
-                }));
+                //this.Invoke(new Action(delegate ()
+                //{
+                //    NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu :)");
+                //}));
                 this.Invoke(new Action(delegate ()
                 {
                     IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
@@ -270,8 +272,14 @@ namespace Danhmuc27lvl
                     }
 
                 }));
+                if (filedmmoi != null)
+                {
+                    foreach (string item in filedmmoi)
+                    {
+                        con.chenvaoFiledanhmuc(filedmmoi[0]);
+                    }
+                }
                 
-                //con.chenvaoFiledanhmuc(filedmmoi[0]);
             }
             catch (Exception)
             {
@@ -286,8 +294,12 @@ namespace Danhmuc27lvl
         {
             luongmail.Join(); // ham xulyanh se doi cho thread luonggmail chay xong moi bat day chay
             var ham = hamtao.Khoitao();
-            ham.xulyanh();
-            
+            //ham.xulyanh();
+            if (ham.xulyanh())
+            {
+                cofiledmmoi = true;
+            }
+            else cofiledmmoi = false;
         }
 
         void chenma() // chay thu 4
@@ -314,10 +326,14 @@ namespace Danhmuc27lvl
                     lbtongma.Text = datag1.Rows.Count.ToString();
                 }));
             }));
-            this.Invoke(new Action(delegate ()
+            if (cofiledmmoi)
             {
-                NotificationHts("Đã cập nhật xong - " + " Lúc: " + thoigiancapnhat);
-            }));
+                this.Invoke(new Action(delegate ()
+                {
+                    NotificationHts("Đã cập nhật xong - " + " Lúc: " + thoigiancapnhat);
+                }));
+            }
+            
             this.Invoke(new Action(delegate ()
             {
                 IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
@@ -418,6 +434,7 @@ namespace Danhmuc27lvl
                 lbdatrunghaychua.Text = "Chưa trưng bán";
                 lbduocbanhaychua.Text = "Chưa được bán";
                 phatAMTHANH_KOBAN();
+                loadanh(mahang);
             }
 
         }

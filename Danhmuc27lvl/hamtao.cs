@@ -76,64 +76,72 @@ namespace Danhmuc27lvl
 
             }
         }
-        public void xulyanh()
+        public bool xulyanh()
         {
+            bool kq = false;
             var con = ketnoisqlite.khoitao();
             danhsachfilechuaxuly = con.layfilechuaxuly();
             string mau = @"^KH tung hang";
+
             foreach (string file in danhsachfilechuaxuly)
             {
-                //Console.WriteLine(file);
-                try
+                if (file == null)
                 {
-                    if (Path.GetExtension(file) == ".xlsx")
+                    kq = false;
+                }
+                else
+                {
+                    try
                     {
-                       // Console.WriteLine(file);
-                        ExcelPackage filechon = new ExcelPackage(new FileInfo(file));
-                        ExcelWorksheet ws = filechon.Workbook.Worksheets[1];
-                        var sodong = ws.Dimension.End.Row;
+                        if (Path.GetExtension(file) == ".xlsx")
+                        {
+                            // Console.WriteLine(file);
+                            ExcelPackage filechon = new ExcelPackage(new FileInfo(file));
+                            ExcelWorksheet ws = filechon.Workbook.Worksheets[1];
+                            var sodong = ws.Dimension.End.Row;
 
-                        string ngayduocban = null;
-                        string ngaydangso = null;
-                        MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].Text) ?? "", maungay);
-                        //Console.WriteLine(ws.Cells[7,1].value);
-                        foreach (Match m in mat)
-                        {
-                            ngayduocban = m.Value.ToString();
-                        }
-                        string mahang, mota, bst, ghichu;
-                        ngaydangso = chuyendoingayvedangso(ngayduocban);
-                        for (int i = 10; i < sodong; i++)
-                        {
-                            if (ws.Cells[i, 5].Value == null)
+                            string ngayduocban = null;
+                            string ngaydangso = null;
+                            MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].Text) ?? "", maungay);
+                            //Console.WriteLine(ws.Cells[7,1].value);
+                            foreach (Match m in mat)
                             {
-                                continue;
+                                ngayduocban = m.Value.ToString();
                             }
-                            mahang = ws.Cells[i, 5].Value.ToString();
-                            mota = ws.Cells[i, 6].Value.ToString();
-                            bst = Convert.ToString(ws.Cells[i, 10].Value);
-                            ghichu = Convert.ToString(ws.Cells[i, 11].Value);
-                            luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
+                            string mahang, mota, bst, ghichu;
+                            ngaydangso = chuyendoingayvedangso(ngayduocban);
+                            for (int i = 10; i < sodong; i++)
+                            {
+                                if (ws.Cells[i, 5].Value == null)
+                                {
+                                    continue;
+                                }
+                                mahang = ws.Cells[i, 5].Value.ToString();
+                                mota = ws.Cells[i, 6].Value.ToString();
+                                bst = Convert.ToString(ws.Cells[i, 10].Value);
+                                ghichu = Convert.ToString(ws.Cells[i, 11].Value);
+                                luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
+                            }
+                            filechon.Dispose();
                         }
-                        filechon.Dispose();
-                    }
-                    else if (Path.GetExtension(file) == ".xls")
-                    {
-                        if (Regex.IsMatch(Path.GetFileName(file),mau))
+                        else if (Path.GetExtension(file) == ".xls")
                         {
-                            copyanhKHtunghang(file);
+                            if (Regex.IsMatch(Path.GetFileName(file), mau))
+                            {
+                                copyanhKHtunghang(file);
+                            }
+                            else copyanhvathongtin(file);
                         }
-                        else copyanhvathongtin(file);
                     }
-                }
-                catch (Exception)
-                {
+                    catch (Exception)
+                    {
 
-                    continue;
+                        continue;
+                    }
+                    kq = true;
                 }
-
             }
-
+            return kq;
         }
         public void xulymahang()
         {
