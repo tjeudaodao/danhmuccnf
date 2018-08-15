@@ -113,6 +113,11 @@ namespace Danhmuc27lvl
                                     {
                                         ngayduocban = m.Value.ToString();
                                     }
+                                    if (Regex.IsMatch(ngayduocban,@"\d{2}/\d{1}/\d{4}"))
+                                    {
+                                        ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
+                                    }
+                                   // Console.WriteLine(ngayduocban);
                                     string mahang, mota, bst, ghichu;
                                     ngaydangso = chuyendoingayvedangso(ngayduocban);
                                     for (int i = 10; i < sodong; i++)
