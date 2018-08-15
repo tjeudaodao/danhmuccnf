@@ -221,6 +221,10 @@ namespace Danhmuc27lvl
                     {
                         ngayduocban = m.Value.ToString();
                     }
+                    if (Regex.IsMatch(ngayduocban, @"\d{2}/\d{1}/\d{4}"))
+                    {
+                        ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
+                    }
                     //Console.WriteLine(ngayduocban);
                     ngaydangso = chuyendoingayvedangso(ngayduocban);
 
