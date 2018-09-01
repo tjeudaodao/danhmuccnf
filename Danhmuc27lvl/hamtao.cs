@@ -39,7 +39,7 @@ namespace Danhmuc27lvl
         }
         #endregion
         #region danhmuc
-        string maungay = @"\d{2}/[\d{2},\d{1}]/\d{4}";
+        string maungay = @"\d{2}/(\d{2}|\d{1})/\d{4}";
         static List<laythongtin> luuthongtin = new List<laythongtin>();
         static List<string> danhsachfilechuaxuly = new List<string>();
         static string duongdanluufileexcel = null;
@@ -199,7 +199,7 @@ namespace Danhmuc27lvl
         public void copyanhvathongtin(string filecanlay)
         {
             var excelApp = new excel.Application();
-           // Console.WriteLine(filecanlay);
+            //Console.WriteLine(filecanlay);
             var wbs = excelApp.Workbooks;
             var wb = wbs.Open(filecanlay);
             //var ws = (excel.Worksheet)wb.Worksheets[2];
@@ -207,7 +207,8 @@ namespace Danhmuc27lvl
             List<string> tenanh = new List<string>();
             foreach (excel.Worksheet ws in wb.Worksheets)
             {
-                if (Regex.IsMatch(Convert.ToString(ws.Cells[7, 1].value2) ?? "", maungay))
+                //Console.WriteLine(ws.Cells[7, 1].value2);
+                if (Regex.IsMatch(Convert.ToString(ws.Cells[7, 1].value2), maungay))
                 {
                     int hangbatdau = 0;
                     //lay ngay tu file excel roi chuyen doi sang dinh dang khac truoc khi insert vao database
@@ -238,7 +239,7 @@ namespace Danhmuc27lvl
                             continue;
                         }
                         tenanh.Add(ws.Cells[hangbatdau, 5].value2.ToString());
-                       //  Console.WriteLine(hangbatdau.ToString());
+                        //  Console.WriteLine(hangbatdau.ToString());
 
                     }
                     int lastRow = ws.Cells[ws.Rows.Count, 5].End(excel.XlDirection.xlUp).Row;
@@ -257,7 +258,7 @@ namespace Danhmuc27lvl
                         luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
                     }
                 }
-                
+                //else Console.WriteLine("loi");
             }
             string[] manganh = tenanh.ToArray();
             wb.Close();
