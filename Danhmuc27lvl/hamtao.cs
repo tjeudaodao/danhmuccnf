@@ -184,10 +184,10 @@ namespace Danhmuc27lvl
                 }
                 luuthongtin.Clear();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ghiloi.WriteLogError(ex);
+                return;
             }
             
             foreach (string file in danhsachfilechuaxuly)
@@ -295,9 +295,9 @@ namespace Danhmuc27lvl
 
                 workbook.Dispose();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                ghiloi.WriteLogError(ex);
                 return;
             }
             

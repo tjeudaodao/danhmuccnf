@@ -106,6 +106,7 @@
     <Compile Include="Formchinh.Designer.cs">
       <DependentUpon>Formchinh.cs</DependentUpon>
     </Compile>
+    <Compile Include="ghiloi.cs" />
     <Compile Include="hamtao.cs" />
     <Compile Include="ketnoi.cs" />
     <Compile Include="ketnoisqlite.cs" />

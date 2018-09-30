@@ -238,10 +238,10 @@ namespace Danhmuc27lvl
 
                 }));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ghiloi.WriteLogError(ex);
+                return;
             }
             
             
@@ -704,9 +704,11 @@ namespace Danhmuc27lvl
                 dt = con.laythongtinkhoangngay(ngaybatdau, ngayketthuc);
                 string tongsoma = con.tongmatrongkhoangngaychon(ngaybatdau, ngayketthuc);
 
-                if (ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc,tongsoma))
+                DialogResult dlog = MessageBox.Show("Có muốn lưu file excel không hay in luôn. \nNhấn 'YES' sẽ lưu file và 'NO' sẽ in luôn", "IN LUÔN ?", MessageBoxButtons.YesNo);
+                if (dlog == DialogResult.Yes)
                 {
-                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc),tongsoma);
+                    ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc, tongsoma);
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongsoma);
 
                     PopupNotifier popexcel = new PopupNotifier();
                     popexcel.TitleText = "Thông báo";
@@ -726,6 +728,9 @@ namespace Danhmuc27lvl
                     popexcel.HeaderHeight = 1;
                     popexcel.Click += Popexcel_Click;
                     popexcel.Popup();
+                }else
+                {
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongsoma);
 
                 }
                 
