@@ -52,7 +52,7 @@ namespace Danhmuc27lvl
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ghiloi.WriteLogError(ex);
                 return "";
             }
         }
@@ -85,7 +85,7 @@ namespace Danhmuc27lvl
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ghiloi.WriteLogError(ex);
                 return null;
             }
         }
@@ -158,7 +158,8 @@ namespace Danhmuc27lvl
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("loi \n"+e.Message);
+                    ghiloi.WriteLogError(e);
+                    return;
                 }
             }
         }
@@ -202,10 +203,10 @@ namespace Danhmuc27lvl
                 }
                 return luunoidungmaimoi;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                ghiloi.WriteLogError(e);
+                return null;
             }
             
         }
