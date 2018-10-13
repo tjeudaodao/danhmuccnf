@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Formchinh));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtbarcode = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -69,6 +69,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbfiledanhmucmoi = new System.Windows.Forms.Label();
             this.pbfiledanhmucmoi = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.nuthts_trung = new Danhmuc27lvl.nuthts();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoamatong)).BeginInit();
@@ -230,23 +232,23 @@
             this.datag1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.datag1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.datag1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.datag1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.datag1.DefaultCellStyle = dataGridViewCellStyle4;
             this.datag1.Location = new System.Drawing.Point(18, 243);
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
@@ -332,9 +334,9 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(77, 194);
+            this.label1.Location = new System.Drawing.Point(79, 183);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(245, 23);
+            this.label1.Size = new System.Drawing.Size(144, 46);
             this.label1.TabIndex = 4;
             this.label1.Text = "Thêm mã mới vào danh sách được bán";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -425,7 +427,7 @@
             this.btnchuatrunghang.ForeColor = System.Drawing.Color.Purple;
             this.btnchuatrunghang.Image = ((System.Drawing.Image)(resources.GetObject("btnchuatrunghang.Image")));
             this.btnchuatrunghang.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnchuatrunghang.Location = new System.Drawing.Point(304, 14);
+            this.btnchuatrunghang.Location = new System.Drawing.Point(245, 16);
             this.btnchuatrunghang.Name = "btnchuatrunghang";
             this.btnchuatrunghang.Size = new System.Drawing.Size(167, 41);
             this.btnchuatrunghang.TabIndex = 6;
@@ -440,7 +442,7 @@
             this.btndatrunghang.ForeColor = System.Drawing.Color.Navy;
             this.btndatrunghang.Image = ((System.Drawing.Image)(resources.GetObject("btndatrunghang.Image")));
             this.btndatrunghang.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btndatrunghang.Location = new System.Drawing.Point(59, 16);
+            this.btndatrunghang.Location = new System.Drawing.Point(18, 17);
             this.btndatrunghang.Name = "btndatrunghang";
             this.btndatrunghang.Size = new System.Drawing.Size(166, 41);
             this.btndatrunghang.TabIndex = 6;
@@ -474,9 +476,9 @@
             this.groupBox3.Controls.Add(this.btndatrunghang);
             this.groupBox3.Controls.Add(this.btnchuatrunghang);
             this.groupBox3.Font = new System.Drawing.Font("Comic Sans MS", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(490, 176);
+            this.groupBox3.Location = new System.Drawing.Point(568, 176);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(510, 61);
+            this.groupBox3.Size = new System.Drawing.Size(432, 61);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update mã chọn vào danh sách đã trưng";
@@ -485,7 +487,7 @@
             // 
             this.groupBox4.Controls.Add(this.lbtongma);
             this.groupBox4.Font = new System.Drawing.Font("Comic Sans MS", 8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(331, 177);
+            this.groupBox4.Location = new System.Drawing.Point(229, 176);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(149, 61);
             this.groupBox4.TabIndex = 18;
@@ -497,7 +499,7 @@
             this.lbtongma.BackColor = System.Drawing.SystemColors.Control;
             this.lbtongma.Font = new System.Drawing.Font("Comic Sans MS", 21F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbtongma.ForeColor = System.Drawing.Color.DarkCyan;
-            this.lbtongma.Location = new System.Drawing.Point(20, 16);
+            this.lbtongma.Location = new System.Drawing.Point(16, 15);
             this.lbtongma.Name = "lbtongma";
             this.lbtongma.Size = new System.Drawing.Size(113, 38);
             this.lbtongma.TabIndex = 0;
@@ -537,6 +539,28 @@
             this.pbfiledanhmucmoi.TabIndex = 1;
             this.pbfiledanhmucmoi.TabStop = false;
             // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(396, 176);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(166, 23);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Lọc những mã chưa trưng";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nuthts_trung
+            // 
+            this.nuthts_trung.AutoSize = true;
+            this.nuthts_trung.Location = new System.Drawing.Point(446, 204);
+            this.nuthts_trung.Name = "nuthts_trung";
+            this.nuthts_trung.Padding = new System.Windows.Forms.Padding(6);
+            this.nuthts_trung.Size = new System.Drawing.Size(73, 29);
+            this.nuthts_trung.TabIndex = 20;
+            this.nuthts_trung.Text = "nuthts1";
+            this.nuthts_trung.UseVisualStyleBackColor = true;
+            this.nuthts_trung.CheckedChanged += new System.EventHandler(this.nuthts_trung_CheckedChanged);
+            // 
             // Formchinh
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -544,6 +568,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1350, 691);
+            this.Controls.Add(this.nuthts_trung);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -552,6 +577,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pbThemvaoduocban);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pbanhsanpham);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.datag1);
@@ -584,6 +610,7 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbfiledanhmucmoi)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -626,6 +653,8 @@
         private System.Windows.Forms.Label lbfiledanhmucmoi;
         private System.Windows.Forms.PictureBox pbfiledanhmucmoi;
         private System.Windows.Forms.PictureBox pbAMTHANH;
+        private System.Windows.Forms.Label label3;
+        private nuthts nuthts_trung;
     }
 }
 

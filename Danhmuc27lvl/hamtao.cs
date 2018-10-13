@@ -407,14 +407,19 @@ namespace Danhmuc27lvl
             }
             
         }
-        public void taovainfileexcel(DataTable dt,string tongma)
+        public void taovainfileexcel(DataTable dt, string tongma, string ngaybatdau, string ngayketthuc)
         {
             ExcelPackage ExcelPkg = new ExcelPackage();
             ExcelWorksheet worksheet = ExcelPkg.Workbook.Worksheets.Add("hts");
 
-            worksheet.Cells["A1"].Value = "Tổng mã:";
-            worksheet.Cells["C1"].Value = tongma;
-            worksheet.Cells["A3"].LoadFromDataTable(dt, true);
+            worksheet.Cells["A1:C1"].Merge = true;
+            worksheet.Cells["A2:C2"].Merge = true;
+            worksheet.Cells["A3:C3"].Merge = true;
+            worksheet.Cells["A1"].Value = "Danh mục VM _ Mã chưa trưng";
+            worksheet.Cells["A2"].Value = "Từ ngày: " + ngaybatdau + " - " + ngayketthuc;
+
+            worksheet.Cells["A3"].Value = "Tổng mã chưa trưng: " + tongma;
+            worksheet.Cells["A5"].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.Light1);
 
             worksheet.Column(1).Width = 10;
             worksheet.Column(2).Width = 13;

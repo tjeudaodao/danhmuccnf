@@ -456,44 +456,71 @@ namespace Danhmuc27lvl
         
         void updatetrunghangthanhdatrung()
         {
-            var con = ketnoi.Instance();
-            if (datag1.SelectedRows.Count > 0)
+            try
             {
-                string matong = null;
-                foreach (DataGridViewRow row in datag1.SelectedRows)
+
+                var con = ketnoi.Instance();
+
+                if (datag1.SelectedRows.Count > 0)
                 {
-                    matong = row.Cells[0].Value.ToString();
-                    con.updatedatrunghangthanhdatrung(matong);
+                    string matong = null;
+                    foreach (DataGridViewRow row in datag1.SelectedRows)
+                    {
+                        matong = row.Cells[0].Value.ToString();
+                        con.updatedatrunghangthanhdatrung(matong);
+                    }
                     sodongchon = datag1.SelectedRows.Count;
+                    if (ngaychonbandau == null)
+                    {
+                        ngaychonbandau = con.layngayganhat();
+                    }
+                    if (nuthts_trung.Checked)
+                    {
+                        datag1.DataSource = con.laydanhsachCHUATRUNG();
+                    }
+                    else datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                    updatesoluongtrenbang();
                     NotificationHts("Vừa cập nhật : " + sodongchon.ToString() + " mã hàng");
                 }
-                if (ngaychonbandau == null)
-                {
-                    ngaychonbandau = con.layngayganhat();
-                }
-                datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
             }
+            catch (Exception ex)
+            {
+                NotificationHts("Có vấn đề");
+                lbtrangthai.Text = ex.ToString();
+            }
+
 
         }
         void updatetrunghangthanhchuatrung()
         {
-            var con = ketnoi.Instance();
-            if (datag1.SelectedRows.Count > 0)
+            try
             {
-                string matong = null;
-                foreach (DataGridViewRow row in datag1.SelectedRows)
+                var con = ketnoi.Instance();
+                if (datag1.SelectedRows.Count > 0)
                 {
-                    matong = row.Cells[0].Value.ToString();
-                    con.updatetrunghangthanhchuatrung(matong);
+                    string matong = null;
+                    foreach (DataGridViewRow row in datag1.SelectedRows)
+                    {
+                        matong = row.Cells[0].Value.ToString();
+                        con.updatetrunghangthanhchuatrung(matong);
+
+                    }
                     sodongchon = datag1.SelectedRows.Count;
                     NotificationHts("Vừa cập nhật : " + sodongchon.ToString() + " mã hàng");
+                    if (ngaychonbandau == null)
+                    {
+                        ngaychonbandau = con.layngayganhat();
+                    }
+                    datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                    updatesoluongtrenbang();
                 }
-                if (ngaychonbandau == null)
-                {
-                    ngaychonbandau = con.layngayganhat();
-                }
-                datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
             }
+            catch (Exception ex)
+            {
+                NotificationHts("Có vấn đề");
+                lbtrangthai.Text = ex.ToString();
+            }
+
 
         }
         void NotificationHts(string noidung)
@@ -703,12 +730,13 @@ namespace Danhmuc27lvl
                 DataTable dt = new DataTable();
                 dt = con.laythongtinkhoangngay(ngaybatdau, ngayketthuc);
                 string tongsoma = con.tongmatrongkhoangngaychon(ngaybatdau, ngayketthuc);
+                string tongmachutrung = con.tongmatrongkhoangngaychon_chuatrung(ngaybatdau, ngayketthuc);
 
                 DialogResult dlog = MessageBox.Show("Có muốn lưu file excel không hay in luôn. \nNhấn 'YES' sẽ lưu file và 'NO' sẽ in luôn", "IN LUÔN ?", MessageBoxButtons.YesNo);
                 if (dlog == DialogResult.Yes)
                 {
                     ham.Xuatfileexcel(dt, ngaybatdau, ngayketthuc, tongsoma);
-                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongsoma);
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongmachutrung, ngaybatdau, ngayketthuc);
 
                     PopupNotifier popexcel = new PopupNotifier();
                     popexcel.TitleText = "Thông báo";
@@ -730,8 +758,7 @@ namespace Danhmuc27lvl
                     popexcel.Popup();
                 }else
                 {
-                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongsoma);
-
+                    ham.taovainfileexcel(con.laythongtinIn(ngaybatdau, ngayketthuc), tongmachutrung, ngaybatdau, ngayketthuc);
                 }
                 
                 
@@ -807,6 +834,22 @@ namespace Danhmuc27lvl
             else
             {
                 pbAMTHANH.Image = Properties.Resources.mute;
+            }
+        }
+
+        private void nuthts_trung_CheckedChanged(object sender, EventArgs e)
+        {
+            var con = ketnoi.Instance();
+            if (nuthts_trung.Checked)
+            {
+
+                datag1.DataSource = con.laydanhsachCHUATRUNG();
+                updatesoluongtrenbang();
+            }
+            else
+            {
+                datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
+                updatesoluongtrenbang();
             }
         }
     }

@@ -46,6 +46,7 @@ namespace Danhmuc27lvl
         #endregion
         #region thao tac tren csdl mysql
         string ngaychen = DateTime.Now.ToString("dd/MM/yyyy");
+        string cottrunghang = "trunghang";
         //kiem tra xem ma hang day co trong bang mota chua
         public string Kiemtra(string mahang)
         {
@@ -185,6 +186,22 @@ namespace Danhmuc27lvl
             Close();
             return h;
         }
+        public string tongmatrongkhoangngaychon_chuatrung(string ngaydau, string ngaycuoi)
+        {
+            string sql = string.Format(@"select count(matong) 
+                                        from hangduocban 
+                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}'  and (trunghang is null or trunghang = 'Chưa trưng bán')", ngaydau, ngaycuoi);
+            string h = null;
+            Open();
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr[0].ToString();
+            }
+            Close();
+            return h;
+        }
         // lay ngay gan nhat trong bang hang duoc ban
         public string layngayganhat()
         {
@@ -213,7 +230,7 @@ namespace Danhmuc27lvl
         // lay thong tin khi kich chon ngay
         public DataTable laythongtinkhichonngay(string ngaychon)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngayban = '{0}' Group by matong", ngaychon);
+            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngaydangso = '{0}' Group by matong", ngaychon);
             DataTable dt = new DataTable();
             Open();
             MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
@@ -244,7 +261,10 @@ namespace Danhmuc27lvl
         // xuatbang cho viec in chi lay 3 cot matong bst ngayban
         public DataTable laythongtinIn(string ngaybatdau, string ngayketthuc)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',chude as 'Chủ đề',trunghang as 'Trưng hàng' FROM hangduocban where ngaydangso >= '{0}' and ngaydangso <= '{1}' group by matong", ngaybatdau, ngayketthuc);
+            string sql = string.Format(@"SELECT matong as 'Mã tổng',chude as 'Chủ đề',trunghang as 'Trưng hàng' 
+                                        FROM hangduocban 
+                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}' and (trunghang is null or trunghang = 'Chưa trưng bán') 
+                                        order by matong", ngaybatdau, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
             MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
@@ -285,6 +305,20 @@ namespace Danhmuc27lvl
             cmd.ExecuteNonQuery();
             Close();
         }
+
+        public DataTable laydanhsachCHUATRUNG()
+        {
+            string sql = string.Format(@"SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',{0} as 'Trưng hàng' 
+                                        FROM hangduocban 
+                                        WHERE ({0} = 'Chưa trưng bán' or {0} is null) order by ngaydangso", cottrunghang);
+            DataTable dt = new DataTable();
+            Open();
+            MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
+            dta.Fill(dt);
+            Close();
+            return dt;
+        }
+
         #endregion
     }
 }

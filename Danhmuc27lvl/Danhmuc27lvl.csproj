@@ -112,6 +112,9 @@
     <Compile Include="ketnoisqlite.cs" />
     <Compile Include="layfileoutlook.cs" />
     <Compile Include="laythongtin.cs" />
+    <Compile Include="nuthts.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Formchinh.resx">
