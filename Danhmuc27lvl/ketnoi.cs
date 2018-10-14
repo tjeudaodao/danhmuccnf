@@ -275,7 +275,8 @@ namespace Danhmuc27lvl
         // update gia tri cot trung hang thanh " da trung hang"
         public void updatedatrunghangthanhdatrung(string matong)
         {
-            if (Kiemtra("trunghang", "hangduocban", "matong", matong) == null || Kiemtra("trunghang", "hangduocban", "matong", matong) == "Chưa trưng bán" || Kiemtra("trunghang", "hangduocban", "matong", matong) == "")
+            string ch = Kiemtra("trunghang", "hangduocban", "matong", matong);
+            if (ch == null || ch == "Chưa trưng bán" || ch == "")
             {
                 string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", "Đã Trưng Bán", matong);
                 MySqlCommand cmd = new MySqlCommand(sql, connection);
@@ -288,7 +289,8 @@ namespace Danhmuc27lvl
         // update thanh chua trung hang
         public void updatetrunghangthanhchuatrung(string matong)
         {
-            if (Kiemtra("trunghang", "hangduocban", "matong", matong) == "Đã Trưng Bán")
+            string ch = Kiemtra("trunghang", "hangduocban", "matong", matong);
+            if (ch == "Đã Trưng Bán" || ch == null || ch == "")
             {
                 string sql = string.Format("UPDATE hangduocban SET trunghang='{0}' WHERE matong='{1}'", "Chưa trưng bán", matong);
                 MySqlCommand cmd = new MySqlCommand(sql, connection);

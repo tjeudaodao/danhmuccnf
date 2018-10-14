@@ -511,7 +511,11 @@ namespace Danhmuc27lvl
                     {
                         ngaychonbandau = con.layngayganhat();
                     }
-                    datag1.DataSource = con.laythongtinkhichonngay("ngaydangso", ngaychonbandau);
+                    if (nuthts_trung.Checked)
+                    {
+                        datag1.DataSource = con.laydanhsachCHUATRUNG();
+                    }
+                    else datag1.DataSource = con.laythongtinkhichonngay("ngaydangso", ngaychonbandau);
                     updatesoluongtrenbang();
                 }
             }
@@ -842,12 +846,12 @@ namespace Danhmuc27lvl
             var con = ketnoi.Instance();
             if (nuthts_trung.Checked)
             {
-
                 datag1.DataSource = con.laydanhsachCHUATRUNG();
                 updatesoluongtrenbang();
             }
             else
             {
+                ngaychonbandau = con.layngayganhat();
                 datag1.DataSource = con.laythongtinngayganhat(ngaychonbandau);
                 updatesoluongtrenbang();
             }
