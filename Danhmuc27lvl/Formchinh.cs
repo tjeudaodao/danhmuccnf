@@ -478,7 +478,7 @@ namespace Danhmuc27lvl
                     {
                         datag1.DataSource = con.laydanhsachCHUATRUNG();
                     }
-                    else datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                    else datag1.DataSource = con.laythongtinkhichonngay("ngaydangso",ngaychonbandau);
                     updatesoluongtrenbang();
                     NotificationHts("Vừa cập nhật : " + sodongchon.ToString() + " mã hàng");
                 }
@@ -511,7 +511,7 @@ namespace Danhmuc27lvl
                     {
                         ngaychonbandau = con.layngayganhat();
                     }
-                    datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                    datag1.DataSource = con.laythongtinkhichonngay("ngaydangso", ngaychonbandau);
                     updatesoluongtrenbang();
                 }
             }
@@ -618,7 +618,7 @@ namespace Danhmuc27lvl
                 ngaychonbandau = month.SelectionStart.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 var con = ketnoi.Instance();
                 con.Close();
-                datag1.DataSource = con.laythongtinkhichonngay(ngaychonbandau);
+                datag1.DataSource = con.laythongtinkhichonngay("ngayban",ngaychonbandau);
                 updatesoluongtrenbang();
                 dateTimePicker1.Value = ngaychon;
                 dateTimePicker2.Value = ngaychon;
