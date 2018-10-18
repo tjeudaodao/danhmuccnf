@@ -190,7 +190,7 @@ namespace Danhmuc27lvl
         {
             string sql = string.Format(@"select count(matong) 
                                         from hangduocban 
-                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}'  and (trunghang is null or trunghang = 'Chưa trưng bán')", ngaydau, ngaycuoi);
+                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}'  and (trunghang is null or trunghang = 'Chưa trưng bán' or trunghang = '')", ngaydau, ngaycuoi);
             string h = null;
             Open();
             MySqlCommand cmd = new MySqlCommand(sql, connection);
@@ -250,7 +250,10 @@ namespace Danhmuc27lvl
         // xuat bang khi chon khoang ngay cho viec xuat excel va in
         public DataTable laythongtinkhoangngay(string ngaybatday, string ngayketthuc)
         {
-            string sql = string.Format("SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' FROM hangduocban where ngaydangso >= '{0}' and ngaydangso <= '{1}' Group by matong", ngaybatday, ngayketthuc);
+            string sql = string.Format(@"SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',trunghang as 'Trưng hàng' 
+                                        FROM hangduocban 
+                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}' 
+                                        order by matong", ngaybatday, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
             MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
@@ -263,7 +266,7 @@ namespace Danhmuc27lvl
         {
             string sql = string.Format(@"SELECT matong as 'Mã tổng',chude as 'Chủ đề',trunghang as 'Trưng hàng' 
                                         FROM hangduocban 
-                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}' and (trunghang is null or trunghang = 'Chưa trưng bán') 
+                                        where ngaydangso >= '{0}' and ngaydangso <= '{1}' and (trunghang is null or trunghang = 'Chưa trưng bán' or trunghang = '') 
                                         order by matong", ngaybatdau, ngayketthuc);
             DataTable dt = new DataTable();
             Open();
@@ -312,7 +315,7 @@ namespace Danhmuc27lvl
         {
             string sql = string.Format(@"SELECT matong as 'Mã tổng',mota as 'Mô tả',chude as 'Chủ đề',ghichu as 'Ghi chú',ngayban as 'Ngày bán',{0} as 'Trưng hàng' 
                                         FROM hangduocban 
-                                        WHERE ({0} = 'Chưa trưng bán' or {0} is null) order by ngaydangso", cottrunghang);
+                                        WHERE ({0} = 'Chưa trưng bán' or {0} is null or {0} = '') order by ngaydangso", cottrunghang);
             DataTable dt = new DataTable();
             Open();
             MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
