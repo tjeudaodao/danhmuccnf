@@ -231,17 +231,6 @@ namespace Danhmuc27lvl
 
 
                     string mahang, mota, bst, ghichu;
-                    foreach (var pic in ws.Pictures())
-                    {
-                        hangbatdau = pic.TopLeftCell.Row;
-                        if ((ws.Cells[hangbatdau, 5].value == null))
-                        {
-                            continue;
-                        }
-                        tenanh.Add(ws.Cells[hangbatdau, 5].value2.ToString());
-                        //  Console.WriteLine(hangbatdau.ToString());
-
-                    }
                     int lastRow = ws.Cells[ws.Rows.Count, 5].End(excel.XlDirection.xlUp).Row;
                     //Console.WriteLine(lastRow.ToString());
                     for (int i = 10; i < (lastRow + 5); i++)
@@ -260,7 +249,6 @@ namespace Danhmuc27lvl
                 }
                 //else Console.WriteLine("loi");
             }
-            string[] manganh = tenanh.ToArray();
             wb.Close();
             wbs.Close();
             excelApp.Quit();
@@ -280,17 +268,20 @@ namespace Danhmuc27lvl
                 }
                 foreach (Worksheet sheet in workbook.Worksheets)
                 {
-                    for (int i = 1; i < manganh.Length; i++)
+                    if (sheet.Pictures.Count > 0)
                     {
-                        Spire.Xls.ExcelPicture picture = sheet.Pictures[i];
-                        if (!File.Exists(duongdanluuanh + @"\" + manganh[i] + ".png"))
+                        string tenanhH = "";
+                        for (int i = 1; i < sheet.Pictures.Count; i++)
                         {
-                            picture.Picture.Save(duongdanluuanh + @"\" + manganh[i] + ".png", ImageFormat.Png);
+                            Spire.Xls.ExcelPicture anh = sheet.Pictures[i];
+                            tenanhH = sheet.Range[anh.TopRow, 5].Value2.ToString();
+                            if (!File.Exists(duongdanluuanh + @"\" + tenanhH + ".png"))
+                            {
+                                anh.Picture.Save(duongdanluuanh + @"\" + tenanhH + ".png", ImageFormat.Png);
+                            }
+                           // Console.WriteLine(anh.TopRow + ", " + tenanhH);
                         }
-                        // Console.WriteLine(manganh[i]);
-
                     }
-                    // Console.WriteLine(sheet.Pictures.Count);
                 }
 
                 workbook.Dispose();
