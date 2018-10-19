@@ -44,6 +44,8 @@ namespace Danhmuc27lvl
         static List<string> danhsachfilechuaxuly = new List<string>();
         static string duongdanluufileexcel = null;
 
+        string duongdanluuanh = Application.StartupPath + @"\luuanh";
+
         // ham chuyen doi dinh dang ngay tu string sang dang so co the + -
         public string chuyendoingayvedangso(string ngaydangDDMMYYYY)
         {
@@ -70,7 +72,6 @@ namespace Danhmuc27lvl
             {
                 if (con.Kiemtrafile(danhsachfile[i]) == null)
                 {
-
                     con.Chenvaobangfiledanhmuc(danhsachfile[i]);
                 }
 
@@ -81,7 +82,7 @@ namespace Danhmuc27lvl
             bool kq = false;
             var con = ketnoisqlite.khoitao();
             danhsachfilechuaxuly = con.layfilechuaxuly();
-            string mau = @"^KH tung hang";
+            string mau = @"(^KH tung hang)|(^Ke hoach tung hang)";
 
             foreach (string file in danhsachfilechuaxuly)
             {
@@ -93,63 +94,15 @@ namespace Danhmuc27lvl
                 {
                     try
                     {
-                        if (Path.GetExtension(file) == ".xlsx")
+                        if (Regex.IsMatch(Path.GetFileName(file), mau))
                         {
-                            // Console.WriteLine(file);
-                            ExcelPackage filechon = new ExcelPackage(new FileInfo(file));
-                            //ExcelWorksheet ws = filechon.Workbook.Worksheets[1];
-                            foreach (ExcelWorksheet ws in filechon.Workbook.Worksheets)
-                            {
-                                //Console.WriteLine(Convert.ToString(ws.Cells[7, 1].Text));
-                                if (Regex.IsMatch(Convert.ToString(ws.Cells[7, 1].Text) ?? "", maungay))
-                                {
-                                    var sodong = ws.Dimension.End.Row;
+                            copyanhKHtunghang(file);
+                        }
+                        else copyanhvathongtin(file);
 
-                                    string ngayduocban = null;
-                                    string ngaydangso = null;
-                                    MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].Text) ?? "", maungay);
-                                    //Console.WriteLine(ws.Cells[7,1].value);
-                                    foreach (Match m in mat)
-                                    {
-                                        ngayduocban = m.Value.ToString();
-                                    }
-                                    if (Regex.IsMatch(ngayduocban,@"\d{2}/\d{1}/\d{4}"))
-                                    {
-                                        ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
-                                    }
-                                   // Console.WriteLine(ngayduocban);
-                                    string mahang, mota, bst, ghichu;
-                                    ngaydangso = chuyendoingayvedangso(ngayduocban);
-                                    for (int i = 10; i < sodong; i++)
-                                    {
-                                        if (ws.Cells[i, 5].Value == null)
-                                        {
-                                            continue;
-                                        }
-                                        mahang = ws.Cells[i, 5].Value.ToString();
-                                        mota = ws.Cells[i, 6].Value.ToString();
-                                        bst = Convert.ToString(ws.Cells[i, 10].Value);
-                                        ghichu = Convert.ToString(ws.Cells[i, 11].Value);
-                                        luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
-                                    }
-                                }
-                                //else Console.WriteLine("ko khop");
-                            }
-                            
-                            filechon.Dispose();
-                        }
-                        else if (Path.GetExtension(file) == ".xls")
-                        {
-                            if (Regex.IsMatch(Path.GetFileName(file), mau))
-                            {
-                                copyanhKHtunghang(file);
-                            }
-                            else copyanhvathongtin(file);
-                        }
                     }
                     catch (Exception)
                     {
-
                         continue;
                     }
                     kq = true;
@@ -165,10 +118,8 @@ namespace Danhmuc27lvl
             {
                 foreach (laythongtin mahang in luuthongtin)
                 {
-                   // Console.WriteLine(mahang.Maduocban);
                     if (conmysql.Kiemtra("matong", "hangduocban", mahang.Maduocban) == null)
                     {
-                        // con.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso,mahang.Motamaban,mahang.Chudemaban);
                         try
                         {
                             conmysql.Chenvaobanghangduocban(mahang.Maduocban, mahang.Ngayduocban, mahang.Ghichu, mahang.Ngaydangso, mahang.Motamaban, mahang.Chudemaban);
@@ -198,70 +149,81 @@ namespace Danhmuc27lvl
         }
         public void copyanhvathongtin(string filecanlay)
         {
-            var excelApp = new excel.Application();
-            //Console.WriteLine(filecanlay);
-            var wbs = excelApp.Workbooks;
-            var wb = wbs.Open(filecanlay);
-            //var ws = (excel.Worksheet)wb.Worksheets[2];
-            string duongdanluuanh = Application.StartupPath + @"\luuanh";
-            List<string> tenanh = new List<string>();
-            foreach (excel.Worksheet ws in wb.Worksheets)
-            {
-                //Console.WriteLine(ws.Cells[7, 1].value2);
-                if (Regex.IsMatch(Convert.ToString(ws.Cells[7, 1].value2), maungay))
-                {
-                    int hangbatdau = 0;
-                    //lay ngay tu file excel roi chuyen doi sang dinh dang khac truoc khi insert vao database
-                    string ngayduocban = null;
-                    string ngaydangso = null;
-                    //Console.WriteLine(ws.Cells[7, 1].value2);
-                    //Console.WriteLine(Convert.ToString(ws.Cells[7, 1].value2));
-                    MatchCollection mat = Regex.Matches(Convert.ToString(ws.Cells[7, 1].value2) ?? "", maungay);
-                    //Console.WriteLine(ws.Cells[7,1].value);
-                    foreach (Match m in mat)
-                    {
-                        ngayduocban = m.Value.ToString();
-                    }
-                    if (Regex.IsMatch(ngayduocban, @"\d{2}/\d{1}/\d{4}"))
-                    {
-                        ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
-                    }
-                    //Console.WriteLine(ngayduocban);
-                    ngaydangso = chuyendoingayvedangso(ngayduocban);
-
-
-                    string mahang, mota, bst, ghichu;
-                    int lastRow = ws.Cells[ws.Rows.Count, 5].End(excel.XlDirection.xlUp).Row;
-                    //Console.WriteLine(lastRow.ToString());
-                    for (int i = 10; i < (lastRow + 5); i++)
-                    {
-                        if (ws.Cells[i, 5].value == null)
-                        {
-                            continue;
-                        }
-                        mahang = ws.Cells[i, 5].value2.ToString();
-                        mota = ws.Cells[i, 6].value2.ToString();
-                        bst = Convert.ToString(ws.Cells[i, 10].value2);
-                        ghichu = Convert.ToString(ws.Cells[i, 11].value2);
-                        //Console.WriteLine(mahang);
-                        luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
-                    }
-                }
-                //else Console.WriteLine("loi");
-            }
-            wb.Close();
-            wbs.Close();
-            excelApp.Quit();
-            Marshal.FinalReleaseComObject(wb);
-            Marshal.FinalReleaseComObject(wbs);
-            Marshal.FinalReleaseComObject(excelApp);
 
             try
             {
                 Workbook workbook = new Workbook();
                 workbook.LoadFromFile(filecanlay);
+                if (!Directory.Exists(duongdanluuanh))
+                {
+                    Directory.CreateDirectory(duongdanluuanh);
+                }
+                foreach (Worksheet sheet in workbook.Worksheets)
+                { 
+                    if (Regex.IsMatch(sheet.Range[7, 1].Value2.ToString(), maungay))
+                    {
+                        string ngayduocban = null;
+                        string ngaydangso = null;
+                        ngayduocban = sheet.Range[7, 1].Value2.ToString();
+                        if (Regex.IsMatch(ngayduocban, @"\d{2}/\d{1}/\d{4}"))
+                        {
+                            ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
+                        }
+                        ngaydangso = chuyendoingayvedangso(ngayduocban);
 
-               // Worksheet sheet = workbook.Worksheets[1];
+
+                        string mahang, mota, bst, ghichu;
+                        int dongcuoi = sheet.LastRow;
+                        for (int i = sheet.LastRow; i >= 0; i--)
+                        {
+                            CellRange cr = sheet.Rows[i - 1].Columns[1];
+                            if (!cr.IsBlank)
+                            {
+                                dongcuoi = i;
+                                break;
+                            }
+                        }
+                        for (int i = 10; i < (dongcuoi + 5); i++)
+                        {
+                            if (sheet.Range[i, 5].Value == null)
+                            {
+                                continue;
+                            }
+                            mahang = sheet.Range[i, 5].Value2.ToString();
+                            mota = sheet.Range[i, 6].Value2.ToString();
+                            bst = sheet.Range[i, 10].Value2.ToString();
+                            ghichu = sheet.Range[i, 11].Value2.ToString();
+                            luuthongtin.Add(new laythongtin(ngayduocban, mahang, mota, bst, ghichu, ngaydangso));
+                        }
+                        string tenanhH = "";
+                        for (int i = 1; i < sheet.Pictures.Count; i++)
+                        {
+                            Spire.Xls.ExcelPicture anh = sheet.Pictures[i];
+                            tenanhH = sheet.Range[anh.TopRow, 5].Value2.ToString();
+                            if (!File.Exists(duongdanluuanh + @"\" + tenanhH + ".png"))
+                            {
+                                anh.Picture.Save(duongdanluuanh + @"\" + tenanhH + ".png", ImageFormat.Png);
+                            }
+                        }
+                    }
+                    
+                }
+
+                workbook.Dispose();
+            }
+            catch (Exception ex)
+            {
+                ghiloi.WriteLogError(ex);
+                return;
+            }
+            
+        }
+        public void copyanhKHtunghang(string filecanlay)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.LoadFromFile(filecanlay);
                 if (!Directory.Exists(duongdanluuanh))
                 {
                     Directory.CreateDirectory(duongdanluuanh);
@@ -279,73 +241,21 @@ namespace Danhmuc27lvl
                             {
                                 anh.Picture.Save(duongdanluuanh + @"\" + tenanhH + ".png", ImageFormat.Png);
                             }
-                           // Console.WriteLine(anh.TopRow + ", " + tenanhH);
                         }
                     }
                 }
 
                 workbook.Dispose();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                ghiloi.WriteLogError(ex);
+                ghiloi.WriteLogError(e);
                 return;
             }
             
         }
-        public void copyanhKHtunghang(string filecanlay)
-        {
-            var excelApp = new excel.Application();
-            var wbs = excelApp.Workbooks;
-            var wb = wbs.Open(filecanlay);
-           // var ws = (excel.Worksheet)wb.Worksheets[1];
-            string duongdanluuanh = Application.StartupPath + @"\luuanh";
-            int hangbatdau = 0;
-            List<string> tenanh = new List<string>();
-            foreach (excel.Worksheet ws in wb.Worksheets)
-            {
-                foreach (var pic in ws.Pictures())
-                {
-                    hangbatdau = pic.TopLeftCell.Row;
 
-                    tenanh.Add(ws.Cells[hangbatdau, 2].value);
-                }
-
-            }
-            string[] manganh = tenanh.ToArray();
-
-            wb.Close();
-            wbs.Close();
-            excelApp.Quit();
-            Marshal.FinalReleaseComObject(wb);
-            Marshal.FinalReleaseComObject(wbs);
-            Marshal.FinalReleaseComObject(excelApp);
-            
-
-
-            Workbook workbook = new Workbook();
-            workbook.LoadFromFile(filecanlay);
-
-           // Worksheet sheet = workbook.Worksheets[0];
-            if (!Directory.Exists(duongdanluuanh))
-            {
-                Directory.CreateDirectory(duongdanluuanh);
-            }
-            foreach (Worksheet sheet in workbook.Worksheets)
-            {
-                for (int i = 1; i < manganh.Length; i++)
-                {
-                    Spire.Xls.ExcelPicture picture = sheet.Pictures[i];
-                    if (!File.Exists(duongdanluuanh + @"\" + manganh[i] + ".png"))
-                    {
-                        picture.Picture.Save(duongdanluuanh + @"\" + manganh[i] + ".png", ImageFormat.Png);
-                    }
-
-                }
-            }
-            
-            workbook.Dispose();
-        }
+        // method cho in va xuat excel
         public bool Xuatfileexcel(DataTable dt, string ngaybatdau, string ngayketthuc,string tongma)
         {
             bool bl = true;

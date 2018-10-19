@@ -108,7 +108,7 @@ namespace Danhmuc27lvl
         {
             // attachment extensions to save
             string[] extensionsArray = {  ".xls" };
-            string mau = "(^Danh muc treo ban hang)|(^KH tung hang)|(^DM treo ban)";
+            string mau = "(^Danh muc treo ban hang)|(^KH tung hang)|(^DM treo ban)|(^Ke hoach tung hang)";
             var fi = folder.Items;
             if (fi != null)
             {
@@ -144,7 +144,6 @@ namespace Danhmuc27lvl
                                                 }
                                                 else
                                                 {
-                                                    // Console.WriteLine("File nay da ton tai " + mi.Attachments[i].FileName);
                                                     continue;
                                                 }
                                             }
