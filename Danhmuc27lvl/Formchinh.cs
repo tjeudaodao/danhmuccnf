@@ -220,10 +220,6 @@ namespace Danhmuc27lvl
                 {
                     pbtrangthaicapnhat.Image = Properties.Resources.loading;
                 }));
-                //this.Invoke(new Action(delegate ()
-                //{
-                //    NotificationHts("Đang cập nhật dữ liệu mới nhất\nĐợi chút xíu :)");
-                //}));
                 this.Invoke(new Action(delegate ()
                 {
                     IntPtr hWnd = FindWindow(null, "Internet Security Warning"); // Window Titel
@@ -279,13 +275,13 @@ namespace Danhmuc27lvl
                         con.chenvaoFiledanhmuc(filedmmoi[0]);
                     }
                 }
-                
-            }
-            catch (Exception)
-            {
 
-                throw;
             }
+                catch (Exception)
+                {
+
+                    throw;
+                }
 
 
 

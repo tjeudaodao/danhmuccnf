@@ -164,13 +164,13 @@ namespace Danhmuc27lvl
                     {
                         string ngayduocban = null;
                         string ngaydangso = null;
-                        ngayduocban = sheet.Range[7, 1].Value2.ToString();
+                        Match layngay = Regex.Match(sheet.Range[7, 1].Value2.ToString(), maungay);
+                        ngayduocban = layngay.Value;
                         if (Regex.IsMatch(ngayduocban, @"\d{2}/\d{1}/\d{4}"))
                         {
                             ngayduocban = ngayduocban.Substring(0, 3) + "0" + ngayduocban.Substring(3, 6);
                         }
                         ngaydangso = chuyendoingayvedangso(ngayduocban);
-
 
                         string mahang, mota, bst, ghichu;
                         int dongcuoi = sheet.LastRow;
@@ -183,9 +183,9 @@ namespace Danhmuc27lvl
                                 break;
                             }
                         }
-                        for (int i = 10; i < (dongcuoi + 5); i++)
+                        for (int i = 10; i < dongcuoi; i++)
                         {
-                            if (sheet.Range[i, 5].Value == null)
+                            if (sheet.Range[i, 5].Value == null || sheet.Range[i,5].Value == "")
                             {
                                 continue;
                             }
