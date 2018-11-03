@@ -183,9 +183,9 @@ namespace Danhmuc27lvl
                                 break;
                             }
                         }
-                        for (int i = 10; i < dongcuoi; i++)
+                        for (int i = 10; i < dongcuoi + 5; i++)
                         {
-                            if (sheet.Range[i, 5].Value == null || sheet.Range[i,5].Value == "")
+                            if (sheet.Range[i, 5].Value == null || sheet.Range[i, 5].Value == "")
                             {
                                 continue;
                             }
